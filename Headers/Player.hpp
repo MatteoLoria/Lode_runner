@@ -9,9 +9,12 @@ class Player : public Entity
 {
     private:
         ALLEGRO_BITMAP * sprite[8];
-
+        int lives=3;
     public:
         Player();
         Player(int, int, string[8]);
+        int getLives();
+        void increaseLives();
+        void decreaseLives();
 };
 #endif

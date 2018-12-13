@@ -11,3 +11,7 @@ Player::Player(int x, int y, string sprite[8]) : Entity(x, y)
     for(int i = 0; i < 8; ++i)
         this->sprite[i] = al_load_bitmap(sprite[i].c_str()); 
 }
+
+int Player::getLives(){return lives;}
+void Player::decreaseLives(){lives--;}
+void Player::increaseLives(){lives++;}
