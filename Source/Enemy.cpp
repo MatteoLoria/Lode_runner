@@ -1,5 +1,4 @@
-#include <../Headers/Enemy.hpp>
-
+#include "../Headers/Enemy.hpp"
 Enemy::Enemy() : Entity()
 {
     for(int i = 0; i < 16; ++i)
