@@ -21,6 +21,7 @@ public:
     int getInitX();
     int getInitY();
     int getFrame();
+    virtual string getEntity() = 0;
     void setX(int);
     void setY(int);
     void setFrame(int);

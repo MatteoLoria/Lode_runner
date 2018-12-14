@@ -11,6 +11,8 @@ class Enemy : public Entity
     public:
         Enemy();
         Enemy(int, int, string[16]);
+        ~Enemy();
+        string getEntity();
         void redHat();
         bool isRedHat();
 };
