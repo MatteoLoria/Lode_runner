@@ -1,8 +1,5 @@
 #include "../Headers/Enemy.hpp"
-<<<<<<< HEAD
-=======
 
->>>>>>> 221460ff459d05af3c5bf6ebd6204055219f6589
 Enemy::Enemy() : Entity()
 {
     for(int i = 0; i < 16; ++i)
