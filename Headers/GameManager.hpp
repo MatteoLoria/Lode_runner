@@ -11,9 +11,13 @@ private:
     Player player;
     vector<Enemy> enemies;
     GraphicManager graphic;
+    char map[16][28]; 
     int points = 0;
+    void loadMap(string path);
+    bool keys[4] = {false,false,false,false};
 public:
     GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic);
+    void run(int, ALLEGRO_DISPLAY *);
     ~GameManager();
 };
 #endif
