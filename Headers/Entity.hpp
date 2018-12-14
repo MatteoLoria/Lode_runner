@@ -1,6 +1,7 @@
 #include <allegro5/allegro5.h>
 #include <string>
 using namespace std;
+
 #ifndef ENTITY_H
 #define ENTITY_H
 class Entity

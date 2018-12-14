@@ -1,7 +1,4 @@
-#include "allegro5/allegro5.h"
 #include "Entity.hpp"
-#include <string>
-using namespace std;
 
 #ifndef PLAYER_H
 #define PLAYER_H

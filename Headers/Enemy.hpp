@@ -1,7 +1,4 @@
 #include "Entity.hpp"
-#include <allegro5/allegro.h>
-#include <string>
-using namespace std;
 
 #ifndef ENEMY_H
 #define ENEMY_H
