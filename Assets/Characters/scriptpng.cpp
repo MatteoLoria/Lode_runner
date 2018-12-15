@@ -8,7 +8,7 @@ int main(int argc, char const *argv[])
     al_init();
     al_init_image_addon();
     ALLEGRO_BITMAP * toSave=NULL;
-    ALLEGRO_BITMAP * toCut = al_load_bitmap("testgurd.png");
+    ALLEGRO_BITMAP * toCut = al_load_bitmap("redhat.png");
     if(!toCut)
         cerr<<"no";
     int k=8;
