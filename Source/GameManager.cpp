@@ -38,7 +38,6 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         al_wait_for_event(queue,&event);
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
-            cout<<map[(player.getY()/20)][player.getX()/20]<<endl;
             if(keys[KEY_RIGHT] && player.getX() < 540){
                 player.setX(player.getX()+5);
                 if(player.getMirrorX())
