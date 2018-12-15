@@ -4,7 +4,9 @@ enum MYKEYS{
         KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
 };
 
-GameManager::GameManager() {}
+GameManager::GameManager() {
+    
+}
 
 GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic, char map[16][29]){
     this->player = p;
