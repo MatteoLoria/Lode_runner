@@ -5,12 +5,12 @@ GraphicManager::GraphicManager(){}
 
 GraphicManager::GraphicManager(int level) {this->level = level;}
 
-void GraphicManager::drawMap(char map[16][29])
+void GraphicManager::drawMap(char map[16][28])
 {
     al_clear_to_color(al_map_rgb(0,0,0));
     ALLEGRO_BITMAP * bitmap = NULL;
     for(int i = 0; i < 16; ++i)
-        for(int j = 0; j < 29; ++j)
+        for(int j = 0; j < 28; ++j)
             switch(map[i][j])
             {
                 case '#'://normal brick
@@ -56,6 +56,6 @@ void GraphicManager::drawMap(char map[16][29])
 void GraphicManager::drawEntity(Entity * E, bool mirror)
 {
     ALLEGRO_BITMAP * bitmap = al_load_bitmap(("../Assets/Characters/" + E->getEntity() + "/" + to_string(E->getFrame()) + ".png").c_str());
-    al_draw_bitmap(bitmap, E->getX(), E->getY(), mirror);// X e Y sono sempre pixel
+    al_draw_bitmap(bitmap, E->getX(), E->getY(), mirror);// X e Y are always in pixel
     al_destroy_bitmap(bitmap);
 }

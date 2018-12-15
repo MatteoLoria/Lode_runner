@@ -15,7 +15,7 @@ class GraphicManager
     public:
         GraphicManager();
         GraphicManager(int);
-        void drawMap(char [16][29]);
+        void drawMap(char [16][28]);
         void drawEntity(Entity *, bool);
 };
 #endif

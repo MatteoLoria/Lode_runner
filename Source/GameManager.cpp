@@ -1,19 +1,20 @@
 #include "../Headers/GameManager.hpp"
 #include <iostream>
+#include <fstream>
 enum MYKEYS{
         KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
 };
 
 GameManager::GameManager(){}
 
-GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic, char map[16][29]){
+GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic){
     this->player = p;
     for(auto i : enemies){
         this->enemies.push_back(i);
     }
-    for(int i = 0; i < 16; ++i)
+    /*for(int i = 0; i < 16; ++i)
         for(int j = 0; j < 29; ++j)
-            this->map[i][j] = map[i][j];
+            this->map[i][j] = map[i][j];*/
     this->graphic = graphic;
     this->points = 0;
 }
@@ -110,5 +111,17 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
 }
 
 void GameManager::loadMap(string path){
-    //TODO: file implementation
+    ifstream input(path);
+    if(input.is_open()){
+        for(int i=0; i<16; i++){
+            for(int j=0; j<28; j++){
+                char c = input.get();
+                if(c != '\0'){
+                    map[i][j] = c;
+                }
+            }
+        }
+    }else{
+        cout<<"File "+path+" does not exist";
+    }
 }
