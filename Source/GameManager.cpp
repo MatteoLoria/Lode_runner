@@ -42,17 +42,36 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
             if(keys[KEY_RIGHT] && player.getX() < 540){
-                player.setX(player.getX()+7);
-                player.setFrame((player.getFrame() + 1) % 3);
+                player.setX(player.getX()+10);
+                if(player.getMirrorX())
+                    player.setFrame(0);
+                else
+                    player.setFrame((player.getFrame() + 1) % 3);
+                player.setMirrorX(false);
             }
             if(keys[KEY_LEFT] && player.getX() > 0){
-                player.setX(player.getX()-7);
+                player.setX(player.getX()-10);
+                if(player.getMirrorX())
+                    player.setFrame((player.getFrame() + 1) % 3);
+                else
+                    player.setFrame(0);
+                player.setMirrorX(true);
             }
             if(keys[KEY_UP] && map[player.getY()/20][player.getX()/20] == 'H'){
-                player.setY(player.getY()-7);
+                player.setY(player.getY()-10);
+                player.setFrame(3);
+                if(player.getMirrorY())
+                    player.setMirrorY(false);
+                else
+                    player.setMirrorY(true);
             }
             if(keys[KEY_DOWN] && map[player.getY()/20][player.getX()/20] == 'H'){
-                player.setY(player.getY()+7);
+                player.setY(player.getY()+10);
+                player.setFrame(3);
+                if(player.getMirrorY())
+                    player.setMirrorY(false);
+                else
+                    player.setMirrorY(true);
             }
             redraw = true;
         }else if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -80,6 +99,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 break;
          }
       }else if(event.type == ALLEGRO_EVENT_KEY_UP) {
+          player.setFrame(player.getFrame() == 3 ? 3:0);
          switch(event.keyboard.keycode) {
             case ALLEGRO_KEY_UP:
                keys[KEY_UP] = false;
@@ -101,7 +121,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
       if(redraw && al_is_event_queue_empty(queue)){
           redraw = false;
           graphic.drawMap(map);
-          graphic.drawEntity(&player, keys[KEY_LEFT]);
+          graphic.drawEntity(&player);
           /*for(auto i : enemies){
               graphic.drawEntity(&i);
           }*/

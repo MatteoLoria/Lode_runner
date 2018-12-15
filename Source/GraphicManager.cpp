@@ -53,9 +53,12 @@ void GraphicManager::drawMap(char map[16][28])
             }
 }
 
-void GraphicManager::drawEntity(Entity * E, bool mirror)
+void GraphicManager::drawEntity(Entity * E)
 {
     ALLEGRO_BITMAP * bitmap = al_load_bitmap(("../Assets/Characters/" + E->getEntity() + "/" + to_string(E->getFrame()) + ".png").c_str());
-    al_draw_bitmap(bitmap, E->getX(), E->getY(), mirror);// X e Y are always in pixel
+    if(E->getFrame() == 0 || E->getFrame() == 1 || E->getFrame() == 2)
+        al_draw_bitmap(bitmap, E->getX(), E->getY(), E->getMirrorX());// X e Y are always in pixel
+    if(E->getFrame() == 3)
+        al_draw_bitmap(bitmap, E->getX(), E->getY(), E->getMirrorY());
     al_destroy_bitmap(bitmap);
 }

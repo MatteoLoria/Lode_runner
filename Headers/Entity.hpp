@@ -12,6 +12,8 @@ private:
     int init_x;
     int init_y;
     int frame=0;
+    bool mirrorX = false;
+    bool mirrorY = false;
 public:
     Entity(int, int);
     Entity();
@@ -20,9 +22,13 @@ public:
     int getInitX();
     int getInitY();
     int getFrame();
+    bool getMirrorX();
+    bool getMirrorY();
     virtual string getEntity() = 0;
     void setX(int);
     void setY(int);
     void setFrame(int);
+    void setMirrorX(bool);
+    void setMirrorY(bool);
 };
 #endif
