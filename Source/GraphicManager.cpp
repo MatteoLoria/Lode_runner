@@ -14,12 +14,12 @@ void GraphicManager::drawMap(char map[16][29])
             switch(map[i][j])
             {
                 case '#'://normal brick
-                    bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/tiles/normalBrick.png").c_str());
+                    bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Tiles/normalBrick.png").c_str());
                     al_draw_bitmap(bitmap, j*20, i*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '@'://solid brick
-                    bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/tiles/solidBrick.png").c_str());
+                    bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Tiles/solidBrick.png").c_str());
                     al_draw_bitmap(bitmap, j*20, i*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
