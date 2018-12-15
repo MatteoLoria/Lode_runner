@@ -1,4 +1,5 @@
-#include "../Headers/GraphicManager.hpp"
+#include "../Headers/GameManager.hpp"
+#include <iostream>
 
 int main()
 {
@@ -21,12 +22,13 @@ int main()
                         "    H######         #######H",
                         "    H         &  $         H",
                         "############################"};
-    GraphicManager G(1);
-    G.drawMap(map);
+    
+    GraphicManager Gr(1);
     string sprite[9] = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
-    Player P(14,13, sprite);
-    G.drawEntity(&P);
-    al_rest(5);
+    Player P(14*20,13*20, sprite);
+    GameManager G(P, *(new vector<Enemy>()), Gr, map);
+    G.run(1, display);
+    al_rest(1);
     al_destroy_display(display);
 
     return 0; 

@@ -1,20 +1,27 @@
 #include "../Headers/GameManager.hpp"
+#include <iostream>
 enum MYKEYS{
         KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
 };
-GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic){
+GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic, char map[16][29]){
     this->player = p;
     for(auto i : enemies){
         this->enemies.push_back(i);
     }
+    for(int i = 0; i < 16; ++i)
+        for(int j = 0; j < 29; ++j)
+            this->map[i][j] = map[i][j];
     this->graphic = graphic;
     this->points = 0;
 }
 
+GameManager::~GameManager() {}
+
 void GameManager::run(int level, ALLEGRO_DISPLAY * display){
-    bool redraw=true;
+    bool redraw=false;
     ALLEGRO_EVENT_QUEUE * queue = al_create_event_queue();
     ALLEGRO_TIMER * timer = al_create_timer(1.0/60);
+    al_install_keyboard();
     al_register_event_source(queue,al_get_keyboard_event_source());
     al_register_event_source(queue,al_get_timer_event_source(timer));
     al_register_event_source(queue,al_get_display_event_source(display));
@@ -25,21 +32,22 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     }else{
         this->loadMap("../Assets/Maps/level3.txt");
     }
+    al_start_timer(timer);
     while(1){
         ALLEGRO_EVENT event;
         al_wait_for_event(queue,&event);
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
-            if(keys[KEY_RIGHT] && player.getX() < 300){
+            if(keys[KEY_RIGHT] && player.getX() < 540){
                 player.setX(player.getX()+7);
             }
             if(keys[KEY_LEFT] && player.getX() > 0){
                 player.setX(player.getX()-7);
             }
-            if(keys[KEY_UP] && map[560/player.getY()][320/player.getX()] == 'H'){
+            if(keys[KEY_UP] && map[player.getY()/20][player.getX()/20] == 'H'){
                 player.setY(player.getY()-7);
             }
-            if(keys[KEY_DOWN] && map[560/player.getY()][320/player.getX()] == 'H'){
+            if(keys[KEY_DOWN] && map[player.getY()/20][player.getX()/20] == 'H'){
                 player.setY(player.getY()+7);
             }
             redraw = true;
@@ -89,6 +97,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
           for(auto i : enemies){
               graphic.drawEntity(&i);
           }
+          al_flip_display();
       }
     }
 }

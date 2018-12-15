@@ -1,4 +1,5 @@
 #include "../Headers/GraphicManager.hpp"
+#include <iostream>
 
 GraphicManager::GraphicManager(){}
 
@@ -6,6 +7,7 @@ GraphicManager::GraphicManager(int level) {this->level = level;}
 
 void GraphicManager::drawMap(char map[16][29])
 {
+    al_clear_to_color(al_map_rgb(0,0,0));
     ALLEGRO_BITMAP * bitmap = NULL;
     for(int i = 0; i < 16; ++i)
         for(int j = 0; j < 29; ++j)
@@ -43,14 +45,12 @@ void GraphicManager::drawMap(char map[16][29])
                     break;
             }  
     al_destroy_bitmap(bitmap);
-    al_flip_display();
 }
 
 void GraphicManager::drawEntity(Entity * E)
 {
     ALLEGRO_BITMAP * bitmap = al_load_bitmap(("../Assets/Characters/" + E->getEntity() + "/" + to_string(E->getFrame()) + ".png").c_str());
-    al_draw_bitmap(bitmap, E->getInitY()*20, E->getInitX()*20, 0);
+    al_draw_bitmap(bitmap, E->getX(), E->getY(), 0);
     al_destroy_bitmap(bitmap);
-    al_flip_display();
 }
             

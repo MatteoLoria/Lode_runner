@@ -6,7 +6,7 @@ using namespace std;
 #define ENTITY_H
 class Entity
 {
-protected:
+private:
     int x;
     int y;
     int init_x;

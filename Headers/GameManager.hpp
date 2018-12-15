@@ -16,7 +16,7 @@ private:
     void loadMap(string path);
     bool keys[4] = {false,false,false,false};
 public:
-    GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic);
+    GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic, char [][29]);
     void run(int, ALLEGRO_DISPLAY *);
     ~GameManager();
 };
