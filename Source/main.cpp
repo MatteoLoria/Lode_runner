@@ -28,7 +28,6 @@ int main()
     Player P(14*20,13*20, sprite);
     GameManager G(P, *(new vector<Enemy>()), Gr, map);
     G.run(1, display);
-    al_rest(1);
     al_destroy_display(display);
 
     return 0; 

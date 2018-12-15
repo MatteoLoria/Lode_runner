@@ -3,6 +3,9 @@
 enum MYKEYS{
         KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
 };
+
+GameManager::GameManager() {}
+
 GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic, char map[16][29]){
     this->player = p;
     for(auto i : enemies){
@@ -14,8 +17,6 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
     this->graphic = graphic;
     this->points = 0;
 }
-
-GameManager::~GameManager() {}
 
 void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     bool redraw=false;
@@ -33,13 +34,15 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         this->loadMap("../Assets/Maps/level3.txt");
     }
     al_start_timer(timer);
-    while(1){
+    bool close = false;
+    while(!close){
         ALLEGRO_EVENT event;
         al_wait_for_event(queue,&event);
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
             if(keys[KEY_RIGHT] && player.getX() < 540){
                 player.setX(player.getX()+7);
+                player.setFrame((player.getFrame() + 1) % 3);
             }
             if(keys[KEY_LEFT] && player.getX() > 0){
                 player.setX(player.getX()-7);
@@ -53,8 +56,8 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             redraw = true;
         }else if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             break;
-        }else if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
-         switch(event.keyboard.keycode) {
+        }else if(event.type == ALLEGRO_EVENT_KEY_DOWN){
+         switch(event.keyboard.keycode) { 
             case ALLEGRO_KEY_UP:
                keys[KEY_UP] = true;
                break;
@@ -70,6 +73,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             case ALLEGRO_KEY_RIGHT:
                keys[KEY_RIGHT] = true;
                break;
+
+            case ALLEGRO_KEY_ESCAPE:
+                close = true;
+                break;
          }
       }else if(event.type == ALLEGRO_EVENT_KEY_UP) {
          switch(event.keyboard.keycode) {
@@ -93,10 +100,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
       if(redraw && al_is_event_queue_empty(queue)){
           redraw = false;
           graphic.drawMap(map);
-          graphic.drawEntity(&player);
-          for(auto i : enemies){
+          graphic.drawEntity(&player, keys[KEY_LEFT]);
+          /*for(auto i : enemies){
               graphic.drawEntity(&i);
-          }
+          }*/
           al_flip_display();
       }
     }
