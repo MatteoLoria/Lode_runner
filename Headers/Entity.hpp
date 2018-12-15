@@ -15,7 +15,6 @@ private:
 public:
     Entity(int, int);
     Entity();
-    ~Entity();
     int getX();
     int getY();
     int getInitX();
