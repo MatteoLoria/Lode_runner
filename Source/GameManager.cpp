@@ -54,7 +54,11 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setFrame(0);
                 player.setMirrorX(true);
             }
-            if(keys[KEY_UP] && map[(player.getY()/20)][player.getX()/20] == 'H'){
+            if(keys[KEY_UP] && ((map[(player.getY()/20)][(player.getX()+10)/20] == 'H') || map[(player.getY()/20)][(player.getX()-20)/20] == 'H')){
+                if(keys[KEY_LEFT])
+                    player.setX(((player.getX()-10)/20)*20);
+                else
+                    player.setX(((player.getX()+10)/20)*20);
                 player.setY(player.getY()-5);
                 player.setFrame(3);
                 if(player.getMirrorY())
@@ -62,7 +66,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 else
                     player.setMirrorY(true);
             }
-            if(keys[KEY_DOWN] && map[(player.getY()/20)][(player.getX()/20)] == 'H'){
+            if(keys[KEY_DOWN] && map[(player.getY()/20)+1][(player.getX()/20)] == 'H'){
                 player.setY(player.getY()+5);
                 player.setFrame(3);
                 if(player.getMirrorY())
