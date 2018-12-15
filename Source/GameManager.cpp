@@ -89,7 +89,6 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
           for(auto i : enemies){
               graphic.drawEntity(&i);
           }
-          al_flip_display();
       }
     }
 }
