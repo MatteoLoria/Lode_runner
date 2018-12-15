@@ -5,12 +5,12 @@
 class Enemy : public Entity
 {
     private:
-        ALLEGRO_BITMAP * sprite[16];
+        ALLEGRO_BITMAP * sprite[12];
         bool hat = false;
 
     public:
         Enemy();
-        Enemy(int, int, string[16]);
+        Enemy(int, int, string[12]);
         ~Enemy();
         string getEntity();
         void redHat();

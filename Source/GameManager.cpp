@@ -12,9 +12,6 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
     for(auto i : enemies){
         this->enemies.push_back(i);
     }
-    /*for(int i = 0; i < 16; ++i)
-        for(int j = 0; j < 29; ++j)
-            this->map[i][j] = map[i][j];*/
     this->graphic = graphic;
     this->points = 0;
 }
