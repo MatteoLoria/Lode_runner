@@ -19,7 +19,7 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
 void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     bool redraw=false;
     ALLEGRO_EVENT_QUEUE * queue = al_create_event_queue();
-    ALLEGRO_TIMER * timer = al_create_timer(1.0/15);
+    ALLEGRO_TIMER * timer = al_create_timer(1.0/27);
     al_install_keyboard();
     al_register_event_source(queue,al_get_keyboard_event_source());
     al_register_event_source(queue,al_get_timer_event_source(timer));
@@ -38,8 +38,9 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         al_wait_for_event(queue,&event);
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
+            cout<<map[(player.getY()/20)][player.getX()/20]<<endl;
             if(keys[KEY_RIGHT] && player.getX() < 540){
-                player.setX(player.getX()+10);
+                player.setX(player.getX()+5);
                 if(player.getMirrorX())
                     player.setFrame(0);
                 else
@@ -47,23 +48,23 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 player.setMirrorX(false);
             }
             if(keys[KEY_LEFT] && player.getX() > 0){
-                player.setX(player.getX()-10);
+                player.setX(player.getX()-5);
                 if(player.getMirrorX())
                     player.setFrame((player.getFrame() + 1) % 3);
                 else
                     player.setFrame(0);
                 player.setMirrorX(true);
             }
-            if(keys[KEY_UP] && map[player.getY()/20][player.getX()/20] == 'H'){
-                player.setY(player.getY()-10);
+            if(keys[KEY_UP] && map[(player.getY()/20)][player.getX()/20] == 'H'){
+                player.setY(player.getY()-5);
                 player.setFrame(3);
                 if(player.getMirrorY())
                     player.setMirrorY(false);
                 else
                     player.setMirrorY(true);
             }
-            if(keys[KEY_DOWN] && map[player.getY()/20][player.getX()/20] == 'H'){
-                player.setY(player.getY()+10);
+            if(keys[KEY_DOWN] && map[(player.getY()/20)][(player.getX()/20)] == 'H'){
+                player.setY(player.getY()+5);
                 player.setFrame(3);
                 if(player.getMirrorY())
                     player.setMirrorY(false);
