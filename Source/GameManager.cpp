@@ -55,31 +55,60 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setFrame(0);
                 player.setMirrorX(true);
             }
-            if(keys[KEY_UP] && ((map[(player.getY()/20)][(player.getX()+10)/20] == 'H') || map[(player.getY()/20)][(player.getX())/20] == 'H')){
-                if(lastIsLeft && map[(player.getY()/20)][(player.getX())/20] == 'H')
-                    player.setX(((player.getX())/20)*20);
-                else
-                    player.setX(((player.getX()+10)/20)*20);
-                player.setY(player.getY()-5);
-                player.setFrame(3);
-                if(player.getMirrorY())
-                    player.setMirrorY(false);
-                else
-                    player.setMirrorY(true);
-            }
-            if(keys[KEY_DOWN] && (map[(player.getY()/20)+1][(player.getX()/20)] == 'H'|| map[(player.getY()/20)][(player.getX()/20)] == 'H')){
-                if(lastIsLeft && map[(player.getY()/20)][(player.getX())/20] == 'H')
-                    player.setX(((player.getX())/20)*20);
-                else
-                    player.setX(((player.getX()+10)/20)*20);
-                if(map[((player.getY()+5)/20)][(player.getX()/20)] != '#'){
-                    player.setY(player.getY()+5);
-                    player.setFrame(3);
+            if(keys[KEY_UP]){
+                //TODO: REFACTOR
+                if(lastIsLeft){
+                    if(map[player.getY()/20][(player.getX()+10)/20]=='H') //moving from right and the stair is at left
+                    {
+                        player.setX(((player.getX()+10)/20)*20);
+                        player.setY(player.getY()-5);
+                        player.setFrame(3);
+                        if(player.getMirrorY())
+                            player.setMirrorY(false);
+                        else
+                            player.setMirrorY(true);
+                    }else if(map[player.getY()/20][(player.getX()+5)/20]=='H'){ //moving from right and the stair is at right
+                        player.setX(((player.getX()+5)/20)*20);
+                        player.setY(player.getY()-5);
+                        player.setFrame(3);
+                        if(player.getMirrorY())
+                            player.setMirrorY(false);
+                        else
+                            player.setMirrorY(true);                    
+                    }
+                }else{
+                    if(map[player.getY()/20][(player.getX()+10)/20]=='H') //moving from left and the stair is at right
+                    {
+                        player.setX(((player.getX()+10)/20)*20);
+                        player.setY(player.getY()-5);
+                        player.setFrame(3);
+                        if(player.getMirrorY())
+                            player.setMirrorY(false);
+                        else
+                            player.setMirrorY(true);
+                    }else if(map[player.getY()/20][(player.getX()+15)/20]=='H'){ //moving from left and the stair is at left
+                        player.setX(((player.getX()+15)/20)*20);
+                        player.setY(player.getY()-5);
+                        player.setFrame(3);
+                        if(player.getMirrorY())
+                            player.setMirrorY(false);
+                        else
+                            player.setMirrorY(true);   
+                    }
                 }
-                if(player.getMirrorY())
-                    player.setMirrorY(false);
-                else
-                    player.setMirrorY(true);
+            }
+            if(keys[KEY_DOWN]){
+                if(map[(player.getY()/20)+1][(player.getX()+10)/20]== 'H'|| map[(player.getY()/20)][(player.getX()+10)/20]== 'H'){ // moving from right and stair is at left
+                    player.setX(((player.getX()+10)/20)*20);
+                    if(map[((player.getY()+5)/20)][(player.getX()/20)] != '#'){
+                        player.setY(player.getY()+5);
+                        player.setFrame(3);
+                    if(player.getMirrorY())
+                        player.setMirrorY(false);
+                    else
+                        player.setMirrorY(true);
+                    }
+                }
             }
             redraw = true;
         }else if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
