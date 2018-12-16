@@ -20,7 +20,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     bool redraw=false;
     bool lastIsLeft = false;
     ALLEGRO_EVENT_QUEUE * queue = al_create_event_queue();
-    ALLEGRO_TIMER * timer = al_create_timer(1.0/30);
+    ALLEGRO_TIMER * timer = al_create_timer(1.0/10);
     al_install_keyboard();
     al_register_event_source(queue,al_get_keyboard_event_source());
     al_register_event_source(queue,al_get_timer_event_source(timer));
@@ -68,6 +68,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setMirrorY(true);
             }
             if(keys[KEY_DOWN] && (map[(player.getY()/20)+1][(player.getX()/20)] == 'H'|| map[(player.getY()/20)][(player.getX()/20)] == 'H')){
+                if(lastIsLeft && map[(player.getY()/20)][(player.getX())/20] == 'H')
+                    player.setX(((player.getX())/20)*20);
+                else
+                    player.setX(((player.getX()+10)/20)*20);
                 if(map[((player.getY()+5)/20)][(player.getX()/20)] != '#'){
                     player.setY(player.getY()+5);
                     player.setFrame(3);
