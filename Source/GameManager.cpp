@@ -40,22 +40,26 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
             if(keys[KEY_RIGHT] && player.getX() < 540){
-                if(map[(player.getY()-18)/20][(player.getX()/20)+1] != '#' && map[(player.getY())/20][(player.getX()/20)+1] != '#')
-                        player.setX(player.getX()+5);
-                if(player.getMirrorX())
-                    player.setFrame(0);
-                else
-                    player.setFrame((player.getFrame() + 1) % 3);
-                player.setMirrorX(false);
+                if(map[(player.getY()-18)/20][(player.getX()/20)+1] != '#' && map[player.getY()/20][(player.getX()/20)+1] != '#')
+                {
+                    player.setX(player.getX()+5);
+                    if(player.getMirrorX())
+                        player.setFrame(0);
+                    else
+                        player.setFrame((player.getFrame() + 1) % 3);
+                    player.setMirrorX(false);
+                }
             }
             if(keys[KEY_LEFT] && player.getX() > 0){
-                if(map[(player.getY()-18)/20][(player.getX()/20)-1] != '#' && map[(player.getY())/20][(player.getX()/20)-1] != '#')
+                if(map[(player.getY()-18)/20][(player.getX()-1)/20] != '#' && map[player.getY()/20][(player.getX()-1)/20] != '#')
+                {
                     player.setX(player.getX()-5);
-                if(player.getMirrorX())
-                    player.setFrame((player.getFrame() + 1) % 3);
-                else
-                    player.setFrame(0);
-                player.setMirrorX(true);
+                    if(player.getMirrorX())
+                        player.setFrame((player.getFrame() + 1) % 3);
+                    else
+                        player.setFrame(0);
+                    player.setMirrorX(true);
+                }
             }
             if(keys[KEY_UP]){
                 //TODO: REFACTOR
