@@ -18,8 +18,9 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
 
 void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     bool redraw=false;
+    bool lastIsLeft = false;
     ALLEGRO_EVENT_QUEUE * queue = al_create_event_queue();
-    ALLEGRO_TIMER * timer = al_create_timer(1.0/27);
+    ALLEGRO_TIMER * timer = al_create_timer(1.0/30);
     al_install_keyboard();
     al_register_event_source(queue,al_get_keyboard_event_source());
     al_register_event_source(queue,al_get_timer_event_source(timer));
@@ -54,9 +55,9 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setFrame(0);
                 player.setMirrorX(true);
             }
-            if(keys[KEY_UP] && ((map[(player.getY()/20)][(player.getX()+10)/20] == 'H') || map[(player.getY()/20)][(player.getX()-20)/20] == 'H')){
-                if(keys[KEY_LEFT])
-                    player.setX(((player.getX()-10)/20)*20);
+            if(keys[KEY_UP] && ((map[(player.getY()/20)][(player.getX()+10)/20] == 'H') || map[(player.getY()/20)][(player.getX())/20] == 'H')){
+                if(lastIsLeft && map[(player.getY()/20)][(player.getX())/20] == 'H')
+                    player.setX(((player.getX())/20)*20);
                 else
                     player.setX(((player.getX()+10)/20)*20);
                 player.setY(player.getY()-5);
@@ -66,9 +67,11 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 else
                     player.setMirrorY(true);
             }
-            if(keys[KEY_DOWN] && map[(player.getY()/20)+1][(player.getX()/20)] == 'H'){
-                player.setY(player.getY()+5);
-                player.setFrame(3);
+            if(keys[KEY_DOWN] && (map[(player.getY()/20)+1][(player.getX()/20)] == 'H'|| map[(player.getY()/20)][(player.getX()/20)] == 'H')){
+                if(map[((player.getY()+5)/20)][(player.getX()/20)] != '#'){
+                    player.setY(player.getY()+5);
+                    player.setFrame(3);
+                }
                 if(player.getMirrorY())
                     player.setMirrorY(false);
                 else
@@ -89,10 +92,12 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
 
             case ALLEGRO_KEY_LEFT: 
                keys[KEY_LEFT] = true;
+               lastIsLeft = true;
                break;
 
             case ALLEGRO_KEY_RIGHT:
                keys[KEY_RIGHT] = true;
+               lastIsLeft = false;
                break;
 
             case ALLEGRO_KEY_ESCAPE:
