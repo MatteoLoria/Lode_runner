@@ -60,5 +60,7 @@ void GraphicManager::drawEntity(Entity * E)
         al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorX());// X e Y are always in pixel
     if(E->getFrame() == 3)
         al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorY());
+    if(E->getFrame() == 5 || E->getFrame() == 6 || E->getFrame() == 7)
+        al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorRope());
     al_destroy_bitmap(bitmap);
 }
