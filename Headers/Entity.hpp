@@ -15,6 +15,7 @@ private:
     bool mirrorX = false;
     bool mirrorY = false;
     bool mirrorRope = false;
+    bool isFalling = false;
 public:
     Entity(int, int);
     Entity();
@@ -26,6 +27,7 @@ public:
     bool getMirrorX();
     bool getMirrorY();
     bool getMirrorRope();
+    bool getFall();
     virtual string getEntity() = 0;
     void setX(int);
     void setY(int);
@@ -33,5 +35,6 @@ public:
     void setMirrorX(bool);
     void setMirrorY(bool);
     void setMirrorRope(bool);
+    void setFall(bool);
 };
 #endif

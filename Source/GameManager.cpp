@@ -39,7 +39,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         al_wait_for_event(queue,&event);
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
-            if(keys[KEY_RIGHT] && player.getX() < 540){
+            if(keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall()){
                 if(map[(player.getY()-18)/20][(player.getX()/20)+1] != '#' && map[player.getY()/20][(player.getX()/20)+1] != '#')//TODO: da testare
                 {
                     player.setX(player.getX()+5);
@@ -56,8 +56,12 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setMirrorX(false);
                     player.setMirrorRope(false);
                 }
+                if(map[(player.getY()/20)+1][player.getX()/20] == ' ' && map[player.getY()/20][player.getX()/20] != '-'){
+                    player.setFrame(4);
+                    player.setFall(true);
+                }
             }
-            if(keys[KEY_LEFT] && player.getX() > 0){
+            if(keys[KEY_LEFT] && player.getX() > 0 && !player.getFall()){
                 if(map[(player.getY()-18)/20][(player.getX()-1)/20] != '#' && map[player.getY()/20][(player.getX()-1)/20] != '#')
                 {
                     player.setX(player.getX()-5);
@@ -75,8 +79,12 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setMirrorX(true);
                     player.setMirrorRope(true);
                 }
+                if(map[(player.getY()/20)+1][(player.getX()+18)/20] == ' ' && map[player.getY()/20][player.getX()/20] != '-'){
+                    player.setFrame(4);
+                    player.setFall(true);
+                }
             }
-            if(keys[KEY_UP]){
+            if(keys[KEY_UP] && !player.getFall()){
                 //TODO: REFACTOR
                 if(lastIsLeft){
                     if(map[player.getY()/20][(player.getX()+10)/20]=='H') //moving from right and the stair is at left
@@ -130,6 +138,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                         player.setMirrorY(true);
                     }
                 }
+                if(map[(player.getY()/20)+1][player.getX()/20] == ' '){
+                    player.setFrame(4);
+                    player.setFall(true);
+                }
             }
             redraw = true;
         }else if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -180,6 +192,14 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
       }
       if(redraw && al_is_event_queue_empty(queue)){
           redraw = false;
+          if(player.getFall()){
+              cout<<player.getY()<< " \n";
+              player.setY(player.getY()+5);
+              if(map[((player.getY()+5)/20)][(player.getX()/20)] == '#'){
+                  cout<<player.getFall();
+                  player.setFall(false);
+              }
+          }
           graphic.drawMap(map);
           graphic.drawEntity(&player);
           /*for(auto i : enemies){
