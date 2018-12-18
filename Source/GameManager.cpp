@@ -44,20 +44,25 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 if(map[(player.getY()-18)/20][(player.getX()/20)+1] != '#' && map[player.getY()/20][(player.getX()/20)+1] != '#')//TODO: da testare
                 {
                     player.setX(player.getX()+5);
-                    if(map[(player.getY()-18)/20][player.getX()/20] == '-'){ 
+                    if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == '-'){ 
                         if(player.getMirrorRope())
                             player.setFrame(5);
                         else
                             player.setFrame((player.getFrame() % 3) + 5);
                     }
-                    /*else if(map[(player.getY()+5)/20][player.getX()/20] == '-' || map[(player.getY()+10)/20][player.getX()/20] == '-' || map[(player.getY()+15)/20][player.getX()/20] == '-'){
-                        player.setY((((player.getY()+18)/20)*20)-2);
-                        player.setFrame(5);}*/
                     else
                         if(player.getMirrorX())
                             player.setFrame(0);
                         else
                             player.setFrame((player.getFrame() + 1) % 3);
+                    if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' && map[((player.getY()-5)/20)][(player.getX()/20)] == ' ')
+                    {
+                        player.setFrame(4);
+                        player.setFall(true);
+                        cout << "riga 60" << endl;
+                    }
+                    if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' && map[((player.getY()-5)/20)][(player.getX()/20) == '-'])
+                        player.setY(player.getY()-5);
                     player.setMirrorX(false);
                     player.setMirrorRope(false);
                 }
@@ -85,7 +90,14 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                             player.setFrame((player.getFrame() + 1) % 3);
                         else
                             player.setFrame(0);
-                    
+                    if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' && map[((player.getY()-5)/20)][(player.getX()/20)] == ' ')
+                    {
+                        player.setFrame(4);
+                        player.setFall(true);
+                        cout << "riga 60" << endl;
+                    }
+                    if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' && map[((player.getY()-5)/20)][(player.getX()/20) == '-'])
+                        player.setY(player.getY()-5);
                     player.setMirrorX(true);
                     player.setMirrorRope(true);
                 }
@@ -218,7 +230,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
               if(map[((player.getY()+5)/20)][(player.getX()/20)] == '#' || map[((player.getY()+5)/20)][(player.getX()/20)] == 'H' || map[((player.getY()+5)/20)][(player.getX()/20)] == '@'){
                   player.setFall(false);
               }
-              if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-'){
+              if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-' && map[((player.getY())/20)][(player.getX()/20)] == '-'){
                   player.setFall(false);
                   player.setFrame(5);
               }
