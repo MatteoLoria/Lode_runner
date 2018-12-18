@@ -43,7 +43,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 if(map[(player.getY()-18)/20][(player.getX()/20)+1] != '#' && map[player.getY()/20][(player.getX()/20)+1] != '#')//TODO: da testare
                 {
                     player.setX(player.getX()+5);
-                    if(map[(player.getY()-18)/20][player.getX()/20] == '-'){
+                    if(map[(player.getY()-18)/20][player.getX()/20] == '-'){ 
                         //player.setY(((player.getY())/20));
                         if(player.getMirrorRope())
                             player.setFrame(5);
