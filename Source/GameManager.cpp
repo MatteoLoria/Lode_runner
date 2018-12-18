@@ -19,6 +19,7 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
 void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     bool redraw=false;
     bool lastIsLeft = false;
+    bool lastIsDown = false;
     ALLEGRO_EVENT_QUEUE * queue = al_create_event_queue();
     ALLEGRO_TIMER * timer = al_create_timer(1.0/10);
     al_install_keyboard();
@@ -44,12 +45,14 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 {
                     player.setX(player.getX()+5);
                     if(map[(player.getY()-18)/20][player.getX()/20] == '-'){ 
-                        //player.setY(((player.getY())/20));
                         if(player.getMirrorRope())
                             player.setFrame(5);
                         else
                             player.setFrame((player.getFrame() % 3) + 5);
                     }
+                    /*else if(map[(player.getY()+5)/20][player.getX()/20] == '-' || map[(player.getY()+10)/20][player.getX()/20] == '-' || map[(player.getY()+15)/20][player.getX()/20] == '-'){
+                        player.setY((((player.getY()+18)/20)*20)-2);
+                        player.setFrame(5);}*/
                     else
                         if(player.getMirrorX())
                             player.setFrame(0);
@@ -58,7 +61,12 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setMirrorX(false);
                     player.setMirrorRope(false);
                 }
-                if(map[(player.getY()+5)/20][(player.getX()/20)+1] == ' ' && map[(player.getY()-18)/20][(player.getX()/20)+1] != '-' && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'H' && map[(player.getY())/20][(player.getX()/20)] != 'H'){
+                if(map[(player.getY()+5)/20][(player.getX()/20)+1] == ' ' && map[(player.getY()-18)/20][(player.getX()/20)+1] != '-' && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'H'
+                 && map[(player.getY())/20][(player.getX()/20)] != 'H' && map[(player.getY()+5)/20][(player.getX()/20)] != '#'){
+                    player.setFrame(4);
+                    player.setFall(true);
+                }
+                if(map[(player.getY()+5)/20][player.getX()/20] == '-' || map[(player.getY()+10)/20][player.getX()/20] == '-' || map[(player.getY()+15)/20][player.getX()/20] == '-'){
                     player.setFrame(4);
                     player.setFall(true);
                 }
@@ -152,20 +160,26 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
          switch(event.keyboard.keycode) { 
             case ALLEGRO_KEY_UP:
                keys[KEY_UP] = true;
+               lastIsDown = false;
+               lastIsLeft = false;
                break;
 
             case ALLEGRO_KEY_DOWN:
                keys[KEY_DOWN] = true;
+               lastIsLeft = false;
+               lastIsDown = true;
                break;
 
             case ALLEGRO_KEY_LEFT: 
                keys[KEY_LEFT] = true;
                lastIsLeft = true;
+               lastIsDown = false;
                break;
 
             case ALLEGRO_KEY_RIGHT:
                keys[KEY_RIGHT] = true;
                lastIsLeft = false;
+               lastIsDown = false;
                break;
 
             case ALLEGRO_KEY_ESCAPE:
@@ -200,6 +214,14 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
               if(map[((player.getY()+5)/20)][(player.getX()/20)] == '#'){
                   cout<<player.getFall();
                   player.setFall(false);
+              }
+              if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-'){
+                  player.setFall(false);
+                  player.setFrame(5);
+              }
+              if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-' && lastIsDown){
+                  player.setFall(true);
+                  player.setFrame(4);
               }
           }
           graphic.drawMap(map);
