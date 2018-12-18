@@ -12,6 +12,5 @@ int main()
     GameManager G(P, *(new vector<Enemy>()), Gr);
     G.run(1, display);
     al_destroy_display(display);
-
     return 0; 
 }
