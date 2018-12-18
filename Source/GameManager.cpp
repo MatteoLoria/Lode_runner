@@ -62,11 +62,11 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setMirrorRope(false);
                 }
                 if(map[(player.getY()+5)/20][(player.getX()/20)+1] == ' ' && map[(player.getY()-18)/20][(player.getX()/20)+1] != '-' && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'H'
-                 && map[(player.getY())/20][(player.getX()/20)] != 'H' && map[(player.getY()+5)/20][(player.getX()/20)] != '#'){
+                 && map[(player.getY()+5)/20][(player.getX()/20)] != 'H' && map[(player.getY()+5)/20][(player.getX()/20)] != '#'){
                     player.setFrame(4);
                     player.setFall(true);
                 }
-                if(map[(player.getY()+5)/20][player.getX()/20] == '-' || map[(player.getY()+10)/20][player.getX()/20] == '-' || map[(player.getY()+15)/20][player.getX()/20] == '-'){
+                if((map[(player.getY()+5)/20][player.getX()/20] == '-' || map[(player.getY()+10)/20][player.getX()/20] == '-' || map[(player.getY()+15)/20][player.getX()/20] == '-')){
                     player.setFrame(4);
                     player.setFall(true);
                 }
@@ -75,7 +75,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 if(map[(player.getY()-18)/20][(player.getX()-1)/20] != '#' && map[player.getY()/20][(player.getX()-1)/20] != '#')
                 {
                     player.setX(player.getX()-5);
-                    if(map[player.getY()/20][player.getX()/20] == '-')
+                    if(map[player.getY()/20][(player.getX()/20)+1] == '-')
                         if(player.getMirrorRope())
                             player.setFrame((player.getFrame() % 3) + 5);
                         else
@@ -89,7 +89,12 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setMirrorX(true);
                     player.setMirrorRope(true);
                 }
-                if(map[(player.getY()+5)/20][(player.getX()+18)/20] == ' ' && map[(player.getY()-18)/20][(player.getX()-1)/20] != '-' && map[(player.getY()-18)/20][(player.getX()-1)/20] != 'H' && map[(player.getY())/20][(player.getX()/20)] != 'H'){
+                if(map[(player.getY()+5)/20][(player.getX()+18)/20] == ' ' && map[(player.getY()-18)/20][(player.getX()-1)/20] != '-' && map[(player.getY()-18)/20][(player.getX()-1)/20] != 'H' 
+                 && map[(player.getY())/20][(player.getX()/20)] != 'H' && map[(player.getY()+5)/20][(player.getX()/20)] != '#'){
+                    player.setFrame(4);
+                    player.setFall(true);
+                }
+                if(map[(player.getY()+5)/20][(player.getX()/20)+1] == '-' || map[(player.getY()+10)/20][(player.getX()/20)+1] == '-' || map[(player.getY()+15)/20][(player.getX()/20)+1] == '-'){
                     player.setFrame(4);
                     player.setFall(true);
                 }
@@ -209,10 +214,8 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
       if(redraw && al_is_event_queue_empty(queue)){
           redraw = false;
           if(player.getFall()){
-              cout<<player.getY()<< " \n";
               player.setY(player.getY()+5);
-              if(map[((player.getY()+5)/20)][(player.getX()/20)] == '#'){
-                  cout<<player.getFall();
+              if(map[((player.getY()+5)/20)][(player.getX()/20)] == '#' || map[((player.getY()+5)/20)][(player.getX()/20)] == 'H' || map[((player.getY()+5)/20)][(player.getX()/20)] == '@'){
                   player.setFall(false);
               }
               if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-'){
