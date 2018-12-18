@@ -93,7 +93,6 @@ void GraphicManager::drawMap(char map[16][28])
                     al_draw_bitmap(bitmap, j*20, i*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
-                
                 default://clean space
                     break;
             }
