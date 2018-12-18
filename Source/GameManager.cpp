@@ -43,11 +43,13 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 if(map[(player.getY()-18)/20][(player.getX()/20)+1] != '#' && map[player.getY()/20][(player.getX()/20)+1] != '#')//TODO: da testare
                 {
                     player.setX(player.getX()+5);
-                    if(map[(player.getY()-18)/20][player.getX()/20] == '-')
+                    if(map[(player.getY()-18)/20][player.getX()/20] == '-'){
+                        //player.setY(((player.getY())/20));
                         if(player.getMirrorRope())
                             player.setFrame(5);
                         else
                             player.setFrame((player.getFrame() % 3) + 5);
+                    }
                     else
                         if(player.getMirrorX())
                             player.setFrame(0);
@@ -56,7 +58,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setMirrorX(false);
                     player.setMirrorRope(false);
                 }
-                if(map[(player.getY()+5)/20][player.getX()/20] == ' ' && map[player.getY()/20][player.getX()/20] != '-'){
+                if(map[(player.getY()+5)/20][(player.getX()/20)+1] == ' ' && map[(player.getY()-18)/20][(player.getX()/20)+1] != '-' && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'H' && map[(player.getY())/20][(player.getX()/20)] != 'H'){
                     player.setFrame(4);
                     player.setFall(true);
                 }
@@ -79,7 +81,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setMirrorX(true);
                     player.setMirrorRope(true);
                 }
-                if(map[(player.getY()+5)/20][(player.getX()+18)/20] == ' ' && map[player.getY()/20][player.getX()/20] != '-'){
+                if(map[(player.getY()+5)/20][(player.getX()+18)/20] == ' ' && map[(player.getY()-18)/20][(player.getX()-1)/20] != '-' && map[(player.getY()-18)/20][(player.getX()-1)/20] != 'H' && map[(player.getY())/20][(player.getX()/20)] != 'H'){
                     player.setFrame(4);
                     player.setFall(true);
                 }
