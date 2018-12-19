@@ -204,8 +204,7 @@ void GameManager::moveLeft(){
         player.setFall(true);
     }
     if((map[(player.getY()+5)/20][(player.getX()/20)+1] == '-' || map[(player.getY()+10)/20][(player.getX()/20)+1] == '-' 
-        || map[(player.getY()+15)/20][(player.getX()/20)+1] == '-') && map[player.getY()/20][player.getX()/20] != 'H'){ //&& map[player.getY()/20][player.getX()/20] == ' '){
-            cout<<"riga 211";
+        || map[(player.getY()+15)/20][(player.getX()/20)+1] == '-') && map[player.getY()/20][player.getX()/20] != 'H'){
         player.setFrame(4);
         player.setFall(true);
     }
