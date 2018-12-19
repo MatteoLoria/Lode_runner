@@ -18,7 +18,7 @@ private:
     void moveLeft();
     void moveDown();
     void moveUp(bool);
-    bool keys[4] = {false,false,false,false};
+    bool keys[6] = {false,false,false,false,false,false};
 public:
     GameManager();
     GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic);

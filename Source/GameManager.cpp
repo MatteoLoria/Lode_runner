@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 enum MYKEYS{
-        KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
+        KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_X, KEY_Z
 };
 
 GameManager::GameManager(){}
@@ -21,7 +21,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     bool lastIsLeft = false;
     bool lastIsDown = false;
     ALLEGRO_EVENT_QUEUE * queue = al_create_event_queue();
-    ALLEGRO_TIMER * timer = al_create_timer(1.0/10);
+    ALLEGRO_TIMER * timer = al_create_timer(1.0/15);
     al_install_keyboard();
     al_register_event_source(queue,al_get_keyboard_event_source());
     al_register_event_source(queue,al_get_timer_event_source(timer));
@@ -52,13 +52,18 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             if(keys[KEY_DOWN]){
                 moveDown();
             }
+            if(keys[KEY_X])
+                player.dig(map,false);
             redraw = true;
         }
         else if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             break;
         }
         else if(event.type == ALLEGRO_EVENT_KEY_DOWN){
-            switch(event.keyboard.keycode) { 
+            switch(event.keyboard.keycode) {
+                case ALLEGRO_KEY_X:
+                    keys[KEY_X] = true;
+                    break;
                 case ALLEGRO_KEY_UP:
                     keys[KEY_UP] = true;
                     lastIsDown = false;
@@ -91,6 +96,9 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         else if(event.type == ALLEGRO_EVENT_KEY_UP) {
             player.setFrame(player.getFrame() == 3 ? 3:player.getFrame());
             switch(event.keyboard.keycode) {
+                case ALLEGRO_KEY_X:
+                    keys[KEY_X] = false;
+                    break;
                 case ALLEGRO_KEY_UP:
                     keys[KEY_UP] = false;
                     break;
