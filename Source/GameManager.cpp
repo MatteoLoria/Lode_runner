@@ -155,7 +155,7 @@ void GameManager::moveRight(){
             player.setFall(true);
         }
         if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
-            && map[((player.getY()-5)/20)][(player.getX()/20) == '-'])//sei vicino alla corda. Aggrappati
+            && map[((player.getY()-5)/20)][(player.getX()/20)] == '-')//sei vicino alla corda. Aggrappati
             player.setY(player.getY()-5);
         player.setMirrorX(false);
         player.setMirrorRope(false);
@@ -167,7 +167,7 @@ void GameManager::moveRight(){
         player.setFall(true);
     }
     if((map[(player.getY()+5)/20][player.getX()/20] == '-' || map[(player.getY()+10)/20][player.getX()/20] == '-' 
-        || map[(player.getY()+15)/20][player.getX()/20] == '-')){
+        || map[(player.getY()+15)/20][player.getX()/20] == '-') && map[player.getY()/20][player.getX()/20] != 'H'){
         player.setFrame(4);
         player.setFall(true);
     }
@@ -186,13 +186,13 @@ void GameManager::moveLeft(){
                 player.setFrame((player.getFrame() + 1) % 3);
             else
                 player.setFrame(0);
-        if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
+        if(map[(player.getY()-18)/20][(player.getX()/20)] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
             && map[((player.getY()-5)/20)][(player.getX()/20)] == ' ' && map[player.getY()/20][player.getX()/20] != 'H'){
             player.setFrame(4);
             player.setFall(true);
         }
         if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
-            && map[((player.getY()-5)/20)][(player.getX()/20) == '-'])
+            && map[((player.getY()-5)/20)][(player.getX()/20)] == '-')
             player.setY(player.getY()-5);
         player.setMirrorX(true);
         player.setMirrorRope(true);
@@ -203,8 +203,8 @@ void GameManager::moveLeft(){
         player.setFrame(4);
         player.setFall(true);
     }
-    if(map[(player.getY()+5)/20][(player.getX()/20)-1] == '-' || map[(player.getY()+10)/20][(player.getX()/20)+1] == '-' 
-        || map[(player.getY()+15)/20][(player.getX()/20)+1] == '-'){
+    if((map[(player.getY()+5)/20][(player.getX()/20)+1] == '-' || map[(player.getY()+10)/20][(player.getX()/20)+1] == '-' 
+        || map[(player.getY()+15)/20][(player.getX()/20)+1] == '-') && map[player.getY()/20][player.getX()/20] != 'H'){ //&& map[player.getY()/20][player.getX()/20] == ' '){
             cout<<"riga 211";
         player.setFrame(4);
         player.setFall(true);
