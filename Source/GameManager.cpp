@@ -119,7 +119,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     player.setFall(false);
                     player.setFrame(5);
                 }
-                if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-' && lastIsDown){
+                if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-' && lastIsDown && map[((player.getY()+5)/20)][(player.getX()/20)] != '#'){
                   player.setFall(true);
                   player.setFrame(4);
                 }
@@ -187,7 +187,7 @@ void GameManager::moveLeft(){
             else
                 player.setFrame(0);
         if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
-            && map[((player.getY()-5)/20)][(player.getX()/20)] == ' '){
+            && map[((player.getY()-5)/20)][(player.getX()/20)] == ' ' && map[player.getY()/20][player.getX()/20] != 'H'){
             player.setFrame(4);
             player.setFall(true);
         }
@@ -203,8 +203,9 @@ void GameManager::moveLeft(){
         player.setFrame(4);
         player.setFall(true);
     }
-    if(map[(player.getY()+5)/20][(player.getX()/20)+1] == '-' || map[(player.getY()+10)/20][(player.getX()/20)+1] == '-' 
+    if(map[(player.getY()+5)/20][(player.getX()/20)-1] == '-' || map[(player.getY()+10)/20][(player.getX()/20)+1] == '-' 
         || map[(player.getY()+15)/20][(player.getX()/20)+1] == '-'){
+            cout<<"riga 211";
         player.setFrame(4);
         player.setFall(true);
     }
@@ -256,7 +257,7 @@ void GameManager::moveUp(bool lastIsLeft){
 void GameManager::moveDown(){
     if(map[(player.getY()/20)+1][(player.getX()+10)/20] == 'H' || map[(player.getY()/20)][(player.getX()+10)/20] == 'H'){//moving from right and stair is at left
         player.setX(((player.getX()+10)/20)*20);
-        if(map[((player.getY()+5)/20)][(player.getX()/20)] != '#'){
+        if(map[((player.getY()+5)/20)][((player.getX())/20)] != '#'){
             player.setY(player.getY()+5);
             player.setFrame(3);
         if(player.getMirrorY())
@@ -265,7 +266,7 @@ void GameManager::moveDown(){
             player.setMirrorY(true);
         }
     }
-    if(map[(player.getY()/20)+1][player.getX()/20] == ' '){
+    if(map[(player.getY()/20)+1][player.getX()/20] == ' ' && map[(player.getY()/20)+1][player.getX()/20] != 'H' && map[(player.getY()/20)+1][player.getX()/20] != '#' && map[(player.getY()/20)+1][(player.getX()+18)/20] != '#' ){
         player.setFrame(4);
         player.setFall(true);
     }
