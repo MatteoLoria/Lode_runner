@@ -123,6 +123,10 @@ void GraphicManager::drawEntity(Entity * E)
         al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorX());
     if(E->getFrame() == 5 || E->getFrame() == 6 || E->getFrame() == 7)
         al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorRope());
+    if(E->getFrame() == 8)
+        al_draw_bitmap(bitmap, E->getX(), E->getY()-18,0);
+    if(E->getFrame() == 9)
+        al_draw_bitmap(bitmap, E->getX(), E->getY()-18,0); 
     al_destroy_bitmap(bitmap);
     al_set_target_backbuffer(this->display);
     al_draw_scaled_bitmap(buffer,0,0,560,320,scale_x,scale_y,scale_w,scale_h,0);

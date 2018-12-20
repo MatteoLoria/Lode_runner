@@ -54,12 +54,14 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             }
             if(keys[KEY_X] && !player.getFall()){
                 if(player.dig(map,false)){
+                    player.setFrame(8);
                     holes.push_back({(player.getY()+5)/20,
-                                     (player.getX()/20)+1,0,0});
+                                     (player.getX()+39)/20,0,0});
                 }
             }
             if(keys[KEY_Z] && !player.getFall()){
                 if(player.dig(map,true)){
+                    player.setFrame(9);
                     holes.push_back({(player.getY()+5)/20,
                                      (player.getX()/20)-1,0,0});
                 }
@@ -156,11 +158,11 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     }else if(map[i->first][i->second]!=' ' && map[i->first][i->second]!='/' && map[i->first][i->second]!='^' && map[i->first][i->second]!='#' && !i->already){
                         map[i->first][i->second]++;
                     }
-                    if(1.2>i->third && i->third>1.0 && !i->already){
+                    if(3.0>i->third && i->third>2.8 && !i->already){
                         map[i->first][i->second] = '/';
-                    }else if(1.5>i->third && i->third>1.2 && !i->already){
+                    }else if(3.2>i->third && i->third>3.0 && !i->already){
                         map[i->first][i->second] = '^';
-                    }else if(i->third > 1.5 && !i->already){
+                    }else if(i->third > 3.2 && !i->already){
                         map[i->first][i->second] = '#';
                         i->already = true;
                     }

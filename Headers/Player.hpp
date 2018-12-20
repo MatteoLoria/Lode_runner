@@ -5,11 +5,11 @@
 class Player : public Entity
 {
     private:
-        ALLEGRO_BITMAP * sprite[9];
+        ALLEGRO_BITMAP * sprite[10];
         int lives=3;
     public:
         Player();
-        Player(int, int, string[9]);
+        Player(int, int, string[10]);
         ~Player();
         int getLives();
         string getEntity();
