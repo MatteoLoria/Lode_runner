@@ -36,5 +36,9 @@ public:
     void setMirrorY(bool);
     void setMirrorRope(bool);
     void setFall(bool);
+    void moveRight(char[][28]);
+    void moveLeft(char[][28]);
+    void moveUp(char[][28], bool);
+    void moveDown(char[][28]);
 };
 #endif

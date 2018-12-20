@@ -41,16 +41,16 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
             if(keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall()){
-                moveRight();
+                player.moveRight(map);
             }
             if(keys[KEY_LEFT] && player.getX() > 0 && !player.getFall()){
-                moveLeft();
+                player.moveLeft(map);
             }
             if(keys[KEY_UP] && !player.getFall()){
-                moveUp(lastIsLeft);
+                player.moveUp(map, lastIsLeft);
             }
             if(keys[KEY_DOWN]){
-                moveDown();
+                player.moveDown(map);
             }
             if(keys[KEY_X] && !player.getFall()){
                 if(player.dig(map,false)){
@@ -175,143 +175,6 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
           }*/
             al_flip_display();
         }
-    }
-}
-
-void GameManager::moveRight(){
-    if((map[(player.getY()-18)/20][(player.getX()/20)+1] != '#' && map[player.getY()/20][(player.getX()/20)+1] != '#')//controllo blocchi
-        && (map[(player.getY()-18)/20][(player.getX()/20)+1] != '@' && map[player.getY()/20][(player.getX()/20)+1] != '@')){//TODO: da testare
-        player.setX(player.getX()+5);
-        if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == '-')//aggrappati
-            if(player.getMirrorRope())
-                player.setFrame(5);
-            else
-                player.setFrame((player.getFrame() % 3) + 5);
-        else
-            if(player.getMirrorX())
-                player.setFrame(0);
-            else
-                player.setFrame((player.getFrame() + 1) % 3);
-        if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
-            && map[((player.getY()-5)/20)][(player.getX()/20)] == ' ')//troppo lontano dalla corda. Cadi
-        {
-            player.setFrame(4);
-            player.setFall(true);
-        }
-        if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
-            && map[((player.getY()-5)/20)][(player.getX()/20)] == '-')//sei vicino alla corda. Aggrappati
-            player.setY(player.getY()-5);
-        player.setMirrorX(false);
-        player.setMirrorRope(false);
-    }
-    if((map[(player.getY()+5)/20][(player.getX()/20)+1] == ' ' || map[(player.getY()+5)/20][((player.getX()+10)/20)] == ' ')  && map[(player.getY()-18)/20][(player.getX()/20)+1] != '-' && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'S' 
-        && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'H' && map[(player.getY()+5)/20][(player.getX()/20)] != 'H' 
-        && map[(player.getY()+5)/20][(player.getX()/20)] != '#' && map[(player.getY()+5)/20][(player.getX()/20)] != '@'){
-        player.setFrame(4);
-        player.setFall(true);
-    }
-    if((map[(player.getY()+5)/20][player.getX()/20] == '-' || map[(player.getY()+10)/20][player.getX()/20] == '-' 
-        || map[(player.getY()+15)/20][player.getX()/20] == '-') && map[player.getY()/20][player.getX()/20] != 'H'){
-        player.setFrame(4);
-        player.setFall(true);
-    }
-}
-
-void GameManager::moveLeft(){
-    if(map[(player.getY()-18)/20][(player.getX()-1)/20] != '#' && map[player.getY()/20][(player.getX()-1)/20] != '#'){//controllo blocchi
-        player.setX(player.getX()-5);
-        if(map[(player.getY()-18)/20][(player.getX()/20)+1] == '-' && map[player.getY()/20][(player.getX()/20)+1] == '-')
-            if(player.getMirrorRope())
-                player.setFrame((player.getFrame() % 3) + 5);
-            else
-                player.setFrame(5);
-        else
-            if(player.getMirrorX())
-                player.setFrame((player.getFrame() + 1) % 3);
-            else
-                player.setFrame(0);
-        if(map[(player.getY()-18)/20][(player.getX()/20)] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
-            && map[((player.getY()-5)/20)][(player.getX()/20)] == ' ' && map[player.getY()/20][player.getX()/20] != 'H'){
-            player.setFrame(4);
-            player.setFall(true);
-        }
-        if(map[(player.getY()-18)/20][player.getX()/20] == '-' && map[((player.getY())/20)][(player.getX()/20)] == ' ' 
-            && map[((player.getY()-5)/20)][(player.getX()/20)] == '-')
-            player.setY(player.getY()-5);
-        player.setMirrorX(true);
-        player.setMirrorRope(true);
-    }
-    if(map[(player.getY()+5)/20][(player.getX()+18)/20] == ' ' && map[(player.getY()-18)/20][(player.getX()-1)/20] != '-' 
-        && map[(player.getY()-18)/20][(player.getX()-1)/20] != 'H' && map[(player.getY())/20][(player.getX()/20)] != 'H' 
-        && map[(player.getY()+5)/20][(player.getX()/20)] != '#' && map[(player.getY()+5)/20][(player.getX()/20)] != '@'){
-        player.setFrame(4);
-        player.setFall(true);
-    }
-    if((map[(player.getY()+5)/20][(player.getX()/20)+1] == '-' || map[(player.getY()+10)/20][(player.getX()/20)+1] == '-' 
-        || map[(player.getY()+15)/20][(player.getX()/20)+1] == '-') && map[player.getY()/20][player.getX()/20] != 'H'){
-        player.setFrame(4);
-        player.setFall(true);
-    }
-}
-
-void GameManager::moveUp(bool lastIsLeft){
-    if(lastIsLeft){
-        if(map[player.getY()/20][(player.getX()+10)/20]=='H') //moving from right and the stair is at left
-        {
-            player.setX(((player.getX()+10)/20)*20);
-            player.setY(player.getY()-5);
-            player.setFrame(3);
-            if(player.getMirrorY())
-                player.setMirrorY(false);
-            else
-                player.setMirrorY(true);
-        }else if(map[player.getY()/20][(player.getX()+5)/20]=='H'){ //moving from right and the stair is at right
-            player.setX(((player.getX()+5)/20)*20);
-            player.setY(player.getY()-5);
-            player.setFrame(3);
-            if(player.getMirrorY())
-                player.setMirrorY(false);
-            else
-                player.setMirrorY(true);                    
-        }
-    }
-    else{
-        if(map[player.getY()/20][(player.getX()+10)/20]=='H') //moving from left and the stair is at right
-        {
-            player.setX(((player.getX()+10)/20)*20);
-            player.setY(player.getY()-5);
-            player.setFrame(3);
-            if(player.getMirrorY())
-                player.setMirrorY(false);
-            else
-                player.setMirrorY(true);
-        }else if(map[player.getY()/20][(player.getX()+15)/20]=='H'){ //moving from left and the stair is at left
-            player.setX(((player.getX()+15)/20)*20);
-            player.setY(player.getY()-5);
-            player.setFrame(3);
-            if(player.getMirrorY())
-                player.setMirrorY(false);
-            else
-                player.setMirrorY(true);   
-        }
-    }
-}
-
-void GameManager::moveDown(){
-    if(map[(player.getY()/20)+1][(player.getX()+10)/20] == 'H' || map[(player.getY()/20)][(player.getX()+10)/20] == 'H'){//moving from right and stair is at left
-        player.setX(((player.getX()+10)/20)*20);
-        if(map[((player.getY()+5)/20)][((player.getX())/20)] != '#'){
-            player.setY(player.getY()+5);
-            player.setFrame(3);
-        if(player.getMirrorY())
-            player.setMirrorY(false);
-        else
-            player.setMirrorY(true);
-        }
-    }
-    if(map[(player.getY()/20)+1][player.getX()/20] == ' ' && map[(player.getY()/20)+1][player.getX()/20] != 'H' && map[(player.getY()/20)+1][player.getX()/20] != '#' && map[(player.getY()/20)+1][(player.getX()+18)/20] != '#' ){
-        player.setFrame(4);
-        player.setFall(true);
     }
 }
 

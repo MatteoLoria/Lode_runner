@@ -17,10 +17,6 @@ private:
     char map[16][28]; 
     int points = 0;
     void loadMap(string path);
-    void moveRight();
-    void moveLeft();
-    void moveDown();
-    void moveUp(bool);
     bool keys[6] = {false,false,false,false,false,false};
 public:
     GameManager();
