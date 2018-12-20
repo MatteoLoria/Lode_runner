@@ -3,10 +3,19 @@
 
 GraphicManager::GraphicManager(){}
 
-GraphicManager::GraphicManager(int level) {this->level = level;}
+GraphicManager::GraphicManager(int level, int scale_w, int scale_h, int scale_x, int scale_y, ALLEGRO_BITMAP * buffer, ALLEGRO_DISPLAY * display) {
+    this->level = level;
+    this->scale_h = scale_h;
+    this->scale_w = scale_w;
+    this->scale_x = scale_x;
+    this->scale_y = scale_y;
+    this->buffer = buffer;
+    this->display = display;
+}
 
 void GraphicManager::drawMap(char map[16][28])
 {
+    al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
     ALLEGRO_BITMAP * bitmap = NULL;
     for(int i = 0; i < 16; ++i)
@@ -96,10 +105,13 @@ void GraphicManager::drawMap(char map[16][28])
                 default://clean space
                     break;
             }
+            al_set_target_backbuffer(this->display);
+            al_clear_to_color(al_map_rgb(0,0,0));
+            al_draw_scaled_bitmap(buffer,0,0,560,320,scale_x,scale_y,scale_w,scale_h,0);
 }
 
 void GraphicManager::drawEntity(Entity * E)
-{
+{   al_set_target_bitmap(buffer);
     ALLEGRO_BITMAP * bitmap = al_load_bitmap(("../Assets/Characters/" + E->getEntity() + "/" + to_string(E->getFrame()) + ".png").c_str());
     if(E->getFrame() == 0 || E->getFrame() == 1 || E->getFrame() == 2)
         al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorX());// X e Y are always in pixel
@@ -110,4 +122,6 @@ void GraphicManager::drawEntity(Entity * E)
     if(E->getFrame() == 5 || E->getFrame() == 6 || E->getFrame() == 7)
         al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorRope());
     al_destroy_bitmap(bitmap);
+    al_set_target_backbuffer(this->display);
+    al_draw_scaled_bitmap(buffer,0,0,560,320,scale_x,scale_y,scale_w,scale_h,0);
 }
