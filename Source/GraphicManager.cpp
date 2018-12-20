@@ -64,42 +64,42 @@ void GraphicManager::drawMap(char map[16][28])
                     break;
                 case '2':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/1.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '3':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/2.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '4':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/3.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '5':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/4.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '6':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/5.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '7':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/6.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '/':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Creations/0.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '^':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Creations/1.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 default://clean space

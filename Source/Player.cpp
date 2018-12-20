@@ -17,12 +17,20 @@ Player::~Player()
     for(int i = 0; i < 9; ++i)
         al_destroy_bitmap(sprite[i]);
 }
-void Player::dig(char map[16][28], bool sx){
-    if(!sx && (map[this->getY()/20][(this->getX()/20)+1] != '$' || map[this->getY()/20][(this->getX()/20)+1] != 'H' || map[this->getY()/20][(this->getX()/20)+1] != '0')){
+bool Player::dig(char map[16][28], bool sx){
+    if(!sx && (map[this->getY()/20][(this->getX()/20)+1] != '$' && map[this->getY()/20][(this->getX()/20)+1] != 'H' && map[this->getY()/20][(this->getX()/20)+1] != '0')){
         if(map[(this->getY()+5)/20][(this->getX()/20)+1] == '#'){
             map[(this->getY()+5)/20][(this->getX()/20)+1] = '1';
+            return true;
         }
     }
+    if(sx && (map[this->getY()/20][(this->getX()/20)-1] != '$' && map[this->getY()/20][(this->getX()/20)-1] != 'H' && map[this->getY()/20][(this->getX()/20)-1] != '0')){
+        if(map[(this->getY()+5)/20][(this->getX()/20)-1] == '#'){
+            map[(this->getY()+5)/20][(this->getX()/20)-1] = '1';
+            return true;
+        }
+    }
+    return false;
 }
 string Player::getEntity() {return "Player";}
 

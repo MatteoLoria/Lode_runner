@@ -52,8 +52,18 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             if(keys[KEY_DOWN]){
                 moveDown();
             }
-            if(keys[KEY_X])
-                player.dig(map,false);
+            if(keys[KEY_X]){
+                if(player.dig(map,false)){
+                    holes.push_back({(player.getY()+5)/20,
+                                (player.getX()/20)+1});
+                }
+            }
+            if(keys[KEY_Z]){
+                if(player.dig(map,true)){
+                    holes.push_back({(player.getY()+5)/20,
+                                (player.getX()/20)-1});
+                }
+            }
             redraw = true;
         }
         else if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -63,6 +73,9 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             switch(event.keyboard.keycode) {
                 case ALLEGRO_KEY_X:
                     keys[KEY_X] = true;
+                    break;
+                case ALLEGRO_KEY_Z:
+                    keys[KEY_Z] = true;
                     break;
                 case ALLEGRO_KEY_UP:
                     keys[KEY_UP] = true;
@@ -99,6 +112,9 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                 case ALLEGRO_KEY_X:
                     keys[KEY_X] = false;
                     break;
+                case ALLEGRO_KEY_Z:
+                    keys[KEY_Z] = false;
+                    break;
                 case ALLEGRO_KEY_UP:
                     keys[KEY_UP] = false;
                     break;
@@ -132,6 +148,14 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                   player.setFrame(4);
                 }
           }
+          if(!holes.empty())
+            for(auto i : holes){
+                if(map[i.first][i.second] == '7'){
+                    map[i.first][i.second] = ' ';
+                }else if(map[i.first][i.second]!=' '){
+                    map[i.first][i.second]++;
+                }
+            }
           graphic.drawMap(map);
           graphic.drawEntity(&player);
           /*for(auto i : enemies){
@@ -168,9 +192,10 @@ void GameManager::moveRight(){
         player.setMirrorX(false);
         player.setMirrorRope(false);
     }
-    if(map[(player.getY()+5)/20][(player.getX()/20)+1] == ' ' && map[(player.getY()-18)/20][(player.getX()/20)+1] != '-' 
+    if((map[(player.getY()+5)/20][(player.getX()/20)+1] == ' ' || map[(player.getY()+5)/20][((player.getX()+10)/20)] == ' ')  && map[(player.getY()-18)/20][(player.getX()/20)+1] != '-' && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'S' 
         && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'H' && map[(player.getY()+5)/20][(player.getX()/20)] != 'H' 
         && map[(player.getY()+5)/20][(player.getX()/20)] != '#' && map[(player.getY()+5)/20][(player.getX()/20)] != '@'){
+            cout<<map[(player.getY()-18)/20][(player.getX()/20)+1];
         player.setFrame(4);
         player.setFall(true);
     }
