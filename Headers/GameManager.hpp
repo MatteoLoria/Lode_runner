@@ -5,7 +5,7 @@
 #include "GraphicManager.hpp"
 #include <list>
 #include <vector>
-#include "Triple.hpp"
+#include "Quadruple.hpp"
 using namespace std;
 class GameManager
 {
@@ -13,7 +13,7 @@ private:
     Player player;
     vector<Enemy> enemies;
     GraphicManager graphic;
-    list<Triple> holes;
+    list<Quadruple> holes;
     char map[16][28]; 
     int points = 0;
     void loadMap(string path);

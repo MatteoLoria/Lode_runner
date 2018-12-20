@@ -55,13 +55,13 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             if(keys[KEY_X] && !player.getFall()){
                 if(player.dig(map,false)){
                     holes.push_back({(player.getY()+5)/20,
-                                     (player.getX()/20)+1,0});
+                                     (player.getX()/20)+1,0,0});
                 }
             }
             if(keys[KEY_Z] && !player.getFall()){
                 if(player.dig(map,true)){
                     holes.push_back({(player.getY()+5)/20,
-                                     (player.getX()/20)-1,0});
+                                     (player.getX()/20)-1,0,0});
                 }
             }
             redraw = true;
@@ -147,31 +147,31 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                   player.setFall(true);
                   player.setFrame(4);
                 }
-          }
-          if(!holes.empty()){
-            for(list<Triple>::iterator i = holes.begin(); i!=holes.end(); i++){
-                i->third += 1.0/15;
-                if(map[i->first][i->second] == '7'){
-                    map[i->first][i->second] = ' ';
-                }else if(map[i->first][i->second]!=' ' && map[i->first][i->second]!='/' && map[i->first][i->second]!='^' && map[i->first][i->second]!='#'){
-                    map[i->first][i->second]++;
-                }
-                if(1.2>i->third && i->third>1.0){
-                    map[i->first][i->second] = '/';
-                }else if(1.5>i->third && i->third>1.2){
-                    map[i->first][i->second] = '^';
-                }else if(i->third > 1.5){
-                    map[i->first][i->second] = '#';
-                    cout<<holes.front();
+            }
+            if(!holes.empty()){
+                for(list<Quadruple>::iterator i = holes.begin(); i!=holes.end(); i++){
+                    i->third += 1.0/15;
+                    if(map[i->first][i->second] == '7' && !i->already){
+                        map[i->first][i->second] = ' ';
+                    }else if(map[i->first][i->second]!=' ' && map[i->first][i->second]!='/' && map[i->first][i->second]!='^' && map[i->first][i->second]!='#' && !i->already){
+                        map[i->first][i->second]++;
+                    }
+                    if(1.2>i->third && i->third>1.0 && !i->already){
+                        map[i->first][i->second] = '/';
+                    }else if(1.5>i->third && i->third>1.2 && !i->already){
+                        map[i->first][i->second] = '^';
+                    }else if(i->third > 1.5 && !i->already){
+                        map[i->first][i->second] = '#';
+                        i->already = true;
+                    }
                 }
             }
-          }
-          graphic.drawMap(map);
-          graphic.drawEntity(&player);
+            graphic.drawMap(map);
+            graphic.drawEntity(&player);
           /*for(auto i : enemies){
               graphic.drawEntity(&i);
           }*/
-          al_flip_display();
+            al_flip_display();
         }
     }
 }
