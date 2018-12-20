@@ -15,6 +15,6 @@ class Player : public Entity
         string getEntity();
         void increaseLives();
         void decreaseLives();
-        void dig(char[16][28],bool);
+        bool dig(char[16][28],bool);
 };
 #endif

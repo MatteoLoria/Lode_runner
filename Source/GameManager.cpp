@@ -52,16 +52,16 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             if(keys[KEY_DOWN]){
                 moveDown();
             }
-            if(keys[KEY_X]){
+            if(keys[KEY_X] && !player.getFall()){
                 if(player.dig(map,false)){
                     holes.push_back({(player.getY()+5)/20,
-                                (player.getX()/20)+1});
+                                     (player.getX()/20)+1,0});
                 }
             }
-            if(keys[KEY_Z]){
+            if(keys[KEY_Z] && !player.getFall()){
                 if(player.dig(map,true)){
                     holes.push_back({(player.getY()+5)/20,
-                                (player.getX()/20)-1});
+                                     (player.getX()/20)-1,0});
                 }
             }
             redraw = true;
@@ -148,14 +148,24 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                   player.setFrame(4);
                 }
           }
-          if(!holes.empty())
-            for(auto i : holes){
-                if(map[i.first][i.second] == '7'){
-                    map[i.first][i.second] = ' ';
-                }else if(map[i.first][i.second]!=' '){
-                    map[i.first][i.second]++;
+          if(!holes.empty()){
+            for(list<Triple>::iterator i = holes.begin(); i!=holes.end(); i++){
+                i->third += 1.0/15;
+                if(map[i->first][i->second] == '7'){
+                    map[i->first][i->second] = ' ';
+                }else if(map[i->first][i->second]!=' ' && map[i->first][i->second]!='/' && map[i->first][i->second]!='^' && map[i->first][i->second]!='#'){
+                    map[i->first][i->second]++;
+                }
+                if(1.2>i->third && i->third>1.0){
+                    map[i->first][i->second] = '/';
+                }else if(1.5>i->third && i->third>1.2){
+                    map[i->first][i->second] = '^';
+                }else if(i->third > 1.5){
+                    map[i->first][i->second] = '#';
+                    cout<<holes.front();
                 }
             }
+          }
           graphic.drawMap(map);
           graphic.drawEntity(&player);
           /*for(auto i : enemies){
@@ -195,7 +205,6 @@ void GameManager::moveRight(){
     if((map[(player.getY()+5)/20][(player.getX()/20)+1] == ' ' || map[(player.getY()+5)/20][((player.getX()+10)/20)] == ' ')  && map[(player.getY()-18)/20][(player.getX()/20)+1] != '-' && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'S' 
         && map[(player.getY()-18)/20][(player.getX()/20)+1] != 'H' && map[(player.getY()+5)/20][(player.getX()/20)] != 'H' 
         && map[(player.getY()+5)/20][(player.getX()/20)] != '#' && map[(player.getY()+5)/20][(player.getX()/20)] != '@'){
-            cout<<map[(player.getY()-18)/20][(player.getX()/20)+1];
         player.setFrame(4);
         player.setFall(true);
     }
