@@ -22,7 +22,7 @@ int main()
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
     GraphicManager Gr(1,scaleW,scaleH,scaleX,scaleY,buffer,display);
-    string sprite[9] = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
+    string sprite[10] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     Player P(14*20,(14*20)+18, sprite);
     GameManager G(P, *(new vector<Enemy>()), Gr);
     G.run(1, display);

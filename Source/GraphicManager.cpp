@@ -18,8 +18,8 @@ void GraphicManager::drawMap(char map[16][28])
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
     ALLEGRO_BITMAP * bitmap = NULL;
-    for(int i = 0; i < 16; ++i)
-        for(int j = 0; j < 28; ++j)
+    for(int i = 0; i < 16; ++i){
+        for(int j = 0; j < 28; ++j){
             switch(map[i][j])
             {
                 case '#'://normal brick
@@ -59,37 +59,37 @@ void GraphicManager::drawMap(char map[16][28])
                     break;
                 case '1':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/0.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '2':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/1.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '3':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/2.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '4':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/3.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '5':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/4.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '6':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/5.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '7':
                     bitmap = al_load_bitmap(("../Assets/Tiles/Level"+ to_string(level) + "/Hole/Destructions/6.png").c_str());
-                    al_draw_bitmap(bitmap, j*20, i*20, 0);
+                    al_draw_bitmap(bitmap, j*20, (i-1)*20, 0);
                     al_destroy_bitmap(bitmap);
                     break;
                 case '/':
@@ -105,9 +105,11 @@ void GraphicManager::drawMap(char map[16][28])
                 default://clean space
                     break;
             }
-            al_set_target_backbuffer(this->display);
-            al_clear_to_color(al_map_rgb(0,0,0));
-            al_draw_scaled_bitmap(buffer,0,0,560,320,scale_x,scale_y,scale_w,scale_h,0);
+        }
+    }
+    al_set_target_backbuffer(this->display);
+    al_clear_to_color(al_map_rgb(0,0,0));
+    al_draw_scaled_bitmap(buffer,0,0,560,320,scale_x,scale_y,scale_w,scale_h,0);
 }
 
 void GraphicManager::drawEntity(Entity * E)
@@ -121,6 +123,10 @@ void GraphicManager::drawEntity(Entity * E)
         al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorX());
     if(E->getFrame() == 5 || E->getFrame() == 6 || E->getFrame() == 7)
         al_draw_bitmap(bitmap, E->getX(), E->getY()-18, E->getMirrorRope());
+    if(E->getFrame() == 8)
+        al_draw_bitmap(bitmap, E->getX(), E->getY()-18,0);
+    if(E->getFrame() == 9)
+        al_draw_bitmap(bitmap, E->getX(), E->getY()-18,0); 
     al_destroy_bitmap(bitmap);
     al_set_target_backbuffer(this->display);
     al_draw_scaled_bitmap(buffer,0,0,560,320,scale_x,scale_y,scale_w,scale_h,0);
