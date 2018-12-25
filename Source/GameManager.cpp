@@ -20,6 +20,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     bool redraw=false;
     bool lastIsLeft = false;
     bool lastIsDown = false;
+    double delay = 0.0;
     ALLEGRO_EVENT_QUEUE * queue = al_create_event_queue();
     ALLEGRO_TIMER * timer = al_create_timer(1.0/15);
     al_install_keyboard();
@@ -40,6 +41,12 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         al_wait_for_event(queue,&event);
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
+            delay += (double) 1.0/15;
+            if(delay >= (1.0/15)*2 ){
+                for(auto & i: enemies)
+                    i.update(map,holes,player);
+                delay = 0;
+            }
             if(keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall()){
                 player.moveRight(map);
             }
@@ -170,9 +177,9 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
             }
             graphic.drawMap(map);
             graphic.drawEntity(&player);
-          /*for(auto i : enemies){
+            for(auto i : enemies){
               graphic.drawEntity(&i);
-          }*/
+            }
             al_flip_display();
         }
     }

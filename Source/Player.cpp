@@ -21,7 +21,6 @@ Player::~Player()
 bool Player::dig(char map[16][28], bool sx){
     if(!sx && (map[this->getY()/20][(this->getX()+39)/20] != '$' && map[this->getY()/20][(this->getX()+39)/201] != 'H' && map[this->getY()/20][(this->getX()+39)/20] != '0')){
         if(map[(this->getY()+5)/20][(this->getX()+39)/20] == '#'){
-            cout<<"true";
             map[(this->getY()+5)/20][(this->getX()+39)/20] = '1';
             return true;
         }

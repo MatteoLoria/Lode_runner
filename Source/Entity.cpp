@@ -1,5 +1,6 @@
 #include "../Headers/Entity.hpp"
-
+#include <iostream>
+using namespace std;
 Entity::Entity() {}
 Entity::Entity(int x, int y):init_x(x),init_y(y),x(x),y(y){}
 int Entity::getFrame(){return frame;}
@@ -140,6 +141,7 @@ void Entity::moveUp(char map[16][28], bool lastIsLeft){
 
 void Entity::moveDown(char map[16][28]){
     if(map[(getY()/20)+1][(getX()+10)/20] == 'H' || map[(getY()/20)][(getX()+10)/20] == 'H'){//moving from right and stair is at left
+        cout<<this->getEntity();
         setX(((getX()+10)/20)*20);
         if(map[((getY()+5)/20)][((getX())/20)] != '#'){
             setY(getY()+5);
@@ -151,6 +153,7 @@ void Entity::moveDown(char map[16][28]){
         }
     }
     if(map[(getY()/20)+1][getX()/20] == ' ' && map[(getY()/20)+1][getX()/20] != 'H' && map[(getY()/20)+1][getX()/20] != '#' && map[(getY()/20)+1][(getX()+18)/20] != '#' ){
+        cout<<this->getEntity();
         setFrame(4);
         setFall(true);
     }
