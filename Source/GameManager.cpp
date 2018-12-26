@@ -41,7 +41,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
         al_wait_for_event(queue,&event);
         if(event.type == ALLEGRO_EVENT_TIMER){
             //TODO: nemici (bellamerda)
-            delay += (double) 1.0/15;
+            delay += (double) 1.0/10;
             if(delay >= (1.0/15)*2 ){
                 for(auto & i: enemies)
                     i.update(map,holes,player);
