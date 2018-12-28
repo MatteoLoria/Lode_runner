@@ -53,8 +53,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p)
             this->setFall(true);
             this->setFrame(4);
         }
-    }
-    if (this->isInHole(holes) && isRedHat())
+    }else if (this->isInHole(holes) && isRedHat())
     {
         map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
         this->setRedHat(false);
@@ -67,12 +66,16 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p)
             {
                 if (map[this->getY() / 20][this->getX() / 20] != 'H' || map[(this->getY() / 20) + 1][this->getX() / 20] == '#' || map[this->getY() / 20][this->getX() / 20] == '-' || map[(this->getY() / 20) + 1][this->getX() / 20] == '-')
                 {
-                    if (this->getX() < p.getX())
+                    if (this->getX() < p.getX() && !cantGoRight)
                     {
                         moveRight(map);
+                        if (map[this->getY() / 20][(this->getX() / 20)+1] == '#')
+                            cantGoRight = true;
                     }
-                    else
+                    else if (this->getX() > p.getX() && !cantGoLeft)
                     {
+                        if (map[this->getY() / 20][(this->getX() / 20) - 1] == '#')
+                            cantGoLeft = true;
                         moveLeft(map);
                     }
                 }
@@ -80,7 +83,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p)
         }
         else if (this->getY() < p.getY())
         {
-            if (map[this->getY() / 20][this->getX() / 20] == 'H' || map[(this->getY() / 20) + 1][this->getX() / 20] == 'H' || map[this->getY() / 20][this->getX() / 20] == '-' || map[(getY() / 20) + 1][getX() / 20] == ' ')
+            if (map[this->getY() / 20][(this->getX()-18) / 20] == 'H' || map[(this->getY() / 20) + 1][this->getX() / 20] == 'H' || map[this->getY() / 20][this->getX() / 20] == '-' || map[(getY() / 20) + 1][getX() / 20] == ' ')
             {
                 moveDown(map);
             }
@@ -91,7 +94,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p)
         }
         else if (this->getY() > p.getY())
         {
-            if (map[this->getY() / 20][this->getX() / 20] == 'H' || map[(this->getY() / 20) + 1][this->getX() / 20] == 'H' || map[this->getY() / 20][this->getX() / 20] == '-' || map[(getY() / 20) + 1][getX() / 20] == ' ')
+            if (map[this->getY() / 20][(this->getX()+18) / 20] == 'H' || map[(this->getY() / 20) + 1][this->getX() / 20] == 'H' || map[this->getY() / 20][this->getX() / 20] == '-' || map[(getY() / 20) + 1][getX() / 20] == ' ')
             {
                 moveUp(map, this->getMirrorX());
             }

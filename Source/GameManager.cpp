@@ -141,20 +141,23 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     break;
             }
         }
-        if(redraw && al_is_event_queue_empty(queue)){
+        if (redraw && al_is_event_queue_empty(queue))
+        {
             redraw = false;
-            if(player.getFall()){
-                player.setY(player.getY()+5);
-                if(map[((player.getY()+5)/20)][(player.getX()/20)] == '#' || map[((player.getY()+5)/20)][(player.getX()/20)] == 'H' 
-                    || map[((player.getY()+5)/20)][(player.getX()/20)] == '@')
+            if (player.getFall())
+            {
+                player.setY(player.getY() + 5);
+                if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
                     player.setFall(false);
-                if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-' && map[((player.getY())/20)][(player.getX()/20)] == '-'){
+                if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && map[((player.getY()) / 20)][(player.getX() / 20)] == '-')
+                {
                     player.setFall(false);
                     player.setFrame(5);
                 }
-                if(map[((player.getY()-18)/20)][(player.getX()/20)] == '-' && lastIsDown && map[((player.getY()+5)/20)][(player.getX()/20)] != '#'){
-                  player.setFall(true);
-                  player.setFrame(4);
+                if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && lastIsDown && map[((player.getY() + 5) / 20)][(player.getX() / 20)] != '#')
+                {
+                    player.setFall(true);
+                    player.setFrame(4);
                 }
             }
             if(!holes.empty()){

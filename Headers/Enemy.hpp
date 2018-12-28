@@ -10,6 +10,8 @@ class Enemy : public Entity
     private:
         ALLEGRO_BITMAP * sprite[12];
         bool hat = false;
+        bool cantGoRight= false;
+        bool cantGoLeft= false;
         void releaseGold(char[16][28]);
         bool isInHole(list<Quadruple>);
         void die();
