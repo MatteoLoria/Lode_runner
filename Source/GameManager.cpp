@@ -34,19 +34,14 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
     }else{
         this->loadMap("../Assets/Maps/level3.txt");
     }
+    pathFinder.setWorldSize({16,28});
+    pathFinder.setDiagonalMovement(false);
     al_start_timer(timer);
     bool close = false;
     while(!close){
         ALLEGRO_EVENT event;
         al_wait_for_event(queue,&event);
         if(event.type == ALLEGRO_EVENT_TIMER){
-            //TODO: nemici (bellamerda)
-            delay += (double) 1.0/10;
-            if(delay >= (1.0/15)*2 ){
-                for(auto & i: enemies)
-                    i.update(map,holes,player);
-                delay = 0;
-            }
             if(keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall()){
                 player.moveRight(map);
             }
@@ -72,6 +67,18 @@ void GameManager::run(int level, ALLEGRO_DISPLAY * display){
                     holes.push_back({(player.getY()+5)/20,
                                      (player.getX()/20)-1,0,0});
                 }
+            }
+            delay += (double)1.0 / 10;
+            if (delay >= (1.0 / 15) * 2)
+            {
+                for (auto &i : enemies)
+                {
+                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, player.getX() / 20});
+                    int y = path[path.size()-2].y;
+                    int x = path[path.size()-2].x;
+                    i.update(map, holes, player, x, y);
+                }
+                delay = 0;
             }
             redraw = true;
         }
@@ -196,6 +203,17 @@ void GameManager::loadMap(string path){
                 char c = input.get();
                 if(c != '\0'){
                     map[i][j] = c;
+                }
+                switch (c)
+                {
+                    case '#':
+                    case '@':
+                    case '_':
+                    case 'X':
+                        pathFinder.addCollision({i,j});
+                        break;
+                    default:
+                        break;
                 }
             }
         }

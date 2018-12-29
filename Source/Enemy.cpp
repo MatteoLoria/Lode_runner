@@ -35,8 +35,9 @@ bool Enemy::isInHole(list<Quadruple> holes)
         if (this->getY() == i.first && this->getX() == i.second)
             return true;
     }
+    return false;
 }
-void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p)
+void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int& nextY, int& nextX)
 {
     if (this->getFall())
     {
@@ -60,48 +61,13 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p)
     }
     else
     {
-        if (this->getY() == p.getY())
-        {
-            if (this->getX() != p.getX())
-            {
-                if (map[this->getY() / 20][this->getX() / 20] != 'H' || map[(this->getY() / 20) + 1][this->getX() / 20] == '#' || map[this->getY() / 20][this->getX() / 20] == '-' || map[(this->getY() / 20) + 1][this->getX() / 20] == '-')
-                {
-                    if (this->getX() < p.getX() && !cantGoRight)
-                    {
-                        moveRight(map);
-                        if (map[this->getY() / 20][(this->getX() / 20)+1] == '#')
-                            cantGoRight = true;
-                    }
-                    else if (this->getX() > p.getX() && !cantGoLeft)
-                    {
-                        if (map[this->getY() / 20][(this->getX() / 20) - 1] == '#')
-                            cantGoLeft = true;
-                        moveLeft(map);
-                    }
-                }
-            }
-        }
-        else if (this->getY() < p.getY())
-        {
-            if (map[this->getY() / 20][(this->getX()-18) / 20] == 'H' || map[(this->getY() / 20) + 1][this->getX() / 20] == 'H' || map[this->getY() / 20][this->getX() / 20] == '-' || map[(getY() / 20) + 1][getX() / 20] == ' ')
-            {
-                moveDown(map);
-            }
-            else
-            {
-                moveRight(map);
-            }
-        }
-        else if (this->getY() > p.getY())
-        {
-            if (map[this->getY() / 20][(this->getX()+18) / 20] == 'H' || map[(this->getY() / 20) + 1][this->getX() / 20] == 'H' || map[this->getY() / 20][this->getX() / 20] == '-' || map[(getY() / 20) + 1][getX() / 20] == ' ')
-            {
-                moveUp(map, this->getMirrorX());
-            }
-            else
-            {
-                moveLeft(map);
-            }
-        }
+        if(getX()/20<=nextX)
+            moveRight(map);
+        else if(getX()/20>nextX)
+            moveLeft(map);
+        else if(getY()/20<=nextY)
+            moveDown(map);
+        else if(getY()/20>nextY)
+            moveUp(map,getMirrorX());
     }
 }

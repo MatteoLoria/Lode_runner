@@ -22,6 +22,6 @@ class Enemy : public Entity
         Enemy(int, int, string[12]);
         ~Enemy();
         string getEntity();
-        void update(char[16][28], list<Quadruple>, Player &p);
+        void update(char[16][28], list<Quadruple>, Player &, int&, int&);
 };
 #endif

@@ -4,7 +4,6 @@
 #include <allegro5/allegro_ttf.h>
 #include "Player.hpp"
 #include "Enemy.hpp"
-
 #ifndef GRAPHICMANAGER_H
 #define GRAPHICMANAGER_H
 class GraphicManager
