@@ -37,7 +37,7 @@ bool Enemy::isInHole(list<Quadruple> holes)
     }
     return false;
 }
-void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int& nextY, int& nextX)
+void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &nextY, int &nextX)
 {
     if (this->getFall())
     {
@@ -54,20 +54,14 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int& next
             this->setFall(true);
             this->setFrame(4);
         }
-    }else if (this->isInHole(holes) && isRedHat())
+    }
+    else if (this->isInHole(holes) && isRedHat())
     {
         map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
         this->setRedHat(false);
     }
     else
     {
-        if(getX()/20<=nextX)
-            moveRight(map);
-        else if(getX()/20>nextX)
-            moveLeft(map);
-        else if(getY()/20<=nextY)
-            moveDown(map);
-        else if(getY()/20>nextY)
-            moveUp(map,getMirrorX());
+        //riscrivi
     }
 }

@@ -7,21 +7,25 @@ using namespace std;
 #define ENEMY_H
 class Enemy : public Entity
 {
-    private:
-        ALLEGRO_BITMAP * sprite[12];
-        bool hat = false;
-        bool cantGoRight= false;
-        bool cantGoLeft= false;
-        void releaseGold(char[16][28]);
-        bool isInHole(list<Quadruple>);
-        void die();
-        void setRedHat(bool hat);
-        bool isRedHat();
-    public:
-        Enemy();
-        Enemy(int, int, string[12]);
-        ~Enemy();
-        string getEntity();
-        void update(char[16][28], list<Quadruple>, Player &, int&, int&);
+  private:
+    ALLEGRO_BITMAP *sprite[12];
+    int prevX = 0;
+    int prevY = 0;
+    bool hat = false;
+    bool GoinRight = false;
+    bool GoinLeft = false;
+    bool ignore = false;
+    void releaseGold(char[16][28]);
+    bool isInHole(list<Quadruple>);
+    void die();
+    void setRedHat(bool hat);
+    bool isRedHat();
+
+  public:
+    Enemy();
+    Enemy(int, int, string[12]);
+    ~Enemy();
+    string getEntity();
+    void update(char[16][28], list<Quadruple>, Player &, int &, int &);
 };
 #endif
