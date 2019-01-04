@@ -21,6 +21,7 @@ private:
     int points = 0;
     void loadMap(string path);
     bool keys[6] = {false,false,false,false,false,false};
+    bool avaibleSpot(int x, int y);
 public:
     GameManager();
     GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic);

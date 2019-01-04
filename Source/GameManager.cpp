@@ -10,7 +10,7 @@ enum MYKEYS
     KEY_X,
     KEY_Z
 };
-ALLEGRO_DISPLAY * d;
+ALLEGRO_DISPLAY *d;
 GameManager::GameManager() {}
 
 GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic)
@@ -27,7 +27,7 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
 void GameManager::run(int level, ALLEGRO_DISPLAY *display)
 {
     bool redraw = false;
-    d=display;
+    d = display;
     bool lastIsLeft = false;
     bool lastIsDown = false;
     double delay = 0.0;
@@ -122,7 +122,8 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     //end debug*/
                     int x = path.back().x;
                     int y = path.back().y;
-                    i.update(map, holes, player, x, y);
+                    if (avaibleSpot(x, y))
+                        i.update(map, holes, player, x, y);
                 }
                 delay = 0;
             }
@@ -257,6 +258,16 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
     }
 }
 
+bool GameManager::avaibleSpot(int x, int y)
+{
+    for (auto i : enemies)
+    {
+        if (y == i.getX() / 20 && x == i.getY() / 20)
+            return false;
+    }
+    return true;
+}
+
 void GameManager::loadMap(string path)
 {
     ifstream input(path);
@@ -285,10 +296,10 @@ void GameManager::loadMap(string path)
                 }
             }
         }
-        for(int i = 0; i < 16; i++)
-            for(int j = 0; j < 28; j++)
-                if(map[i][j] == ' ' && map[i+1][j] != '#' && map[i+1][j] != 'H' && map[i+1][j] != '@')
-                    pathFinder.addCollision({i,j});
+        for (int i = 0; i < 16; i++)
+            for (int j = 0; j < 28; j++)
+                if (map[i][j] == ' ' && map[i + 1][j] != '#' && map[i + 1][j] != 'H' && map[i + 1][j] != '@')
+                    pathFinder.addCollision({i, j});
     }
     else
     {
