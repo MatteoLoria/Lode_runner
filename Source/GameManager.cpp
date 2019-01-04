@@ -284,7 +284,10 @@ void GameManager::loadMap(string path)
                 }
             }
         }
-        al_rest(10);
+        /*for(int i = 0; i < 16; i++)
+            for(int j = 0; j < 28; j++)
+                if(map[i][j] == ' ' && map[i+1][j] != '#' && map[i+1][j] != 'H' && map[i+1][j] != '@')
+                    pathFinder.addCollision({i,j});*/
     }
     else
     {
