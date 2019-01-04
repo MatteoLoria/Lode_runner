@@ -101,7 +101,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, player.getX() / 20});
                     if (path.size() > 1)
                         path.pop_back();
-                    //debug
+                    /*//debug
                     for (auto j : path)
                     {
                         ALLEGRO_BITMAP *b = al_create_bitmap(20, 20);
@@ -116,9 +116,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                             al_clear_to_color(al_map_rgb(0, 0, 255));
                         al_set_target_bitmap(al_get_backbuffer(display));
                         al_draw_bitmap(b, j.y * 20, j.x * 20, 0);
+                        al_destroy_bitmap(b);
                         al_flip_display();
                     }
-                    //end debug
+                    //end debug*/
                     int x = path.back().x;
                     int y = path.back().y;
                     i.update(map, holes, player, x, y);
@@ -270,7 +271,7 @@ void GameManager::loadMap(string path)
                 {
                     map[i][j] = c;
                 }
-                ALLEGRO_BITMAP * f = al_create_bitmap(20,20);
+                //ALLEGRO_BITMAP * f = al_create_bitmap(20,20);
                 switch (c)
                 {
                 case '#':
@@ -284,10 +285,10 @@ void GameManager::loadMap(string path)
                 }
             }
         }
-        /*for(int i = 0; i < 16; i++)
+        for(int i = 0; i < 16; i++)
             for(int j = 0; j < 28; j++)
                 if(map[i][j] == ' ' && map[i+1][j] != '#' && map[i+1][j] != 'H' && map[i+1][j] != '@')
-                    pathFinder.addCollision({i,j});*/
+                    pathFinder.addCollision({i,j});
     }
     else
     {

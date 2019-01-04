@@ -62,13 +62,18 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
     }
     else
     {
-        if((this->getX()/20) < nextX)
+        bool check = false;
+        if(this->getX()/20 < nextX){
             this->moveRight(map);
-        if((this->getX()/20) > nextX)
+            check = false;
+        }
+        if((this->getX()+18)/20 > nextX){
             this->moveLeft(map);
-        if((this->getY()/20) < nextY)
+            check = true;
+        }
+        if(this->getY() < (nextY*20)+18)
             this->moveDown(map);
-        if((this->getY()/20) > nextY)
-            this->moveUp(map, this->getMirrorX());
+        if(this->getY()/20 > nextY)
+            this->moveUp(map, check);
     }
 }

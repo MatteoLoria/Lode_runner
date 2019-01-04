@@ -29,7 +29,7 @@ int main()
     Enemy e2(10 * 20, (12 * 20) + 18, Esprite);
     vector<Enemy> enemies;
     enemies.push_back(e1);
-    //enemies.push_back(e2);
+    enemies.push_back(e2);
     GameManager G(P, enemies, Gr);
     G.run(1, display);
     al_destroy_display(display);

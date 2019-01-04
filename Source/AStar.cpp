@@ -97,23 +97,19 @@ AStar::CoordinateList AStar::Generator::findPath(Vec2i source_, Vec2i target_)
 
         for (uint i = 0; i < directions; ++i) {
             Vec2i newCoordinates(current->coordinates + direction[i]);
-            if (detectCollision(newCoordinates) ||
-                findNodeOnList(closedSet, newCoordinates)) {
-                continue;
-            }
-
-            uint totalCost = current->G + ((i < 4) ? 10 : 14);
-
-            Node *successor = findNodeOnList(openSet, newCoordinates);
-            if (successor == nullptr) {
-                successor = new Node(newCoordinates, current);
-                successor->G = totalCost;
-                successor->H = heuristic(successor->coordinates, target_);
-                openSet.push_back(successor);
-            }
-            else if (totalCost < successor->G) {
+            if (!detectCollision(newCoordinates) && !findNodeOnList(closedSet, newCoordinates)) {
+                uint totalCost = current->G + ((i < 4) ? 10 : 14);
+                Node *successor = findNodeOnList(openSet, newCoordinates);
+                if (successor == nullptr) {
+                    successor = new Node(newCoordinates, current);
+                    successor->G = totalCost;
+                    successor->H = heuristic(successor->coordinates, target_);
+                    openSet.push_back(successor);
+                }
+                else if (totalCost < successor->G) {
                 successor->parent = current;
                 successor->G = totalCost;
+                }
             }
         }
     }
