@@ -119,18 +119,14 @@ void GraphicManager::drawEntity(Entity *E)
 {
     al_set_target_bitmap(buffer);
     ALLEGRO_BITMAP *bitmap = al_load_bitmap(("../Assets/Characters/" + E->getEntity() + "/" + to_string(E->getFrame()) + ".png").c_str());
-    if (E->getFrame() == 0 || E->getFrame() == 1 || E->getFrame() == 2)
+    if (E->getFrame() == 0 || E->getFrame() == 1 || E->getFrame() == 2 || E->getFrame() == 8 || E->getFrame() == 9 || E->getFrame() == 10)
         al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, E->getMirrorX()); // X e Y are always in pixel
     if (E->getFrame() == 3)
         al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, E->getMirrorY());
-    if (E->getFrame() == 4)
+    if (E->getFrame() == 4 || E->getFrame() == 11)
         al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, E->getMirrorX());
     if (E->getFrame() == 5 || E->getFrame() == 6 || E->getFrame() == 7)
         al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, E->getMirrorRope());
-    if (E->getFrame() == 8)
-        al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, 0);
-    if (E->getFrame() == 9)
-        al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, 0);
     al_destroy_bitmap(bitmap);
     al_set_target_backbuffer(this->display);
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);

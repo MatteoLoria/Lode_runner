@@ -43,3 +43,4 @@ string Player::getEntity() { return "Player"; }
 int Player::getLives() { return lives; }
 void Player::decreaseLives() { lives--; }
 void Player::increaseLives() { lives++; }
+void Player::increasePoints() { points++; }

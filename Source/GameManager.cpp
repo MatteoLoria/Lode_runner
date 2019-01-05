@@ -61,19 +61,19 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         {
             if (keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall())
             {
-                player.moveRight(map);
+                player.moveRight(map,false);
             }
             if (keys[KEY_LEFT] && player.getX() > 0 && !player.getFall())
             {
-                player.moveLeft(map);
+                player.moveLeft(map,false);
             }
             if (keys[KEY_UP] && !player.getFall())
             {
-                player.moveUp(map, lastIsLeft);
+                player.moveUp(map, lastIsLeft,false);
             }
             if (keys[KEY_DOWN])
             {
-                player.moveDown(map);
+                player.moveDown(map,false);
             }
             if (keys[KEY_X] && !player.getFall())
             {
@@ -93,12 +93,16 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                                      (player.getX() / 20) - 1, 0, 0});
                 }
             }
+            if(map[player.getY()/20][player.getX()/20] == '$'){
+                player.increasePoints();
+                map[player.getY() / 20][player.getX() / 20] = ' ';
+            }
             delay += (double)1.0 / 10;
             if (delay >= (1.0 / 15) * 2)
             {
                 for (auto &i : enemies)
                 {
-                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, player.getX() / 20});
+                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX()+10) / 20});
                     if (path.size() > 1)
                         path.pop_back();
                     /*//debug

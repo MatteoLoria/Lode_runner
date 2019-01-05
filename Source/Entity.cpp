@@ -20,7 +20,7 @@ void Entity::setX(int x) { this->x = x; }
 void Entity::setY(int y) { this->y = y; }
 void Entity::setFrame(int frame) { this->frame = frame; }
 
-void Entity::moveRight(char map[16][28])
+void Entity::moveRight(char map[16][28], bool red)
 {
     if ((map[(getY() - 18) / 20][(getX() / 20) + 1] != '#' && map[getY() / 20][(getX() / 20) + 1] != '#') //controllo blocchi
         && (map[(getY() - 18) / 20][(getX() / 20) + 1] != '@' && map[getY() / 20][(getX() / 20) + 1] != '@'))
@@ -32,12 +32,20 @@ void Entity::moveRight(char map[16][28])
             else
                 setFrame((getFrame() % 3) + 5);
         else if (getMirrorX())
-            setFrame(0);
+        {
+            red ? setFrame(8) : setFrame(0);
+        }
         else
-            setFrame((getFrame() + 1) % 3);
+        {
+            red ? setFrame(((getFrame() + 1) % 11)) : setFrame((getFrame() + 1) % 3);
+            if (red && getFrame() < 8)
+            {
+                frame += 8;
+            }
+        }
         if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' && map[((getY() - 5) / 20)][(getX() / 20)] == ' ') //troppo lontano dalla corda. Cadi
         {
-            setFrame(4);
+            red ? setFrame(11) : setFrame(4);
             setFall(true);
         }
         if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' && map[((getY() - 5) / 20)][(getX() / 20)] == '-') //sei vicino alla corda. Aggrappati
@@ -47,17 +55,17 @@ void Entity::moveRight(char map[16][28])
     }
     if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == ' ' || map[(getY() + 5) / 20][((getX() + 10) / 20)] == ' ') && map[(getY() - 18) / 20][(getX() / 20) + 1] != '-' && map[(getY() - 18) / 20][(getX() / 20) + 1] != 'S' && map[(getY() - 18) / 20][(getX() / 20)] != '-' && map[(getY() + 5) / 20][(getX() / 20)] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@')
     {
-        setFrame(4);
+        red ? setFrame(11) : setFrame(4);
         setFall(true);
     }
     if ((map[(getY() + 5) / 20][getX() / 20] == '-' || map[(getY() + 10) / 20][getX() / 20] == '-' || map[(getY() + 15) / 20][getX() / 20] == '-') && map[getY() / 20][getX() / 20] != 'H')
     {
-        setFrame(4);
+        red ? setFrame(11) : setFrame(4);
         setFall(true);
     }
 }
 
-void Entity::moveLeft(char map[16][28])
+void Entity::moveLeft(char map[16][28], bool red)
 {
     if (map[(getY() - 18) / 20][(getX() - 1) / 20] != '#' && map[getY() / 20][(getX() - 1) / 20] != '#')
     { //controllo blocchi
@@ -68,12 +76,19 @@ void Entity::moveLeft(char map[16][28])
             else
                 setFrame(5);
         else if (getMirrorX())
-            setFrame((getFrame() + 1) % 3);
+        {
+            red ? setFrame(((getFrame() + 1) % 11)) : setFrame((getFrame() + 1) % 3);
+            if (red && getFrame() < 8)
+            {
+                frame = frame%3;
+                frame += 8;
+            }
+        }
         else
-            setFrame(0);
+            red ? setFrame(8) : setFrame(0);
         if (map[(getY() - 18) / 20][(getX() / 20)] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' && map[((getY() - 5) / 20)][(getX() / 20)] == ' ' && map[getY() / 20][getX() / 20] != 'H')
         {
-            setFrame(4);
+            red ? setFrame(11) : setFrame(4);
             setFall(true);
         }
         if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' && map[((getY() - 5) / 20)][(getX() / 20)] == '-')
@@ -83,17 +98,17 @@ void Entity::moveLeft(char map[16][28])
     }
     if (map[(getY() + 5) / 20][(getX() + 18) / 20] == ' ' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '-' && map[(getY() - 18) / 20][(getX()) / 20] != '-' && map[(getY()) / 20][(getX() / 20)] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@')
     {
-        setFrame(4);
+        red ? setFrame(11) : setFrame(4);
         setFall(true);
     }
     if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == '-' || map[(getY() + 10) / 20][(getX() / 20) + 1] == '-' || map[(getY() + 15) / 20][(getX() / 20) + 1] == '-') && map[getY() / 20][getX() / 20] != 'H')
     {
-        setFrame(4);
+        red ? setFrame(11) : setFrame(4);
         setFall(true);
     }
 }
 
-void Entity::moveUp(char map[16][28], bool lastIsLeft)
+void Entity::moveUp(char map[16][28], bool lastIsLeft, bool red)
 {
     if (lastIsLeft)
     {
@@ -143,7 +158,7 @@ void Entity::moveUp(char map[16][28], bool lastIsLeft)
     }
 }
 
-void Entity::moveDown(char map[16][28])
+void Entity::moveDown(char map[16][28], bool red)
 {
     if (map[(getY() / 20) + 1][(getX() + 10) / 20] == 'H' || map[(getY() / 20)][(getX() + 10) / 20] == 'H')
     { //moving from right and stair is at left

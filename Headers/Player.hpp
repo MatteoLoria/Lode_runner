@@ -7,6 +7,7 @@ class Player : public Entity
     private:
         ALLEGRO_BITMAP * sprite[10];
         int lives=3;
+        int points=0;
     public:
         Player();
         Player(int, int, string[10]);
@@ -15,6 +16,7 @@ class Player : public Entity
         string getEntity();
         void increaseLives();
         void decreaseLives();
-        bool dig(char[16][28],bool);
+        void increasePoints();
+        bool dig(char[16][28], bool);
 };
 #endif
