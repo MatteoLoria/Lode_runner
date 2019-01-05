@@ -236,15 +236,15 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     {
                         map[i->first][i->second]++;
                     }
-                    if (3.0 > i->third && i->third > 2.8 && !i->already)
+                    if (7.0 > i->third && i->third > 6.8 && !i->already)
                     {
                         map[i->first][i->second] = '/';
                     }
-                    else if (3.2 > i->third && i->third > 3.0 && !i->already)
+                    else if (7.2 > i->third && i->third > 7.0 && !i->already)
                     {
                         map[i->first][i->second] = '^';
                     }
-                    else if (i->third > 3.2 && !i->already)
+                    else if (i->third > 7.2 && !i->already)
                     {
                         map[i->first][i->second] = '#';
                         i->already = true;

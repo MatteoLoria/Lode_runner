@@ -11,6 +11,7 @@ class Enemy : public Entity
     ALLEGRO_BITMAP *sprite[12];
     int prevX = 0;
     int prevY = 0;
+    double fallen = 0;
     bool hat = false;
     bool GoinRight = false;
     bool GoinLeft = false;
