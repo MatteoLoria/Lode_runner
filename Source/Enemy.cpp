@@ -28,28 +28,58 @@ Enemy::~Enemy()
     for (int i = 0; i < 12; ++i)
         al_destroy_bitmap(sprite[i]);
 }
-bool Enemy::isInHole(list<Quadruple> holes)
+bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
 {
     for (auto i : holes)
     {
-        if ((this->getY()-18)/20 == i.first && this->getX()/20 == i.second)
-            return true;
+        if (head)
+        {
+            if ((this->getY() - 18) / 20 == i.first && this->getX() / 20 == i.second)
+            {
+                if (map[i.first][i.second] == '#')
+                {
+                    this->die();
+                    return true;
+                }
+                if (this->fallen < 0.1 && i.third < 6.8)
+                {
+                    map[getY() / 20][getX() / 20] = '}';
+                }
+                return true;
+            }
+        }
+        else
+        {
+            if ((this->getY()) / 20 == i.first && this->getX() / 20 == i.second)
+            {
+                if (map[i.first][i.second] == '#')
+                {
+                    this->die();
+                    return true;
+                }
+                if (this->fallen < 0.1 && i.third < 6.8)
+                {
+                    map[getY() / 20][getX() / 20] = '}';
+                }
+                return true;
+            }
+        }
     }
     return false;
 }
 void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &nextY, int &nextX)
 {
-    if (this->isInHole(holes) && isRedHat())
+    if (this->isInHole(holes, map, true) && isRedHat())
     {
         map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
         this->setRedHat(false);
         this->setFrame(4);
     }
-    else if (this->getFall() && !this->isInHole(holes))
+    else if (this->getFall() && !this->isInHole(holes, map, true))
     {
         this->setY(this->getY() + 5);
-        if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' 
-            || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '@'){
+        if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '@')
+        {
             this->setFall(false);
             /*if(this->isRedHat()){ non si sa mai
                 setRedHat(false);
@@ -64,7 +94,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
             this->setFall(false);
             this->setFrame(5);
         }
-        
+
         if (map[((this->getY() - 18) / 20)][(this->getX() / 20)] == '-' && map[((this->getY() + 5) / 20)][(this->getX() / 20)] != '#')
         {
             this->setFall(true);
@@ -77,7 +107,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
         if (this->getX() / 20 < nextX)
         {
             this->moveRight(map, isRedHat());
-            
+
             check = false;
         }
         if ((this->getX() + 18) / 20 > nextX)
@@ -90,17 +120,32 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
         if (this->getY() / 20 > nextY)
             this->moveUp(map, check, isRedHat());
     }
-    if(this->isInHole(holes)){
-        fallen+=0.1;
-        cout << fallen;
-        if(0.5 < fallen){
+    //cout << this->isInHole(holes, map);
+    if (this->isInHole(holes, map, false))
+    {
+        fallen += 0.1;
+        if (0.8 < fallen && fallen <= 0.9)
+        {
+            this->setFrame(3);
+            this->setY(this->getY() - 2);
+            this->setFall(false);
+        }
+        if (0.9 <= fallen && fallen <= 1.2)
+        {
+            this->setY(this->getY() - 2);
+            setMirrorY(true);
+        }
+        if (1.2 < fallen)
+        {
             fallen = 0;
-            this->setY(this->getY()-20);
+            this->setY(this->getY() - 12);
             this->setFall(false);
         }
     }
-    if(map[getY()/20][(getX())/20] == '$'){
-        if(!isRedHat()){
+    if (map[getY() / 20][(getX()) / 20] == '$')
+    {
+        if (!isRedHat())
+        {
             setRedHat(true);
             map[getY() / 20][getX() / 20] = ' ';
         }

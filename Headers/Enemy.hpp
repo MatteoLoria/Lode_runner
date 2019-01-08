@@ -17,7 +17,7 @@ class Enemy : public Entity
     bool GoinLeft = false;
     bool ignore = false;
     void releaseGold(char[16][28]);
-    bool isInHole(list<Quadruple>);
+    bool isInHole(list<Quadruple>, char[][28], bool);
     void die();
     void setRedHat(bool hat);
     bool isRedHat();

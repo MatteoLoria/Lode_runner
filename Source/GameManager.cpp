@@ -75,7 +75,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 player.moveDown(map,false);
             }
-            if (keys[KEY_X] && !player.getFall())
+            if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4)
             {
                 if (player.dig(map, false))
                 {
@@ -84,7 +84,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                                      (player.getX() + 39) / 20, 0, 0});
                 }
             }
-            if (keys[KEY_Z] && !player.getFall())
+            if (keys[KEY_Z] && !player.getFall() && player.getFrame()!=4)
             {
                 if (player.dig(map, true))
                 {
