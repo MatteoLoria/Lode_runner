@@ -129,6 +129,12 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     int y = path.back().y;
                     if (avaibleSpot(x, y))
                         i.update(map, holes, player, x, y);
+                    if (i.getX() == player.getX() && i.getY() == player.getY())
+                    {
+                        player.decreaseLives();
+                        player.setX(player.getInitX());
+                        player.setY(player.getInitY());
+                    }
                 }
                 delay = 0;
             }
