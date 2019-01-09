@@ -61,19 +61,19 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         {
             if (keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall())
             {
-                player.moveRight(map,false);
+                player.moveRight(map, false);
             }
             if (keys[KEY_LEFT] && player.getX() > 0 && !player.getFall())
             {
-                player.moveLeft(map,false);
+                player.moveLeft(map, false);
             }
             if (keys[KEY_UP] && !player.getFall())
             {
-                player.moveUp(map, lastIsLeft,false);
+                player.moveUp(map, lastIsLeft, false);
             }
             if (keys[KEY_DOWN])
             {
-                player.moveDown(map,false);
+                player.moveDown(map, false);
             }
             if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4)
             {
@@ -84,7 +84,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                                      (player.getX() + 39) / 20, 0, 0});
                 }
             }
-            if (keys[KEY_Z] && !player.getFall() && player.getFrame()!=4)
+            if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4)
             {
                 if (player.dig(map, true))
                 {
@@ -93,7 +93,8 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                                      (player.getX() / 20) - 1, 0, 0});
                 }
             }
-            if(map[player.getY()/20][player.getX()/20] == '$'){
+            if (map[player.getY() / 20][player.getX() / 20] == '$')
+            {
                 player.increasePoints();
                 map[player.getY() / 20][player.getX() / 20] = ' ';
             }
@@ -102,7 +103,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 for (auto &i : enemies)
                 {
-                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX()+10) / 20});
+                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
                     if (path.size() > 1)
                         path.pop_back();
                     /*//debug
@@ -250,6 +251,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                         i->already = true;
                     }
                 }
+            }
+            if (player.getPoints() == 6)
+            {
+                graphic.drawFinalLadder(map);
             }
             graphic.drawMap(map);
             graphic.drawEntity(&player);

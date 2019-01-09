@@ -21,6 +21,7 @@ class GraphicManager
         GraphicManager(int, int, int ,int, int, ALLEGRO_BITMAP *, ALLEGRO_DISPLAY *);
         void drawMap(char [16][28]);
         void drawEntity(Entity *);
+        void drawFinalLadder(char [16][28]);
         void dig(char[16][28], int, int, bool);
 };
 #endif

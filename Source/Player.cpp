@@ -39,7 +39,7 @@ bool Player::dig(char map[16][28], bool sx)
     return false;
 }
 string Player::getEntity() { return "Player"; }
-
+int Player::getPoints(){return points;}
 int Player::getLives() { return lives; }
 void Player::decreaseLives() { lives--; }
 void Player::increaseLives() { lives++; }

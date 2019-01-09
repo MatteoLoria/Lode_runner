@@ -7,8 +7,10 @@ bool Enemy::isRedHat() { return hat; }
 
 void Enemy::die()
 {
+    this->setFrame(0);
     this->setX(this->getInitX());
     this->setY(this->getInitY());
+    cout << getY();
 }
 
 Enemy::Enemy() : Entity()
@@ -69,13 +71,15 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
 }
 void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &nextY, int &nextX)
 {
-    if (this->isInHole(holes, map, true) && isRedHat())
+    bool headInHole = isInHole(holes,map,true);
+    bool footInHole = isInHole(holes,map,false);
+    if (headInHole && isRedHat())
     {
         map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
         this->setRedHat(false);
         this->setFrame(4);
     }
-    else if (this->getFall() && !this->isInHole(holes, map, true))
+    else if (this->getFall() && !headInHole)
     {
         this->setY(this->getY() + 5);
         if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '@')
@@ -104,24 +108,27 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
     else
     {
         bool check = false;
-        if (this->getX() / 20 < nextX)
+        if (!footInHole)
         {
-            this->moveRight(map, isRedHat());
+            if (this->getX() / 20 < nextX)
+            {
+                this->moveRight(map, isRedHat());
 
-            check = false;
+                check = false;
+            }
+            if ((this->getX() + 18) / 20 > nextX)
+            {
+                this->moveLeft(map, isRedHat());
+                check = true;
+            }
+            if (this->getY() < (nextY * 20) + 18)
+                this->moveDown(map, isRedHat());
+            if (this->getY() / 20 > nextY)
+                this->moveUp(map, check, isRedHat());
         }
-        if ((this->getX() + 18) / 20 > nextX)
-        {
-            this->moveLeft(map, isRedHat());
-            check = true;
-        }
-        if (this->getY() < (nextY * 20) + 18)
-            this->moveDown(map, isRedHat());
-        if (this->getY() / 20 > nextY)
-            this->moveUp(map, check, isRedHat());
     }
     //cout << this->isInHole(holes, map);
-    if (this->isInHole(holes, map, false))
+    if (footInHole)
     {
         fallen += 0.1;
         if (0.8 < fallen && fallen <= 0.9)
@@ -139,6 +146,14 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
         {
             fallen = 0;
             this->setY(this->getY() - 12);
+            if (p.getX() > this->getX() && map[this->getY() - 12][this->getX() + 20] != '#')
+            {
+                this->setX(this->getX() + 15);
+            }
+            else if (p.getX() < this->getX() && map[this->getY() - 12][this->getX() - 20] != '#')
+            {
+                this->setX(this->getX() - 15);
+            }
             this->setFall(false);
         }
     }

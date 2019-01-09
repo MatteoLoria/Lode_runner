@@ -13,15 +13,11 @@ class Enemy : public Entity
     int prevY = 0;
     double fallen = 0;
     bool hat = false;
-    bool GoinRight = false;
-    bool GoinLeft = false;
-    bool ignore = false;
     void releaseGold(char[16][28]);
     bool isInHole(list<Quadruple>, char[][28], bool);
     void die();
     void setRedHat(bool hat);
     bool isRedHat();
-
   public:
     Enemy();
     Enemy(int, int, string[12]);

@@ -105,6 +105,9 @@ void GraphicManager::drawMap(char map[16][28])
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
+            case '&':
+                map[i][j]= ' ';
+                break;
             default: //clean space
                 break;
             }
@@ -115,6 +118,17 @@ void GraphicManager::drawMap(char map[16][28])
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
 
+void GraphicManager::drawFinalLadder(char map[16][28]){
+    for(int i=0; i<16; i++){
+        for(int j=0; j<28; j++){
+            cout<<map[i][j];
+            if(map[i][j]=='S'){
+                map[i][j] = 'H';
+            }
+        }
+        cout<<endl;
+    }
+}
 void GraphicManager::drawEntity(Entity *E)
 {
     al_set_target_bitmap(buffer);
