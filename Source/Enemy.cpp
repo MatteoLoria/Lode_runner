@@ -41,7 +41,8 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
                 if (map[i.first][i.second] == '#')
                 {
                     this->die();
-                    return true;
+                    this->setFall(false);
+                    return false;//visto che è morto
                 }
                 if (this->fallen < 0.1 && i.third < 6.8)
                 {
@@ -57,7 +58,8 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
                 if (map[i.first][i.second] == '#')
                 {
                     this->die();
-                    return true;
+                    this->setFall(false);
+                    return false;//visto che è morto
                 }
                 if (this->fallen < 0.1 && i.third < 6.8)
                 {
