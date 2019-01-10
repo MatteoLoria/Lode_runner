@@ -133,26 +133,31 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
     if (footInHole)
     {
         fallen += 0.1;
-        if (0.8 < fallen && fallen <= 0.9)
+        if (2.8 < fallen && fallen <= 2.9)
         {
             this->setFrame(3);
-            this->setY(this->getY() - 2);
+            this->setY(this->getY() - 5);
             this->setFall(false);
         }
-        if (0.9 <= fallen && fallen <= 1.2)
+        if (2.9 < fallen && fallen <= 3.2)
         {
-            this->setY(this->getY() - 2);
+            this->setY(this->getY() - 5);
             setMirrorY(true);
         }
-        if (1.2 < fallen)
+        if(3.2 < fallen && fallen <= 3.4)
+        {
+            this->setY(this->getY() - 5);
+            setMirrorY(false);
+        }
+        if (3.4 < fallen)
         {
             fallen = 0;
-            this->setY(this->getY() - 12);
-            if (p.getX() > this->getX() && map[this->getY() - 12][this->getX() + 20] != '#')
+            this->setY(this->getY() - 5);
+            if (p.getX() > this->getX() && map[(this->getY())/20][(this->getX()/20) + 1] != '#')
             {
                 this->setX(this->getX() + 15);
             }
-            else if (p.getX() < this->getX() && map[this->getY() - 12][this->getX() - 20] != '#')
+            else if (p.getX() < this->getX() && map[(this->getY())/20][(this->getX()/20) - 1] != '#')
             {
                 this->setX(this->getX() - 15);
             }
