@@ -103,6 +103,16 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 for (auto &i : enemies)
                 {
+                    if (i.getX()/20 == player.getX()/20 && i.getY()/20 == player.getY()/20)
+                    {
+                        player.decreaseLives();
+                        if(player.getLives() == 0)
+                            return;
+                        else{
+                            restart();
+                            break;
+                        }
+                    }
                     auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
                     if (path.size() > 1)
                         path.pop_back();
@@ -129,12 +139,6 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     int y = path.back().y;
                     if (avaibleSpot(x, y))
                         i.update(map, holes, player, x, y);
-                    if (i.getX() == player.getX() && i.getY() == player.getY())
-                    {
-                        player.decreaseLives();
-                        player.setX(player.getInitX());
-                        player.setY(player.getInitY());
-                    }
                 }
                 delay = 0;
             }
@@ -281,6 +285,15 @@ bool GameManager::avaibleSpot(int x, int y)
             return false;
     }
     return true;
+}
+
+void GameManager::restart(){
+    player.setX(player.getInitX());
+    player.setY(player.getInitY());
+    for(auto &i : enemies){
+        i.setX(i.getInitX());
+        i.setY(i.getInitY());
+    }
 }
 
 void GameManager::loadMap(string path)

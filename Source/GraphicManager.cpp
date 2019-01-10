@@ -121,12 +121,10 @@ void GraphicManager::drawMap(char map[16][28])
 void GraphicManager::drawFinalLadder(char map[16][28]){
     for(int i=0; i<16; i++){
         for(int j=0; j<28; j++){
-            cout<<map[i][j];
             if(map[i][j]=='S'){
                 map[i][j] = 'H';
             }
         }
-        cout<<endl;
     }
 }
 void GraphicManager::drawEntity(Entity *E)
