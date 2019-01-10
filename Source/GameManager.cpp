@@ -30,6 +30,8 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
     d = display;
     bool lastIsLeft = false;
     bool lastIsDown = false;
+    double waitForDigDx = 2.1;
+    double waitForDigSx = 2.1;
     double delay = 0.0;
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 15);
@@ -75,8 +77,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 player.moveDown(map, false);
             }
-            if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4)
+            waitForDigDx += 0.1;
+            if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
             {
+                waitForDigDx = 0.0;
                 if (player.dig(map, false))
                 {
                     player.setFrame(8);
@@ -84,8 +88,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                                      (player.getX() + 39) / 20, 0, 0});
                 }
             }
-            if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4)
+            waitForDigSx += 0.1;
+            if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
             {
+                waitForDigSx = 0.0;
                 if (player.dig(map, true))
                 {
                     player.setFrame(9);
