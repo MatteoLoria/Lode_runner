@@ -53,7 +53,7 @@ void Entity::moveRight(char map[16][28], bool red)
         setMirrorX(false);
         setMirrorRope(false);
     }
-    if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == ' ' || map[(getY() + 5) / 20][((getX() + 10) / 20)] == ' ') && map[(getY() - 18) / 20][(getX() / 20) + 1] != '-' && map[(getY() - 18) / 20][(getX() / 20) + 1] != 'S' && map[(getY() - 18) / 20][(getX() / 20)] != '-' && map[(getY() + 5) / 20][(getX() / 20)] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@')
+    if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == ' ' || map[(getY() + 5) / 20][((getX() + 10) / 20)] == ' ') && map[(getY() - 18) / 20][(getX() / 20) + 1] != '-' && map[(getY() - 18) / 20][(getX() / 20) + 1] != 'S' && map[(getY() - 18) / 20][(getX() / 20)] != '-' && map[(getY() + 5) / 20][(getX() / 20)] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' && map[(getY() + 5) / 20][(getX() / 20)] != '}')
     {
         red ? setFrame(11) : setFrame(4);
         setFall(true);

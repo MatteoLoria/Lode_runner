@@ -44,7 +44,7 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
                     this->setFall(false);
                     return false;//visto che è morto
                 }
-                if (this->fallen < 0.1 && i.third < 6.8)
+                if (this->fallen > 0.09 && this->fallen < 0.31 && i.third < 6.6)
                 {
                     map[getY() / 20][getX() / 20] = '}';
                 }
@@ -61,7 +61,7 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
                     this->setFall(false);
                     return false;//visto che è morto
                 }
-                if (this->fallen < 0.1 && i.third < 6.8)
+                if (this->fallen > 0.09 && this->fallen < 0.31 && i.third < 6.6)
                 {
                     map[getY() / 20][getX() / 20] = '}';
                 }
@@ -129,7 +129,6 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
                 this->moveUp(map, check, isRedHat());
         }
     }
-    //cout << this->isInHole(holes, map);
     if (footInHole)
     {
         fallen += 0.1;
@@ -167,6 +166,9 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
         if (3.6 < fallen)
         {
             fallen = 0;
+            if(map[getY()/20][getX()/20]=='}'){
+                map[getY()/20][getX()/20]=' ';
+            }
             this->setY(this->getY() - 2);
             if (p.getX() > this->getX() && map[(this->getY())/20][(this->getX()/20) + 1] != '#')
             {

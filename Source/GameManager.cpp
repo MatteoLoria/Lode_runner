@@ -249,7 +249,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     {
                         map[i->first][i->second] = ' ';
                     }
-                    else if (map[i->first][i->second] != ' ' && map[i->first][i->second] != '/' && map[i->first][i->second] != '^' && map[i->first][i->second] != '#' && !i->already)
+                    else if (map[i->first][i->second] != ' ' && map[i->first][i->second] != '/' && map[i->first][i->second] != '^' && map[i->first][i->second] != '#' && map[i->first][i->second] != '}' && !i->already)
                     {
                         map[i->first][i->second]++;
                     }
