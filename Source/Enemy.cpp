@@ -10,7 +10,7 @@ void Enemy::die()
     this->setFrame(0);
     this->setX(this->getInitX());
     this->setY(this->getInitY());
-    cout << getY();
+    this->fallen = 0;
 }
 
 Enemy::Enemy() : Entity()
@@ -81,7 +81,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
         this->setRedHat(false);
         this->setFrame(4);
     }
-    else if (this->getFall() && !headInHole)
+    if (this->getFall() && !headInHole)
     {
         this->setY(this->getY() + 5);
         if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '@')
@@ -110,7 +110,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
     else
     {
         bool check = false;
-        if (!footInHole)
+        if (!footInHole || !headInHole)
         {
             if (this->getX() / 20 < nextX)
             {
