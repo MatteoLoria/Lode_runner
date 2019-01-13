@@ -61,68 +61,73 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         al_wait_for_event(queue, &event);
         if (event.type == ALLEGRO_EVENT_TIMER)
         {
-            if (keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall())
+            if(!player.getDead())
             {
-                player.moveRight(map, false);
-            }
-            if (keys[KEY_LEFT] && player.getX() > 0 && !player.getFall())
-            {
-                player.moveLeft(map, false);
-            }
-            if (keys[KEY_UP] && !player.getFall())
-            {
-                player.moveUp(map, lastIsLeft, false);
-            }
-            if (keys[KEY_DOWN])
-            {
-                player.moveDown(map, false);
-            }
-            waitForDigDx += 0.1;
-            if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
-            {
-                waitForDigDx = 0.0;
-                if (player.dig(map, false))
+                if (keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall())
                 {
-                    player.setFrame(8);
-                    holes.push_back({(player.getY() + 5) / 20,
-                                     (player.getX() + 39) / 20, 0, 0});
+                    player.moveRight(map, false);
                 }
-            }
-            waitForDigSx += 0.1;
-            if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
-            {
-                waitForDigSx = 0.0;
-                if (player.dig(map, true))
+                if (keys[KEY_LEFT] && player.getX() > 0 && !player.getFall())
                 {
-                    player.setFrame(9);
-                    holes.push_back({(player.getY() + 5) / 20,
-                                     (player.getX() / 20) - 1, 0, 0});
+                    player.moveLeft(map, false);
                 }
-            }
-            if (map[player.getY() / 20][player.getX() / 20] == '$')
-            {
-                player.increasePoints();
-                map[player.getY() / 20][player.getX() / 20] = ' ';
-            }
-            delay += (double)1.0 / 10;
-            if (delay >= (1.0 / 15) * 2)
-            {
-                for (auto &i : enemies)
+                if (keys[KEY_UP] && !player.getFall())
                 {
-                    if (i.getX()/20 == player.getX()/20 && i.getY()/20 == player.getY()/20)
+                    player.moveUp(map, lastIsLeft, false);
+                }
+                if (keys[KEY_DOWN])
+                {
+                    player.moveDown(map, false);
+                }
+                waitForDigDx += 0.1;
+                if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
+                {
+                    waitForDigDx = 0.0;
+                    if (player.dig(map, false))
                     {
-                        player.decreaseLives();
-                        if(player.getLives() == 0)
-                            return;
-                        else{
-                            restart();
-                            break;
-                        }
+                        player.setFrame(8);
+                        holes.push_back({(player.getY() + 5) / 20,
+                                         (player.getX() + 39) / 20, 0, 0});
                     }
-                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
-                    if (path.size() > 1)
-                        path.pop_back();
-                    /*//debug
+                }
+                waitForDigSx += 0.1;
+                if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
+                {
+                    waitForDigSx = 0.0;
+                    if (player.dig(map, true))
+                    {
+                        player.setFrame(9);
+                        holes.push_back({(player.getY() + 5) / 20,
+                                         (player.getX() / 20) - 1, 0, 0});
+                    }
+                }
+                if (map[player.getY() / 20][player.getX() / 20] == '$')
+                {
+                    player.increasePoints();
+                    map[player.getY() / 20][player.getX() / 20] = ' ';
+                }
+                delay += (double)1.0 / 10;
+                if (delay >= (1.0 / 15) * 2)
+                {
+                    for (auto &i : enemies)
+                    {
+                        if (i.getX() / 20 == player.getX() / 20 && i.getY() / 20 == player.getY() / 20)
+                        {
+                            player.decreaseLives();
+                            player.setDead(true);
+                            if (player.getLives() == 0)
+                                return;
+                            else
+                            {
+                                restart();
+                                loadMap(string("../Assets/Maps/level")+to_string(level)+".txt");
+                                break;
+                            }
+                        }
+                        auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
+                        if (path.size() > 1)
+                            path.pop_back();
+                        /*//debug
                     for (auto j : path)
                     {
                         ALLEGRO_BITMAP *b = al_create_bitmap(20, 20);
@@ -141,12 +146,13 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                         al_flip_display();
                     }
                     //end debug*/
-                    int x = path.back().x;
-                    int y = path.back().y;
-                    if (avaibleSpot(x, y))
-                        i.update(map, holes, player, x, y);
+                        int x = path.back().x;
+                        int y = path.back().y;
+                        if (avaibleSpot(x, y))
+                            i.update(map, holes, player, x, y);
+                    }
+                    delay = 0;
                 }
-                delay = 0;
             }
             redraw = true;
         }
@@ -277,6 +283,12 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             for (auto i : enemies)
             {
                 graphic.drawEntity(&i);
+                if(i.getDead()){
+                    i.setDead(false);
+                }
+            }
+            if(player.getDead()){
+                player.setDead(false);
             }
             al_flip_display();
         }

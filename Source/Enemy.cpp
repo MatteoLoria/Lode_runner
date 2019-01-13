@@ -40,9 +40,10 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
             {
                 if (map[i.first][i.second] == '#')
                 {
-                    this->die();
                     this->setFall(false);
-                    return false;//visto che è morto
+                    this->die();
+                    setDead(true);
+                    return false; //visto che è morto
                 }
                 if (this->fallen > 0.09 && this->fallen < 0.31 && i.third < 6.6)
                 {
@@ -57,9 +58,10 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
             {
                 if (map[i.first][i.second] == '#')
                 {
-                    this->die();
                     this->setFall(false);
-                    return false;//visto che è morto
+                    this->die();
+                    setDead(true);
+                    return false; //visto che è morto
                 }
                 if (this->fallen > 0.09 && this->fallen < 0.31 && i.third < 6.6)
                 {
@@ -73,120 +75,124 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
 }
 void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &nextY, int &nextX)
 {
-    bool headInHole = isInHole(holes,map,true);
-    bool footInHole = isInHole(holes,map,false);
-    if (headInHole && isRedHat())
+    bool headInHole = isInHole(holes, map, true);
+    bool footInHole = isInHole(holes, map, false);
+    if (!getDead())
     {
-        map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
-        this->setRedHat(false);
-        this->setFrame(4);
-    }
-    if (this->getFall() && !headInHole)
-    {
-        this->setY(this->getY() + 5);
-        if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '@')
+        if (headInHole && isRedHat())
         {
-            this->setFall(false);
-            /*if(this->isRedHat()){ non si sa mai
+            map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
+            this->setRedHat(false);
+            this->setFrame(4);
+        }
+        if (this->getFall() && !headInHole)
+        {
+            this->setY(this->getY() + 5);
+            if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '@')
+            {
+                this->setFall(false);
+                /*if(this->isRedHat()){ non si sa mai
                 setRedHat(false);
                 if(map[(this->getY()+5)/20][(this->getX()/20)+1] == ' ')
                     map[(this->getY()+5)/20][(this->getX()/20)+1] == '$';
                 else
                     map[(this->getY()+5)/20][(this->getX()/20)-1] == '$';
             }*/
-        }
-        if (map[((this->getY() - 18) / 20)][(this->getX() / 20)] == '-' && map[((this->getY()) / 20)][(this->getX() / 20)] == '-')
-        {
-            this->setFall(false);
-            this->setFrame(5);
-        }
+            }
+            if (map[((this->getY() - 18) / 20)][(this->getX() / 20)] == '-' && map[((this->getY()) / 20)][(this->getX() / 20)] == '-')
+            {
+                this->setFall(false);
+                this->setFrame(5);
+            }
 
-        if (map[((this->getY() - 18) / 20)][(this->getX() / 20)] == '-' && map[((this->getY() + 5) / 20)][(this->getX() / 20)] != '#')
-        {
-            this->setFall(true);
-            this->setFrame(4);
-        }
-    }
-    else
-    {
-        bool check = false;
-        if (!footInHole || !headInHole)
-        {
-            if (this->getX() / 20 < nextX)
+            if (map[((this->getY() - 18) / 20)][(this->getX() / 20)] == '-' && map[((this->getY() + 5) / 20)][(this->getX() / 20)] != '#')
             {
-                this->moveRight(map, isRedHat());
+                this->setFall(true);
+                this->setFrame(4);
+            }
+        }
+        else
+        {
+            bool check = false;
+            if (!footInHole || !headInHole)
+            {
+                if (this->getX() / 20 < nextX)
+                {
+                    this->moveRight(map, isRedHat());
 
-                check = false;
+                    check = false;
+                }
+                if ((this->getX() + 18) / 20 > nextX)
+                {
+                    this->moveLeft(map, isRedHat());
+                    check = true;
+                }
+                if (this->getY() < (nextY * 20) + 18)
+                    this->moveDown(map, isRedHat());
+                if (this->getY() / 20 > nextY)
+                    this->moveUp(map, check, isRedHat());
             }
-            if ((this->getX() + 18) / 20 > nextX)
+        }
+        if (footInHole)
+        {
+            fallen += 0.1;
+            if (2.8 < fallen && fallen <= 2.9)
             {
-                this->moveLeft(map, isRedHat());
-                check = true;
+                this->setFrame(3);
+                this->setY(this->getY() - 3);
+                this->setFall(false);
             }
-            if (this->getY() < (nextY * 20) + 18)
-                this->moveDown(map, isRedHat());
-            if (this->getY() / 20 > nextY)
-                this->moveUp(map, check, isRedHat());
-        }
-    }
-    if (footInHole)
-    {
-        fallen += 0.1;
-        if (2.8 < fallen && fallen <= 2.9)
-        {
-            this->setFrame(3);
-            this->setY(this->getY() - 3);
-            this->setFall(false);
-        }
-        if (2.9 < fallen && fallen <= 3.0)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(true);
-        }
-        if(3.1 < fallen && fallen <= 3.2)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(false);
-        }
-        if(3.2 < fallen && fallen <= 3.3)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(true);
-        }
-        if(3.3 < fallen && fallen <= 3.4)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(false);
-        }
-        if(3.4 < fallen && fallen <= 3.5)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(true);
-        }
-        if (3.6 < fallen)
-        {
-            fallen = 0;
-            if(map[getY()/20][getX()/20]=='}'){
-                map[getY()/20][getX()/20]=' ';
-            }
-            this->setY(this->getY() - 2);
-            if (p.getX() > this->getX() && map[(this->getY())/20][(this->getX()/20) + 1] != '#')
+            if (2.9 < fallen && fallen <= 3.0)
             {
-                this->setX(this->getX() + 15);
+                this->setY(this->getY() - 3);
+                setMirrorY(true);
             }
-            else if (p.getX() < this->getX() && map[(this->getY())/20][(this->getX()/20) - 1] != '#')
+            if (3.1 < fallen && fallen <= 3.2)
             {
-                this->setX(this->getX() - 15);
+                this->setY(this->getY() - 3);
+                setMirrorY(false);
             }
-            this->setFall(false);
+            if (3.2 < fallen && fallen <= 3.3)
+            {
+                this->setY(this->getY() - 3);
+                setMirrorY(true);
+            }
+            if (3.3 < fallen && fallen <= 3.4)
+            {
+                this->setY(this->getY() - 3);
+                setMirrorY(false);
+            }
+            if (3.4 < fallen && fallen <= 3.5)
+            {
+                this->setY(this->getY() - 3);
+                setMirrorY(true);
+            }
+            if (3.6 < fallen)
+            {
+                fallen = 0;
+                if (map[getY() / 20][getX() / 20] == '}')
+                {
+                    map[getY() / 20][getX() / 20] = ' ';
+                }
+                this->setY(this->getY() - 2);
+                if (p.getX() > this->getX() && map[(this->getY()) / 20][(this->getX() / 20) + 1] != '#')
+                {
+                    this->setX(this->getX() + 15);
+                }
+                else if (p.getX() < this->getX() && map[(this->getY()) / 20][(this->getX() / 20) - 1] != '#')
+                {
+                    this->setX(this->getX() - 15);
+                }
+                this->setFall(false);
+            }
         }
-    }
-    if (map[getY() / 20][(getX()) / 20] == '$')
-    {
-        if (!isRedHat())
+        if (map[getY() / 20][(getX()) / 20] == '$')
         {
-            setRedHat(true);
-            map[getY() / 20][getX() / 20] = ' ';
+            if (!isRedHat())
+            {
+                setRedHat(true);
+                map[getY() / 20][getX() / 20] = ' ';
+            }
         }
     }
 }
