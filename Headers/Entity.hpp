@@ -14,6 +14,7 @@ private:
     int frame=0;
     bool mirrorX = false;
     bool mirrorY = false;
+    bool dead = false;
     bool mirrorRope = false;
     bool isFalling = false;
 public:
@@ -28,6 +29,7 @@ public:
     bool getMirrorY();
     bool getMirrorRope();
     bool getFall();
+    bool getDead();
     virtual string getEntity() = 0;
     void setX(int);
     void setY(int);
@@ -36,6 +38,7 @@ public:
     void setMirrorY(bool);
     void setMirrorRope(bool);
     void setFall(bool);
+    void setDead(bool);
     void moveRight(char[][28], bool);
     void moveLeft(char[][28], bool);
     void moveUp(char[][28], bool, bool);
