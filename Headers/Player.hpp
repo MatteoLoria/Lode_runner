@@ -18,6 +18,7 @@ class Player : public Entity
         void decreaseLives();
         void increasePoints();
         int getPoints();
+        void setPoints(int);
         bool dig(char[16][28], bool);
 };
 #endif

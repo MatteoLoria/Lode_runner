@@ -1,6 +1,7 @@
 #include "../Headers/GameManager.hpp"
 #include <iostream>
 #include <fstream>
+
 enum MYKEYS
 {
     KEY_UP,
@@ -11,6 +12,7 @@ enum MYKEYS
     KEY_Z
 };
 ALLEGRO_DISPLAY *d;
+
 GameManager::GameManager() {}
 
 GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic)
@@ -27,12 +29,12 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
 void GameManager::run(int level, ALLEGRO_DISPLAY *display)
 {
     bool redraw = false;
-    d = display;
     bool lastIsLeft = false;
     bool lastIsDown = false;
     double waitForDigDx = 2.1;
     double waitForDigSx = 2.1;
     double delay = 0.0;
+    d = display;
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 15);
     al_install_keyboard();
@@ -52,7 +54,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         this->loadMap("../Assets/Maps/level3.txt");
     }
     pathFinder.setWorldSize({16, 28});
-    pathFinder.setDiagonalMovement(false);
+    pathFinder.setDiagonalMovement(false);//forse è inutile
     al_start_timer(timer);
     bool close = false;
     while (!close)
@@ -61,98 +63,94 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         al_wait_for_event(queue, &event);
         if (event.type == ALLEGRO_EVENT_TIMER)
         {
-            if(!player.getDead())
+            if (keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall())
             {
-                if (keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall())
+                player.moveRight(map, false);
+            }
+            if (keys[KEY_LEFT] && player.getX() > 0 && !player.getFall())
+            {
+                player.moveLeft(map, false);
+            }
+            if (keys[KEY_UP] && !player.getFall())
+            {
+                player.moveUp(map, lastIsLeft, false);
+            }
+            if (keys[KEY_DOWN])
+            {
+                player.moveDown(map, false);
+            }
+            waitForDigDx += 0.1;
+            if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
+            {
+                waitForDigDx = 0.0;
+                if (player.dig(map, false))
                 {
-                    player.moveRight(map, false);
+                    player.setFrame(8);
+                    holes.push_back({(player.getY() + 5) / 20,
+                                    (player.getX() + 39) / 20, 0, 0});
                 }
-                if (keys[KEY_LEFT] && player.getX() > 0 && !player.getFall())
+            }
+            waitForDigSx += 0.1;
+            if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
+            {
+                waitForDigSx = 0.0;
+                if (player.dig(map, true))
                 {
-                    player.moveLeft(map, false);
+                    player.setFrame(9);
+                    holes.push_back({(player.getY() + 5) / 20,
+                                    (player.getX() / 20) - 1, 0, 0});
                 }
-                if (keys[KEY_UP] && !player.getFall())
+            }
+            if (map[player.getY() / 20][player.getX() / 20] == '$')
+            {
+                player.increasePoints();
+                map[player.getY() / 20][player.getX() / 20] = ' ';
+            }
+            delay += (double)1.0 / 10;
+            if (delay >= (1.0 / 15) * 2)
+            {
+                for (auto &i : enemies)
                 {
-                    player.moveUp(map, lastIsLeft, false);
-                }
-                if (keys[KEY_DOWN])
-                {
-                    player.moveDown(map, false);
-                }
-                waitForDigDx += 0.1;
-                if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
-                {
-                    waitForDigDx = 0.0;
-                    if (player.dig(map, false))
+                    if (i.getX() / 20 == player.getX() / 20 && i.getY() / 20 == player.getY() / 20)//da controllare i pixel
                     {
-                        player.setFrame(8);
-                        holes.push_back({(player.getY() + 5) / 20,
-                                         (player.getX() + 39) / 20, 0, 0});
-                    }
-                }
-                waitForDigSx += 0.1;
-                if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
-                {
-                    waitForDigSx = 0.0;
-                    if (player.dig(map, true))
-                    {
-                        player.setFrame(9);
-                        holes.push_back({(player.getY() + 5) / 20,
-                                         (player.getX() / 20) - 1, 0, 0});
-                    }
-                }
-                if (map[player.getY() / 20][player.getX() / 20] == '$')
-                {
-                    player.increasePoints();
-                    map[player.getY() / 20][player.getX() / 20] = ' ';
-                }
-                delay += (double)1.0 / 10;
-                if (delay >= (1.0 / 15) * 2)
-                {
-                    for (auto &i : enemies)
-                    {
-                        if (i.getX() / 20 == player.getX() / 20 && i.getY() / 20 == player.getY() / 20)
-                        {
-                            player.decreaseLives();
-                            player.setDead(true);
-                            if (player.getLives() == 0)
-                                return;
-                            else
-                            {
-                                restart();
-                                loadMap(string("../Assets/Maps/level")+to_string(level)+".txt");
-                                break;
-                            }
-                        }
-                        auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
-                        if (path.size() > 1)
-                            path.pop_back();
-                        /*//debug
-                    for (auto j : path)
-                    {
-                        ALLEGRO_BITMAP *b = al_create_bitmap(20, 20);
-                        al_set_target_bitmap(b);
-                        if (j.x == path.back().x && j.y == path.back().y)
-                        {
-                            al_clear_to_color(al_map_rgb(255, 255, 255));
-                        }
+                        player.decreaseLives();
+                        if (player.getLives() == 0)
+                            return;//da aggiungere il menù
                         else
-                            al_clear_to_color(al_map_rgb(255, 0, 0));
-                        if (j.x == player.getY() && j.y == player.getX())
-                            al_clear_to_color(al_map_rgb(0, 0, 255));
-                        al_set_target_bitmap(al_get_backbuffer(display));
-                        al_draw_bitmap(b, j.y * 20, j.x * 20, 0);
-                        al_destroy_bitmap(b);
-                        al_flip_display();
+                        {
+                            restart();
+                            loadMap(string("../Assets/Maps/level")+to_string(level)+".txt");
+                            break;
+                        }
                     }
-                    //end debug*/
-                        int x = path.back().x;
-                        int y = path.back().y;
-                        if (avaibleSpot(x, y))
-                            i.update(map, holes, player, x, y);
+                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
+                    if (path.size() > 1)
+                        path.pop_back();//forse non serve più
+                    /*//debug
+                for (auto j : path)
+                {
+                    ALLEGRO_BITMAP *b = al_create_bitmap(20, 20);
+                    al_set_target_bitmap(b);
+                    if (j.x == path.back().x && j.y == path.back().y)
+                    {
+                        al_clear_to_color(al_map_rgb(255, 255, 255));
                     }
-                    delay = 0;
+                    else
+                        al_clear_to_color(al_map_rgb(255, 0, 0));
+                    if (j.x == player.getY() && j.y == player.getX())
+                        al_clear_to_color(al_map_rgb(0, 0, 255));
+                    al_set_target_bitmap(al_get_backbuffer(display));
+                    al_draw_bitmap(b, j.y * 20, j.x * 20, 0);
+                    al_destroy_bitmap(b);
+                    al_flip_display();
                 }
+                //end debug*/
+                    int x = path.back().x;
+                    int y = path.back().y;
+                    if (avaibleSpot(x, y))
+                        i.update(map, holes, player, x, y);
+                }
+                delay = 0;
             }
             redraw = true;
         }
@@ -201,7 +199,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         }
         else if (event.type == ALLEGRO_EVENT_KEY_UP)
         {
-            player.setFrame(player.getFrame() == 3 ? 3 : player.getFrame());
+            player.setFrame(player.getFrame() == 3 ? 3 : player.getFrame());//bu
             switch (event.keyboard.keycode)
             {
             case ALLEGRO_KEY_X:
@@ -233,14 +231,16 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             if (player.getFall())
             {
                 player.setY(player.getY() + 5);
-                if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
+                if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' 
+                    || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
                     player.setFall(false);
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && map[((player.getY()) / 20)][(player.getX() / 20)] == '-')
                 {
                     player.setFall(false);
                     player.setFrame(5);
                 }
-                if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && lastIsDown && map[((player.getY() + 5) / 20)][(player.getX() / 20)] != '#')
+                if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && lastIsDown 
+                    && map[((player.getY() + 5) / 20)][(player.getX() / 20)] != '#')
                 {
                     player.setFall(true);
                     player.setFrame(4);
@@ -255,7 +255,8 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     {
                         map[i->first][i->second] = ' ';
                     }
-                    else if (map[i->first][i->second] != ' ' && map[i->first][i->second] != '/' && map[i->first][i->second] != '^' && map[i->first][i->second] != '#' && map[i->first][i->second] != '}' && !i->already)
+                    else if (map[i->first][i->second] != ' ' && map[i->first][i->second] != '/' && map[i->first][i->second] != '^' 
+                        && map[i->first][i->second] != '#' && map[i->first][i->second] != '}' && !i->already)
                     {
                         map[i->first][i->second]++;
                     }
@@ -283,12 +284,6 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             for (auto i : enemies)
             {
                 graphic.drawEntity(&i);
-                if(i.getDead()){
-                    i.setDead(false);
-                }
-            }
-            if(player.getDead()){
-                player.setDead(false);
             }
             al_flip_display();
         }
@@ -299,7 +294,7 @@ bool GameManager::avaibleSpot(int x, int y)
 {
     for (auto i : enemies)
     {
-        if (y == i.getX() / 20 && x == i.getY() / 20)
+        if (y == i.getX() / 20 && x == i.getY() / 20)//i +10 e -10
             return false;
     }
     return true;
@@ -311,6 +306,7 @@ void GameManager::restart(){
     for(auto &i : enemies){
         i.setX(i.getInitX());
         i.setY(i.getInitY());
+        i.setFallen(0);//era per questo che non si muoveva?
     }
 }
 

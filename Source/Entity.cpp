@@ -1,6 +1,7 @@
 #include "../Headers/Entity.hpp"
 #include <iostream>
 using namespace std;
+
 Entity::Entity() {}
 Entity::Entity(int x, int y) : init_x(x), init_y(y), x(x), y(y) {}
 int Entity::getFrame() { return frame; }
@@ -12,7 +13,6 @@ bool Entity::getMirrorX() { return mirrorX; }
 bool Entity::getMirrorY() { return mirrorY; }
 bool Entity::getMirrorRope() { return mirrorRope; }
 bool Entity::getFall() { return isFalling; }
-bool Entity::getDead() { return dead; }
 void Entity::setMirrorX(bool mirrorX) { this->mirrorX = mirrorX; }
 void Entity::setMirrorY(bool mirrorY) { this->mirrorY = mirrorY; }
 void Entity::setMirrorRope(bool mirrorRope) { this->mirrorRope = mirrorRope; }
@@ -20,7 +20,6 @@ void Entity::setFall(bool isFalling) { this->isFalling = isFalling; }
 void Entity::setX(int x) { this->x = x; }
 void Entity::setY(int y) { this->y = y; }
 void Entity::setFrame(int frame) { this->frame = frame; }
-void Entity::setDead(bool dead) { this->dead = dead; }
 void Entity::moveRight(char map[16][28], bool red)
 {
     if ((map[(getY() - 18) / 20][(getX() / 20) + 1] != '#' && map[getY() / 20][(getX() / 20) + 1] != '#') //controllo blocchi
@@ -44,26 +43,32 @@ void Entity::moveRight(char map[16][28], bool red)
                 frame += 8;
             }
         }
-        if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' && map[((getY() - 5) / 20)][(getX() / 20)] == ' ') //troppo lontano dalla corda. Cadi
+        if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' 
+            && map[((getY() - 5) / 20)][(getX() / 20)] == ' ') //troppo lontano dalla corda. Cadi
         {
             red ? setFrame(11) : setFrame(4);
             setFall(true);
         }
-        if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' && map[((getY() - 5) / 20)][(getX() / 20)] == '-') //sei vicino alla corda. Aggrappati
+        if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' 
+            && map[((getY() - 5) / 20)][(getX() / 20)] == '-') //sei vicino alla corda. Aggrappati
             setY(getY() - 5);
         setMirrorX(false);
         setMirrorRope(false);
     }
-    if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == ' ' || map[(getY() + 5) / 20][((getX() + 10) / 20)] == ' ') && map[(getY() - 18) / 20][(getX() / 20) + 1] != '-' && map[(getY() - 18) / 20][(getX() / 20) + 1] != 'S' && map[(getY() - 18) / 20][(getX() / 20)] != '-' && map[(getY() + 5) / 20][(getX() / 20)] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' && map[(getY() + 5) / 20][(getX() / 20)] != '}')
+    if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == ' ' || map[(getY() + 5) / 20][((getX() + 10) / 20)] == ' ') 
+        && map[(getY() - 18) / 20][(getX() / 20) + 1] != '-' && map[(getY() - 18) / 20][(getX() / 20) + 1] != 'S' 
+        && map[(getY() - 18) / 20][(getX() / 20)] != '-' && map[(getY() + 5) / 20][(getX() / 20)] != 'H' 
+        && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' 
+        && map[(getY() + 5) / 20][(getX() / 20)] != '}')//a volte cade lo stesso
     {
         red ? setFrame(11) : setFrame(4);
         setFall(true);
-        cout << 60 << this->getEntity();
     }
-    if ((map[(getY() + 5) / 20][getX() / 20] == '-' || map[(getY() + 10) / 20][getX() / 20] == '-' || map[(getY() + 15) / 20][getX() / 20] == '-') && map[getY() / 20][getX() / 20] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '}')
+    if ((map[(getY() + 5) / 20][getX() / 20] == '-' || map[(getY() + 10) / 20][getX() / 20] == '-' 
+        || map[(getY() + 15) / 20][getX() / 20] == '-') && map[getY() / 20][getX() / 20] != 'H' 
+        && map[(getY() + 5) / 20][(getX() / 20)] != '}')//a volte cade lo stesso
     {
         red ? setFrame(11) : setFrame(4);
-        cout << 65 << this->getEntity();
         setFall(true);
     }
 }
@@ -89,27 +94,32 @@ void Entity::moveLeft(char map[16][28], bool red)
         }
         else
             red ? setFrame(8) : setFrame(0);
-        if (map[(getY() - 18) / 20][(getX() / 20)] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' && map[((getY() - 5) / 20)][(getX() / 20)] == ' ' && map[getY() / 20][getX() / 20] != 'H')
+        if (map[(getY() - 18) / 20][(getX() / 20)] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' 
+            && map[((getY() - 5) / 20)][(getX() / 20)] == ' ' && map[getY() / 20][getX() / 20] != 'H')
         {
             red ? setFrame(11) : setFrame(4);
-            cout << 94 << this->getEntity();
             setFall(true);
         }
-        if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' && map[((getY() - 5) / 20)][(getX() / 20)] == '-')
+        if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' 
+            && map[((getY() - 5) / 20)][(getX() / 20)] == '-')
+        {
             setY(getY() - 5);
+        }
         setMirrorX(true);
         setMirrorRope(true);
     }
-    if (map[(getY() + 5) / 20][(getX() + 18) / 20] == ' ' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '-' && map[(getY() - 18) / 20][(getX()) / 20] != '-' && map[(getY()) / 20][(getX() / 20)] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' && map[(getY() + 5) / 20][(getX() / 20)] != '}')
+    if (map[(getY() + 5) / 20][(getX() + 18) / 20] == ' ' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '-' 
+        && map[(getY() - 18) / 20][(getX()) / 20] != '-' && map[(getY()) / 20][(getX() / 20)] != 'H' 
+        && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' 
+        && map[(getY() + 5) / 20][(getX() / 20)] != '}')//a volte cade lo stesso
     {
         red ? setFrame(11) : setFrame(4);
-        cout << 105 << this->getEntity();
         setFall(true);
     }
-    if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == '-' || map[(getY() + 10) / 20][(getX() / 20) + 1] == '-' || map[(getY() + 15) / 20][(getX() / 20) + 1] == '-') && map[getY() / 20][getX() / 20] != 'H')
+    if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == '-' || map[(getY() + 10) / 20][(getX() / 20) + 1] == '-' 
+        || map[(getY() + 15) / 20][(getX() / 20) + 1] == '-') && map[getY() / 20][getX() / 20] != 'H')//forse da aggiungere {
     {
         red ? setFrame(11) : setFrame(4);
-        cout << 111 << this->getEntity();
         setFall(true);
     }
 }
@@ -128,8 +138,8 @@ void Entity::moveUp(char map[16][28], bool lastIsLeft, bool red)
             else
                 setMirrorY(true);
         }
-        else if (map[getY() / 20][(getX() + 5) / 20] == 'H')
-        { //moving from right and the stair is at right
+        else if (map[getY() / 20][(getX() + 5) / 20] == 'H') //moving from right and the stair is at right
+        { 
             setX(((getX() + 5) / 20) * 20);
             setY(getY() - 5);
             setFrame(3);
@@ -151,8 +161,8 @@ void Entity::moveUp(char map[16][28], bool lastIsLeft, bool red)
             else
                 setMirrorY(true);
         }
-        else if (map[getY() / 20][(getX() + 15) / 20] == 'H')
-        { //moving from left and the stair is at left
+        else if (map[getY() / 20][(getX() + 15) / 20] == 'H') //moving from left and the stair is at left
+        { 
             setX(((getX() + 15) / 20) * 20);
             setY(getY() - 5);
             setFrame(3);
@@ -166,8 +176,8 @@ void Entity::moveUp(char map[16][28], bool lastIsLeft, bool red)
 
 void Entity::moveDown(char map[16][28], bool red)
 {
-    if (map[(getY() / 20) + 1][(getX() + 10) / 20] == 'H' || map[(getY() / 20)][(getX() + 10) / 20] == 'H')
-    { //moving from right and stair is at left
+    if (map[(getY() / 20) + 1][(getX() + 10) / 20] == 'H' || map[(getY() / 20)][(getX() + 10) / 20] == 'H') //moving from right and stair is at left
+    { 
         setX(((getX() + 10) / 20) * 20);
         if (map[((getY() + 5) / 20)][((getX()) / 20)] != '#')
         {
@@ -179,10 +189,10 @@ void Entity::moveDown(char map[16][28], bool red)
                 setMirrorY(true);
         }
     }
-    if (map[(getY() / 20) + 1][getX() / 20] == ' ' && map[(getY() / 20) + 1][getX() / 20] != 'H' && map[(getY() / 20) + 1][getX() / 20] != '#' && map[(getY() / 20) + 1][(getX() + 18) / 20] != '#')
+    if (map[(getY() / 20) + 1][getX() / 20] == ' ' && map[(getY() / 20) + 1][getX() / 20] != 'H' 
+        && map[(getY() / 20) + 1][getX() / 20] != '#' && map[(getY() / 20) + 1][(getX() + 18) / 20] != '#')
     {
         setFrame(4);
-        cout << 184 << this->getEntity();
         setFall(true);
     }
 }
