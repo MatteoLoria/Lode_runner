@@ -8,12 +8,13 @@ Quadruple::Quadruple(int first, int second, double third, bool already)
     this->already = already;
 }
 
-bool Quadruple::operator==(Quadruple t)
+bool Quadruple::operator==(const Quadruple& t)
 {
     if (t.first == first && t.second == second && t.third == third && t.already == already)
         return true;
     return false;
 }
+
 ostream &operator<<(ostream &out, const Quadruple &t)
 {
     out << t.first << t.second << t.third << endl;

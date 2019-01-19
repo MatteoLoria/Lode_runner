@@ -11,6 +11,6 @@ class Quadruple
         double third=0;
         bool already=false;
         Quadruple(int,int,double,bool);
-        bool operator==(Quadruple);
+        bool operator==(const Quadruple&);
 };
 #endif

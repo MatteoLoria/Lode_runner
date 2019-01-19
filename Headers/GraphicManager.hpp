@@ -8,7 +8,7 @@
 #define GRAPHICMANAGER_H
 class GraphicManager
 {
-    private:
+    private:// da aggiungere due dati
         int level;
         int scale_w;
         int scale_h;
