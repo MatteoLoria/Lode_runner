@@ -23,7 +23,6 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
         this->enemies.push_back(i);
     }
     this->graphic = graphic;
-    this->points = 0;
 }
 
 void GameManager::run(int level, ALLEGRO_DISPLAY *display)
@@ -303,11 +302,17 @@ bool GameManager::avaibleSpot(int x, int y)
 void GameManager::restart(){
     player.setX(player.getInitX());
     player.setY(player.getInitY());
+    player.setFall(false);//se muore mentre cade si bugga
+    player.setFrame(0);
+    player.setPoints(0);
     for(auto &i : enemies){
+        i.setFrame(0);
         i.setX(i.getInitX());
         i.setY(i.getInitY());
+        i.setFall(false);
         i.setFallen(0);//era per questo che non si muoveva?
     }
+    holes.clear();
 }
 
 void GameManager::loadMap(string path)
