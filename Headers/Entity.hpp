@@ -11,7 +11,7 @@ private:
     int y;
     int init_x;
     int init_y;
-    int frame=0;
+    int frame = 0;
     bool mirrorX = false;
     bool mirrorY = false;
     bool mirrorRope = false;
@@ -36,5 +36,9 @@ public:
     void setMirrorY(bool);
     void setMirrorRope(bool);
     void setFall(bool);
+    void moveRight(char[][28], bool);
+    void moveLeft(char[][28], bool);
+    void moveUp(char[][28], bool, bool);
+    void moveDown(char[][28], bool);
 };
 #endif
