@@ -59,14 +59,14 @@ void Entity::moveRight(char map[16][28], bool red)
         && map[(getY() - 18) / 20][(getX() / 20) + 1] != '-' && map[(getY() - 18) / 20][(getX() / 20) + 1] != 'S' 
         && map[(getY() - 18) / 20][(getX() / 20)] != '-' && map[(getY() + 5) / 20][(getX() / 20)] != 'H' 
         && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' 
-        && map[(getY() + 5) / 20][(getX() / 20)] != '}')//a volte cade lo stesso
+        && map[(getY() + 5) / 20][(getX() / 20)] != '}')
     {
         red ? setFrame(11) : setFrame(4);
         setFall(true);
     }
     if ((map[(getY() + 5) / 20][getX() / 20] == '-' || map[(getY() + 10) / 20][getX() / 20] == '-' 
         || map[(getY() + 15) / 20][getX() / 20] == '-') && map[getY() / 20][getX() / 20] != 'H' 
-        && map[(getY() + 5) / 20][(getX() / 20)] != '}')//a volte cade lo stesso
+        && map[(getY() + 5) / 20][(getX() / 20)] != '}')
     {
         red ? setFrame(11) : setFrame(4);
         setFall(true);
@@ -111,13 +111,13 @@ void Entity::moveLeft(char map[16][28], bool red)
     if (map[(getY() + 5) / 20][(getX() + 18) / 20] == ' ' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '-' 
         && map[(getY() - 18) / 20][(getX()) / 20] != '-' && map[(getY()) / 20][(getX() / 20)] != 'H' 
         && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' 
-        && map[(getY() + 5) / 20][(getX() / 20)] != '}')//a volte cade lo stesso
+        && map[(getY() + 5) / 20][(getX() / 20)] != '}')
     {
         red ? setFrame(11) : setFrame(4);
         setFall(true);
     }
     if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == '-' || map[(getY() + 10) / 20][(getX() / 20) + 1] == '-' 
-        || map[(getY() + 15) / 20][(getX() / 20) + 1] == '-') && map[getY() / 20][getX() / 20] != 'H')//forse da aggiungere {
+        || map[(getY() + 15) / 20][(getX() / 20) + 1] == '-') && map[getY() / 20][getX() / 20] != 'H')
     {
         red ? setFrame(11) : setFrame(4);
         setFall(true);

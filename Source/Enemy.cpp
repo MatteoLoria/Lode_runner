@@ -105,12 +105,12 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
         {
             this->setFall(true);
             this->setFrame(4);
-        }Non capiteranno mai che queste situazioni? No. Commento tutto perchè dovrebbe essere inutile*/
+        }Commento tutto perchè dovrebbe essere inutile*/
     }
     else
     {
         bool left = false;
-        if (!footInHole && !headInHole)//ho modificato || con &&
+        if (!footInHole && !headInHole)
         {
             if (this->getX() / 20 < nextX)
             {
@@ -128,7 +128,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
                 this->moveUp(map, left, isRedHat());
         }
     }
-    if (footInHole)//da controllare se i -3 vanno bene
+    if (footInHole)
     {
         fallen += 0.1;
         if (2.8 < fallen && fallen <= 2.9)
@@ -162,7 +162,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
             this->setY(this->getY() - 3);
             setMirrorY(true);
         }
-        if (3.6 < fallen) //Da controllare bene qui dentro, forse cade
+        if (3.6 < fallen)
         {
             fallen = 0;
             if (map[getY() / 20][getX() / 20] == '}')

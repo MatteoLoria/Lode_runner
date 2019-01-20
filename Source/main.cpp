@@ -35,8 +35,8 @@ int main()
 
     vector<Enemy> enemies;
     enemies.push_back(e1);
-    enemies.push_back(e2);
-    enemies.push_back(e3);
+    //enemies.push_back(e2);
+    //enemies.push_back(e3);
     //enemies.push_back(e4);
 
     GameManager G(P, enemies, Gr);

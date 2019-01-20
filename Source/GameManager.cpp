@@ -53,7 +53,6 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         this->loadMap("../Assets/Maps/level3.txt");
     }
     pathFinder.setWorldSize({16, 28});
-    pathFinder.setDiagonalMovement(false);//forse è inutile
     al_start_timer(timer);
     bool close = false;
     while (!close)
@@ -86,7 +85,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 {
                     player.setFrame(8);
                     holes.push_back({(player.getY() + 5) / 20,
-                                    (player.getX() + 39) / 20, 0, 0});
+                                     (player.getX() + 39) / 20, 0, 0});
                 }
             }
             waitForDigSx += 0.1;
@@ -97,7 +96,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 {
                     player.setFrame(9);
                     holes.push_back({(player.getY() + 5) / 20,
-                                    (player.getX() / 20) - 1, 0, 0});
+                                     (player.getX() / 20) - 1, 0, 0});
                 }
             }
             if (map[player.getY() / 20][player.getX() / 20] == '$')
@@ -110,21 +109,33 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 for (auto &i : enemies)
                 {
-                    if (i.getX() / 20 == player.getX() / 20 && i.getY() / 20 == player.getY() / 20)//da controllare i pixel
+                    if (i.getMirrorX() && (i.getX() == player.getX()+15)  && i.getY() == player.getY())
                     {
                         player.decreaseLives();
                         if (player.getLives() == 0)
-                            return;//da aggiungere il menù
+                            return; //da aggiungere il menù
                         else
                         {
                             restart();
-                            loadMap(string("../Assets/Maps/level")+to_string(level)+".txt");
+                            loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                            break;
+                        }
+                    }
+                    else if (i.getX() + 15 == player.getX() && i.getY() == player.getY())
+                    {
+                        player.decreaseLives();
+                        if (player.getLives() == 0)
+                            return; //da aggiungere il menù
+                        else
+                        {
+                            restart();
+                            loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
                             break;
                         }
                     }
                     auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
                     if (path.size() > 1)
-                        path.pop_back();//forse non serve più
+                        path.pop_back(); //forse non serve più
                     /*//debug
                 for (auto j : path)
                 {
@@ -198,7 +209,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         }
         else if (event.type == ALLEGRO_EVENT_KEY_UP)
         {
-            player.setFrame(player.getFrame() == 3 ? 3 : player.getFrame());//bu
+            player.setFrame(player.getFrame() == 3 ? 3 : player.getFrame()); //bu
             switch (event.keyboard.keycode)
             {
             case ALLEGRO_KEY_X:
@@ -230,16 +241,14 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             if (player.getFall())
             {
                 player.setY(player.getY() + 5);
-                if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' 
-                    || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
+                if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
                     player.setFall(false);
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && map[((player.getY()) / 20)][(player.getX() / 20)] == '-')
                 {
                     player.setFall(false);
                     player.setFrame(5);
                 }
-                if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && lastIsDown 
-                    && map[((player.getY() + 5) / 20)][(player.getX() / 20)] != '#')
+                if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && lastIsDown && map[((player.getY() + 5) / 20)][(player.getX() / 20)] != '#')
                 {
                     player.setFall(true);
                     player.setFrame(4);
@@ -254,8 +263,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     {
                         map[i->first][i->second] = ' ';
                     }
-                    else if (map[i->first][i->second] != ' ' && map[i->first][i->second] != '/' && map[i->first][i->second] != '^' 
-                        && map[i->first][i->second] != '#' && map[i->first][i->second] != '}' && !i->already)
+                    else if (map[i->first][i->second] != ' ' && map[i->first][i->second] != '/' && map[i->first][i->second] != '^' && map[i->first][i->second] != '#' && map[i->first][i->second] != '}' && !i->already)
                     {
                         map[i->first][i->second]++;
                     }
@@ -289,28 +297,30 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
     }
 }
 
-bool GameManager::avaibleSpot(int x, int y)
+bool GameManager::avaibleSpot(int y, int x)
 {
     for (auto i : enemies)
     {
-        if (y == i.getX() / 20 && x == i.getY() / 20)//i +10 e -10
+        if (x == i.getX() / 20 && y == i.getY() / 20)
             return false;
     }
     return true;
 }
 
-void GameManager::restart(){
+void GameManager::restart()
+{
     player.setX(player.getInitX());
     player.setY(player.getInitY());
-    player.setFall(false);//se muore mentre cade si bugga
+    player.setFall(false);
     player.setFrame(0);
     player.setPoints(0);
-    for(auto &i : enemies){
+    for (auto &i : enemies)
+    {
         i.setFrame(0);
         i.setX(i.getInitX());
         i.setY(i.getInitY());
         i.setFall(false);
-        i.setFallen(0);//era per questo che non si muoveva?
+        i.setFallen(0);
     }
     holes.clear();
 }
@@ -329,7 +339,6 @@ void GameManager::loadMap(string path)
                 {
                     map[i][j] = c;
                 }
-                //ALLEGRO_BITMAP * f = al_create_bitmap(20,20);
                 switch (c)
                 {
                 case '#':

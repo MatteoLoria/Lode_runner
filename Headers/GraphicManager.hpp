@@ -8,7 +8,7 @@
 #define GRAPHICMANAGER_H
 class GraphicManager
 {
-    private:// da aggiungere due dati
+    private:
         int level;
         int scale_w;
         int scale_h;
@@ -22,6 +22,5 @@ class GraphicManager
         void drawMap(char [16][28]);
         void drawEntity(Entity *);
         void drawFinalLadder(char [16][28]);
-        void dig(char[16][28], int, int, bool);
 };
 #endif
