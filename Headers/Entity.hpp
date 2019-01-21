@@ -31,6 +31,8 @@ public:
     virtual string getEntity() = 0;
     void setX(int);
     void setY(int);
+    void setInitX(int);
+    void setInitY(int);
     void setFrame(int);
     void setMirrorX(bool);
     void setMirrorY(bool);

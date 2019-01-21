@@ -8,7 +8,6 @@ using namespace std;
 class Enemy : public Entity
 {
   private:
-    ALLEGRO_BITMAP *sprite[12];
     int prevX = 0;
     int prevY = 0;
     double fallen = 0;
@@ -19,8 +18,7 @@ class Enemy : public Entity
     bool isRedHat();
   public:
     Enemy();
-    Enemy(int, int, string[12]);
-    ~Enemy();
+    Enemy(int, int);
     string getEntity();
     void update(char[16][28], list<Quadruple>, Player &, int &, int &);
     double getFallen();

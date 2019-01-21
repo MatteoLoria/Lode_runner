@@ -6,23 +6,8 @@ bool Enemy::isRedHat() { return hat; }
 double Enemy::getFallen() { return fallen;}
 void Enemy::setFallen(double fallen) { this->fallen = fallen; }
 
-Enemy::Enemy() : Entity()
-{
-    for (int i = 0; i < 12; ++i)
-        sprite[i] = NULL;
-}
-
-Enemy::Enemy(int x, int y, string sprite[12]) : Entity(x, y)
-{
-    for (int i = 0; i < 12; ++i)
-        this->sprite[i] = al_load_bitmap(sprite[i].c_str());
-}
-
-Enemy::~Enemy()
-{
-    for (int i = 0; i < 12; ++i)
-        al_destroy_bitmap(sprite[i]);
-}
+Enemy::Enemy() : Entity() {}
+Enemy::Enemy(int x, int y) : Entity(x, y) {}
 
 bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
 {

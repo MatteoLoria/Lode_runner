@@ -5,13 +5,11 @@
 class Player : public Entity
 {
     private:
-        ALLEGRO_BITMAP * sprite[10];
         int lives=3;
         int points=0;
     public:
         Player();
         Player(int, int, string[10]);
-        ~Player();
         int getLives();
         string getEntity();
         void increaseLives();

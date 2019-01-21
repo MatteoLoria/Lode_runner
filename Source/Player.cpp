@@ -10,23 +10,9 @@ void Player::increaseLives() { lives++; }
 void Player::increasePoints() { points++; }
 void Player::setPoints(int points) {this->points = points;}
 
-Player::Player() : Entity()
-{
-    for (int i = 0; i < 10; ++i)
-        sprite[i] = NULL;
-}
+Player::Player() : Entity() {}
 
-Player::Player(int x, int y, string sprite[10]) : Entity(x, y)
-{
-    for (int i = 0; i < 10; ++i)
-        this->sprite[i] = al_load_bitmap(sprite[i].c_str());
-}
-
-Player::~Player()
-{
-    for (int i = 0; i < 10; ++i)
-        al_destroy_bitmap(sprite[i]);
-}
+Player::Player(int x, int y, string sprite[10]) : Entity(x, y) {}
 
 bool Player::dig(char map[16][28], bool sx)
 {

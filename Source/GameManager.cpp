@@ -15,6 +15,8 @@ ALLEGRO_DISPLAY *d;
 
 GameManager::GameManager() {}
 
+GameManager::GameManager(GraphicManager graphic) {this->graphic = graphic;}
+
 GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic)
 {
     this->player = p;
@@ -25,7 +27,7 @@ GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic
     this->graphic = graphic;
 }
 
-void GameManager::run(int level, ALLEGRO_DISPLAY *display)
+int GameManager::run(int level, ALLEGRO_DISPLAY *display)
 {
     bool redraw = false;
     bool lastIsLeft = false;
@@ -40,18 +42,8 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_display_event_source(display));
-    if (level == 1)
-    {
-        this->loadMap("../Assets/Maps/level1.txt");
-    }
-    else if (level == 2)
-    {
-        this->loadMap("../Assets/Maps/level2.txt");
-    }
-    else
-    {
-        this->loadMap("../Assets/Maps/level3.txt");
-    }
+    createEntities(level);
+    loadMap("../Assets/Maps/level"+to_string(level)+".txt");
     pathFinder.setWorldSize({16, 28});
     al_start_timer(timer);
     bool close = false;
@@ -113,7 +105,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     {
                         player.decreaseLives();
                         if (player.getLives() == 0)
-                            return; //da aggiungere il menù
+                            return 0;
                         else
                         {
                             restart();
@@ -125,7 +117,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     {
                         player.decreaseLives();
                         if (player.getLives() == 0)
-                            return; //da aggiungere il menù
+                            return 0;
                         else
                         {
                             restart();
@@ -166,7 +158,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
         }
         else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
-            break;
+            return 0;
         }
         else if (event.type == ALLEGRO_EVENT_KEY_DOWN)
         {
@@ -286,6 +278,10 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 graphic.drawFinalLadder(map);
             }
+            if (player.getY() < 0)
+            {
+                return 1;
+            }
             graphic.drawMap(map);
             graphic.drawEntity(&player);
             for (auto i : enemies)
@@ -295,6 +291,7 @@ void GameManager::run(int level, ALLEGRO_DISPLAY *display)
             al_flip_display();
         }
     }
+    return -1;
 }
 
 bool GameManager::avaibleSpot(int y, int x)
@@ -360,5 +357,21 @@ void GameManager::loadMap(string path)
     else
     {
         cout << "File " + path + " does not exist";
+    }
+}
+
+void GameManager::createEntities(int level)
+{
+    enemies.clear();
+    if(level == 1)
+    {
+        player.setInitX(14*20);
+        player.setInitY((14*20)+18);
+        Enemy e1(14 * 20, (9 * 20) + 18);
+        Enemy e2(23 * 20, (6 * 20) + 18);
+        Enemy e3(5 * 20, (6 * 20) + 18);
+        enemies.push_back(e1);
+        enemies.push_back(e2);
+        enemies.push_back(e3);
     }
 }

@@ -19,6 +19,8 @@ void Entity::setMirrorRope(bool mirrorRope) { this->mirrorRope = mirrorRope; }
 void Entity::setFall(bool isFalling) { this->isFalling = isFalling; }
 void Entity::setX(int x) { this->x = x; }
 void Entity::setY(int y) { this->y = y; }
+void Entity::setInitX(int x) { this->x = x; this->init_x = x; }
+void Entity::setInitY(int y) { this->y = y; this->init_y = y; }
 void Entity::setFrame(int frame) { this->frame = frame; }
 void Entity::moveRight(char map[16][28], bool red)
 {

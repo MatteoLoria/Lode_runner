@@ -2,6 +2,8 @@
 #include <iostream>
 
 GraphicManager::GraphicManager() {}
+void GraphicManager::setLevel(int level) {this->level = level;}
+int GraphicManager::getLevel() {return level;}
 
 GraphicManager::GraphicManager(int level, int scale_w, int scale_h, int scale_x, int scale_y, ALLEGRO_BITMAP *buffer, ALLEGRO_DISPLAY *display)
 {
