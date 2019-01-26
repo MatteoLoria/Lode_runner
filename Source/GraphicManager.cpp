@@ -14,8 +14,28 @@ GraphicManager::GraphicManager(int level, int scale_w, int scale_h, int scale_x,
     this->scale_y = scale_y;
     this->buffer = buffer;
     this->display = display;
+    this->font = al_load_ttf_font("../Assets/Fonts/Quantum.otf",28,0);
+    if(!font){
+        exit(1);
+    }
 }
 
+int GraphicManager::drawMenu(){
+    int actual = 0;
+    string menu[3] = {"Play", "Credits", "Quit"};
+    al_set_target_bitmap(buffer);
+    while(true){
+        al_rest(1);
+        for(int i=0; i<3; i++){
+            al_draw_text(font,al_map_rgb(255,255,255),(al_get_bitmap_width(buffer)/2),i*48+((al_get_bitmap_height(buffer)-48)/2),0,menu[i].c_str());
+        }
+        al_set_target_bitmap(al_get_backbuffer(display));
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+        al_flip_display();
+    }
+    return 1;
+}
 void GraphicManager::drawMap(char map[16][28])
 {
     al_set_target_bitmap(buffer);

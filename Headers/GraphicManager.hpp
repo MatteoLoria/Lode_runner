@@ -16,9 +16,11 @@ class GraphicManager
         int scale_y;
         ALLEGRO_DISPLAY * display;
         ALLEGRO_BITMAP * buffer;
+        ALLEGRO_FONT * font;
     public:
         GraphicManager();
         GraphicManager(int, int, int ,int, int, ALLEGRO_BITMAP *, ALLEGRO_DISPLAY *);
+        int drawMenu();
         void drawMap(char [16][28]);
         void drawEntity(Entity *);
         void drawFinalLadder(char [16][28]);
