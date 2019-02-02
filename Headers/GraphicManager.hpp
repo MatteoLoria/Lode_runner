@@ -24,6 +24,7 @@ class GraphicManager
         void drawMap(char [16][28]);
         void drawEntity(Entity *);
         void drawFinalLadder(char [16][28]);
+        void drawStats(int points, int lives);
         void setLevel(int);
         int getLevel();
 };

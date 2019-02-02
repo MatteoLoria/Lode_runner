@@ -284,6 +284,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             }
             graphic.drawMap(map);
             graphic.drawEntity(&player);
+            graphic.drawStats(player.getPoints(), player.getLives());
             for (auto i : enemies)
             {
                 graphic.drawEntity(&i);

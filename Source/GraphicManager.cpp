@@ -14,7 +14,7 @@ GraphicManager::GraphicManager(int level, int scale_w, int scale_h, int scale_x,
     this->scale_y = scale_y;
     this->buffer = buffer;
     this->display = display;
-    this->font = al_load_ttf_font("../Assets/Fonts/Quantum.otf", 28, 0);
+    this->font = al_load_ttf_font("../Assets/Fonts/Quantum.otf", 48, 0);
     if (!font)
     {
         exit(1);
@@ -199,6 +199,11 @@ void GraphicManager::drawMap(char map[16][28])
     al_set_target_backbuffer(this->display);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+}
+
+void GraphicManager::drawStats(int points, int lives){
+    al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Points: %08d \t \t \t \t Lifes: %03d \t \t \t Level: %03d", points * 250, lives, level);
+    al_flip_display();
 }
 
 void GraphicManager::drawFinalLadder(char map[16][28])
