@@ -364,7 +364,7 @@ void GameManager::loadMap(string path)
 void GameManager::createEntities(int level)
 {
     enemies.clear();
-    if(level == 1 || level==2)
+    if(level == 1 || level==2 || level==3)
     {
         player.setInitX(14*20);
         player.setInitY((14*20)+18);

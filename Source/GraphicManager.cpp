@@ -203,7 +203,6 @@ void GraphicManager::drawMap(char map[16][28])
 
 void GraphicManager::drawStats(int points, int lives){
     al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Points: %08d \t \t \t \t Lifes: %03d \t \t \t Level: %03d", points * 250, lives, level);
-    al_flip_display();
 }
 
 void GraphicManager::drawFinalLadder(char map[16][28])
