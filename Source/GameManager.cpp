@@ -38,11 +38,11 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
     d = display;
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 15);
-    al_install_keyboard();
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_display_event_source(display));
     createEntities(level);
+    graphic.setLevel(level);
     loadMap("../Assets/Maps/level"+to_string(level)+".txt");
     pathFinder.setWorldSize({16, 28});
     al_start_timer(timer);
@@ -363,7 +363,7 @@ void GameManager::loadMap(string path)
 void GameManager::createEntities(int level)
 {
     enemies.clear();
-    if(level == 1)
+    if(level == 1 || level==2)
     {
         player.setInitX(14*20);
         player.setInitY((14*20)+18);

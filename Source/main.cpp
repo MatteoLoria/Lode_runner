@@ -12,6 +12,7 @@ int main()
     al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
     al_install_mouse();
     al_init_font_addon();
+    al_install_keyboard();
     al_init_ttf_addon();
     ALLEGRO_DISPLAY *display = al_create_display(WINDOW_W, WINDOW_H);
     ALLEGRO_BITMAP *buffer = al_create_bitmap(WINDOW_W, WINDOW_H);
@@ -24,31 +25,35 @@ int main()
     int scaleH = WINDOW_H * scale;
     int scaleX = (windowWidth - scaleW) / 2;
     int scaleY = (windowHeight - scaleH) / 2;
-    int feedback = 1;
-    int level = 2;
+    int feedback = 0;
+    int level = 0;
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
-    
-    GraphicManager Gr(3, scaleW, scaleH, scaleX, scaleY, buffer, display);
+
+    GraphicManager Gr(0, scaleW, scaleH, scaleX, scaleY, buffer, display);
 
     GameManager G(Gr);
-    while(feedback != 2)
+    while (feedback != 2)
     {
-        switch(feedback)
+        cout<<feedback;
+        switch (feedback)
         {
-            case 0:
-                feedback = Gr.drawMenu();
-                break;
-            case 1:
-                ++level;
-                Gr.setLevel(level);
-                feedback = G.run(level, display);
-                break;
+        case 0:
+            cout<<"dentro";
+            feedback = Gr.drawMenu();
+            break;
+        case 1:
+            ++level;
+            feedback = G.run(level, display);
+            break;
+        case 3:
+            //i credits poi li faccio
+            break;
         }
-        if(feedback == -1)
+        if (feedback == -1)
             return 0;
     }
-    
+
     al_destroy_display(display);
     return 0;
 }

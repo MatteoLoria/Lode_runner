@@ -2,8 +2,8 @@
 #include <iostream>
 
 GraphicManager::GraphicManager() {}
-void GraphicManager::setLevel(int level) {this->level = level;}
-int GraphicManager::getLevel() {return level;}
+void GraphicManager::setLevel(int level) { this->level = level; }
+int GraphicManager::getLevel() { return level; }
 
 GraphicManager::GraphicManager(int level, int scale_w, int scale_h, int scale_x, int scale_y, ALLEGRO_BITMAP *buffer, ALLEGRO_DISPLAY *display)
 {
@@ -14,25 +14,86 @@ GraphicManager::GraphicManager(int level, int scale_w, int scale_h, int scale_x,
     this->scale_y = scale_y;
     this->buffer = buffer;
     this->display = display;
-    this->font = al_load_ttf_font("../Assets/Fonts/Quantum.otf",28,0);
-    if(!font){
+    this->font = al_load_ttf_font("../Assets/Fonts/Quantum.otf", 28, 0);
+    if (!font)
+    {
         exit(1);
     }
+    cout << "okay";
 }
 
-int GraphicManager::drawMenu(){
-    int actual = 0;
-    string menu[3] = {"Play", "Credits", "Quit"};
+int GraphicManager::drawMenu()
+{
     al_set_target_bitmap(buffer);
-    while(true){
-        al_rest(1);
-        for(int i=0; i<3; i++){
-            al_draw_text(font,al_map_rgb(255,255,255),(al_get_bitmap_width(buffer)/2),i*48+((al_get_bitmap_height(buffer)-48)/2),0,menu[i].c_str());
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
+    al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_keyboard_event_source());
+    while (true)
+    {
+        ALLEGRO_EVENT ev;
+        al_wait_for_event(queue, &ev);
+        ALLEGRO_BITMAP *btp;
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        switch (ev.type)
+        {
+        case ALLEGRO_EVENT_MOUSE_AXES:
+            if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 80 && ev.mouse.y / (scale_h / 320) <= 130)
+            {
+                btp = al_create_bitmap(140, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120)); //choose color
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 190, 70, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 200 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 140 && ev.mouse.y / (scale_h / 320) <= 188)
+            {
+                btp = al_create_bitmap(195, 45);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 165, 128, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 200 && ev.mouse.y / (scale_h / 320) <= 250)
+            {
+                btp = al_create_bitmap(140, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 190, 190, 0);
+            }
+            else
+            {
+                if (btp)
+                {
+                    al_set_target_bitmap(btp);
+                    al_clear_to_color(al_map_rgb(0, 0, 0));
+                }
+                al_set_target_bitmap(buffer);
+            }
+            break;
+        case ALLEGRO_EVENT_KEY_DOWN:
+            if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                exit(1);
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 80 && ev.mouse.y / (scale_h / 320) <= 130)
+                return 1; //first level
+            else if (ev.mouse.x / (scale_w / 560) >= 200 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 140 && ev.mouse.y / (scale_h / 320) <= 188)
+                return 3; //credits
+            else if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 200 && ev.mouse.y / (scale_h / 320) <= 250)
+                return 2; //quit
+                break;
+        default:
+            break;
         }
+        al_draw_bitmap(menu, 0, 0, 0);
         al_set_target_bitmap(al_get_backbuffer(display));
         al_clear_to_color(al_map_rgb(0, 0, 0));
         al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
         al_flip_display();
+        al_set_target_bitmap(buffer);
+        al_clear_to_color(al_map_rgb(0, 0, 0));
     }
     return 1;
 }
@@ -128,7 +189,7 @@ void GraphicManager::drawMap(char map[16][28])
                 al_destroy_bitmap(bitmap);
                 break;
             case '&':
-                map[i][j]= ' ';
+                map[i][j] = ' ';
                 break;
             default: //clean space
                 break;
@@ -140,10 +201,14 @@ void GraphicManager::drawMap(char map[16][28])
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
 
-void GraphicManager::drawFinalLadder(char map[16][28]){
-    for(int i=0; i<16; i++){
-        for(int j=0; j<28; j++){
-            if(map[i][j]=='S'){
+void GraphicManager::drawFinalLadder(char map[16][28])
+{
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 28; j++)
+        {
+            if (map[i][j] == 'S')
+            {
                 map[i][j] = 'H';
             }
         }
@@ -155,12 +220,15 @@ void GraphicManager::drawEntity(Entity *E)
     ALLEGRO_BITMAP *bitmap = al_load_bitmap(("../Assets/Characters/" + E->getEntity() + "/" + to_string(E->getFrame()) + ".png").c_str());
     if (E->getFrame() == 0 || E->getFrame() == 1 || E->getFrame() == 2 || E->getFrame() == 10)
         al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, E->getMirrorX()); // X e Y are always in pixel
-    if(E->getEntity() == "Player"){
-        if(E->getFrame() == 8)
+    if (E->getEntity() == "Player")
+    {
+        if (E->getFrame() == 8)
             al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, 0);
-        if(E->getFrame() == 9)
+        if (E->getFrame() == 9)
             al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, 0);
-    }else{
+    }
+    else
+    {
         if (E->getFrame() == 8 || E->getFrame() == 9)
             al_draw_bitmap(bitmap, E->getX(), E->getY() - 18, E->getMirrorX());
     }
