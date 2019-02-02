@@ -24,12 +24,12 @@ int main()
     int scaleH = WINDOW_H * scale;
     int scaleX = (windowWidth - scaleW) / 2;
     int scaleY = (windowHeight - scaleH) / 2;
-    int feedback = 0;
-    int level = 0;
+    int feedback = 1;
+    int level = 2;
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     
-    GraphicManager Gr(0, scaleW, scaleH, scaleX, scaleY, buffer, display);
+    GraphicManager Gr(3, scaleW, scaleH, scaleX, scaleY, buffer, display);
 
     GameManager G(Gr);
     while(feedback != 2)
