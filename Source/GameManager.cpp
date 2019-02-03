@@ -325,6 +325,7 @@ void GameManager::restart()
 
 void GameManager::loadMap(string path)
 {
+    pathFinder.clearCollisions();
     ifstream input(path);
     if (input.is_open())
     {
@@ -364,13 +365,35 @@ void GameManager::loadMap(string path)
 void GameManager::createEntities(int level)
 {
     enemies.clear();
-    if(level == 1 || level==2 || level==3)
+    if(level == 1)
     {
         player.setInitX(14*20);
         player.setInitY((14*20)+18);
         Enemy e1(14 * 20, (9 * 20) + 18);
         Enemy e2(23 * 20, (6 * 20) + 18);
         Enemy e3(5 * 20, (6 * 20) + 18);
+        enemies.push_back(e1);
+        enemies.push_back(e2);
+        enemies.push_back(e3);
+    }
+    else if(level == 2)
+    {
+        player.setInitX(14*20);
+        player.setInitY((14*20)+18);
+        Enemy e1(4 * 20, (3 * 20) + 18);
+        Enemy e2(4 * 20, (8 * 20) + 18);
+        Enemy e3(20 * 20, (5 * 20) + 18);
+        enemies.push_back(e1);
+        enemies.push_back(e2);
+        enemies.push_back(e3);
+    }
+    else if(level == 3)
+    {
+        player.setInitX(12*20);
+        player.setInitY((14*20)+18);
+        Enemy e1(7 * 20, (4 * 20) + 18);
+        Enemy e2(15 * 20, (7 * 20) + 18);
+        Enemy e3(19 * 20, (9 * 20) + 18);
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);

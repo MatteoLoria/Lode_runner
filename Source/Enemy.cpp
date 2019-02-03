@@ -69,11 +69,11 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
     if (this->getFall() && !headInHole)
     {
         this->setY(this->getY() + 5);
-        /*if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' 
+        if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' 
             || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '@')
         {
             this->setFall(false);
-            /*if(this->isRedHat()){ non si sa mai
+            if(this->isRedHat()){
             setRedHat(false);
             if(map[(this->getY()+5)/20][(this->getX()/20)+1] == ' ')
                 map[(this->getY()+5)/20][(this->getX()/20)+1] == '$';
@@ -81,7 +81,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
                 map[(this->getY()+5)/20][(this->getX()/20)-1] == '$';
         }
         }
-        /*if (map[((this->getY() - 18) / 20)][(this->getX() / 20)] == '-' && map[((this->getY()) / 20)][(this->getX() / 20)] == '-')
+        if (map[((this->getY() - 18) / 20)][(this->getX() / 20)] == '-' && map[((this->getY()) / 20)][(this->getX() / 20)] == '-')
         {
             this->setFall(false);
             this->setFrame(5);
@@ -90,7 +90,7 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
         {
             this->setFall(true);
             this->setFrame(4);
-        }Commento tutto perchè dovrebbe essere inutile*/
+        }
     }
     else
     {
