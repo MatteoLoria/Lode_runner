@@ -23,6 +23,7 @@ private:
     void restart();
     bool keys[6] = {false,false,false,false,false,false};
     bool avaibleSpot(int x, int y);
+    int coins = 0;
 public:
     GameManager();
     GameManager(GraphicManager);

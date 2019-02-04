@@ -25,10 +25,11 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
                     this->setY(this->getInitY());
                     return true;
                 }
-                if (this->fallen > 0.09 && this->fallen < 0.31 && i.third < 6.6)
+                /*if (this->fallen > 0.09 && this->fallen < 0.31 && i.third < 6.6)
                 {
+                    cout << "ciao1";
                     map[getY() / 20][getX() / 20] = '}';
-                }
+                }*/
                 return true;
             }
         }
@@ -44,11 +45,12 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
                     this->setY(this->getInitY());
                     return true;
                 }
-                if (this->fallen > 0.09 && this->fallen < 0.31 && i.third < 6.6)
-                {
+                //if (this->fallen > 0.09 && this->fallen < 0.31 && i.third < 6.6)
+                //{
+                //    cout << "ciao2";
                     map[getY() / 20][getX() / 20] = '}';
-                    this->setX((this->getX()/20)*20);
-                }
+                //    this->setX((this->getX()/20)*20);
+                //}
                 return true;
             }
         }

@@ -42,7 +42,6 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_display_event_source(display));
     createEntities(level);
-    graphic.setLevel(level);
     loadMap("../Assets/Maps/level"+to_string(level)+".txt");
     pathFinder.setWorldSize({16, 28});
     al_start_timer(timer);
@@ -101,7 +100,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 for (auto &i : enemies)
                 {
-                    if (i.getMirrorX() && (i.getX() == player.getX()+15)  && i.getY() == player.getY())
+                    /*if (i.getMirrorX() && (i.getX() == player.getX()+15)  && i.getY() == player.getY())
                     {
                         player.decreaseLives();
                         if (player.getLives() == 0)
@@ -124,7 +123,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                             loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
                             break;
                         }
-                    }
+                    }*/
                     auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
                     if (path.size() > 1)
                         path.pop_back(); //forse non serve più
@@ -274,17 +273,18 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     }
                 }
             }
-            if (player.getPoints() == 6)
+            if (player.getPoints() == coins)
             {
                 graphic.drawFinalLadder(map);
             }
             if (player.getY() < 0)
             {
+                restart();
                 return 1;
             }
-            graphic.drawMap(map);
+            graphic.drawMap(map, level);
             graphic.drawEntity(&player);
-            graphic.drawStats(player.getPoints(), player.getLives());
+            graphic.drawStats(player.getPoints(), coins, player.getLives(), level);
             for (auto i : enemies)
             {
                 graphic.drawEntity(&i);
@@ -307,6 +307,7 @@ bool GameManager::avaibleSpot(int y, int x)
 
 void GameManager::restart()
 {
+    coins = 0;
     player.setX(player.getInitX());
     player.setY(player.getInitY());
     player.setFall(false);
@@ -352,9 +353,12 @@ void GameManager::loadMap(string path)
             }
         }
         for (int i = 0; i < 16; i++)
-            for (int j = 0; j < 28; j++)
+            for (int j = 0; j < 28; j++){
                 if (map[i][j] == ' ' && map[i + 1][j] != '#' && map[i + 1][j] != 'H' && map[i + 1][j] != '@')
                     pathFinder.addCollision({i, j});
+                if(map[i][j] == '$')
+                    ++coins;
+            }
     }
     else
     {
@@ -372,8 +376,8 @@ void GameManager::createEntities(int level)
         Enemy e1(14 * 20, (9 * 20) + 18);
         Enemy e2(23 * 20, (6 * 20) + 18);
         Enemy e3(5 * 20, (6 * 20) + 18);
-        enemies.push_back(e1);
-        enemies.push_back(e2);
+        //enemies.push_back(e1);
+        //enemies.push_back(e2);
         enemies.push_back(e3);
     }
     else if(level == 2)

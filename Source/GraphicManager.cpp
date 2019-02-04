@@ -2,12 +2,9 @@
 #include <iostream>
 
 GraphicManager::GraphicManager() {}
-void GraphicManager::setLevel(int level) { this->level = level; }
-int GraphicManager::getLevel() { return level; }
 
-GraphicManager::GraphicManager(int level, int scale_w, int scale_h, int scale_x, int scale_y, ALLEGRO_BITMAP *buffer, ALLEGRO_DISPLAY *display)
+GraphicManager::GraphicManager(int scale_w, int scale_h, int scale_x, int scale_y, ALLEGRO_BITMAP *buffer, ALLEGRO_DISPLAY *display)
 {
-    this->level = level;
     this->scale_h = scale_h;
     this->scale_w = scale_w;
     this->scale_x = scale_x;
@@ -19,7 +16,6 @@ GraphicManager::GraphicManager(int level, int scale_w, int scale_h, int scale_x,
     {
         exit(1);
     }
-    cout << "okay";
 }
 
 int GraphicManager::drawMenu()
@@ -97,7 +93,7 @@ int GraphicManager::drawMenu()
     }
     return 1;
 }
-void GraphicManager::drawMap(char map[16][28])
+void GraphicManager::drawMap(char map[16][28], int level)
 {
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -201,8 +197,8 @@ void GraphicManager::drawMap(char map[16][28])
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
 
-void GraphicManager::drawStats(int points, int lives){
-    al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Points: %08d \t \t \t \t Lifes: %03d \t \t \t Level: %03d", points * 250, lives, level);
+void GraphicManager::drawStats(int points, int coins, int lives, int level){
+    al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Coins Remaining: %08d \t \t \t \t Lifes: %03d \t \t \t Level: %03d", coins-points, lives, level);
 }
 
 void GraphicManager::drawFinalLadder(char map[16][28])

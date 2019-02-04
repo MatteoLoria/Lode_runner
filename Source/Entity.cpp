@@ -77,7 +77,7 @@ void Entity::moveRight(char map[16][28], bool red)
 
 void Entity::moveLeft(char map[16][28], bool red)
 {
-    if (map[(getY() - 18) / 20][(getX() - 1) / 20] != '#' && map[getY() / 20][(getX() - 1) / 20] != '#')
+    if (map[(getY() - 18) / 20][(getX() - 1) / 20] != '#' && map[getY() / 20][(getX() - 1) / 20] != '#' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '@' && map[getY() / 20][(getX() - 1) / 20] != '@')
     { //controllo blocchi
         setX(getX() - 5);
         if (map[(getY() - 18) / 20][(getX() / 20) + 1] == '-' && map[getY() / 20][(getX() / 20) + 1] == '-')
@@ -97,7 +97,7 @@ void Entity::moveLeft(char map[16][28], bool red)
         else
             red ? setFrame(8) : setFrame(0);
         if (map[(getY() - 18) / 20][(getX() / 20)] == '-' && map[((getY()) / 20)][(getX() / 20)] == ' ' 
-            && map[((getY() - 5) / 20)][(getX() / 20)] == ' ' && map[getY() / 20][getX() / 20] != 'H')
+            && map[((getY() - 5) / 20)][(getX() / 20)] == ' ' && map[getY() / 20][(getX()+18) / 20] != 'H')
         {
             red ? setFrame(11) : setFrame(4);
             setFall(true);
@@ -181,7 +181,7 @@ void Entity::moveDown(char map[16][28], bool red)
     if (map[(getY() / 20) + 1][(getX() + 10) / 20] == 'H' || map[(getY() / 20)][(getX() + 10) / 20] == 'H') //moving from right and stair is at left
     { 
         setX(((getX() + 10) / 20) * 20);
-        if (map[((getY() + 5) / 20)][((getX()) / 20)] != '#')
+        if (map[((getY() + 5) / 20)][((getX()) / 20)] != '#' && map[((getY() + 5) / 20)][((getX()) / 20)] != '@')
         {
             setY(getY() + 5);
             setFrame(3);

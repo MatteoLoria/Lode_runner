@@ -30,7 +30,7 @@ int main()
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
-    GraphicManager Gr(0, scaleW, scaleH, scaleX, scaleY, buffer, display);
+    GraphicManager Gr(scaleW, scaleH, scaleX, scaleY, buffer, display);
 
     GameManager G(Gr);
     while (feedback != 2)
@@ -39,7 +39,6 @@ int main()
         switch (feedback)
         {
         case 0:
-            cout<<"dentro";
             feedback = Gr.drawMenu();
             break;
         case 1:

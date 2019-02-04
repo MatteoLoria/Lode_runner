@@ -9,7 +9,6 @@
 class GraphicManager
 {
     private:
-        int level;
         int scale_w;
         int scale_h;
         int scale_x;
@@ -19,12 +18,12 @@ class GraphicManager
         ALLEGRO_FONT * font;
     public:
         GraphicManager();
-        GraphicManager(int, int, int ,int, int, ALLEGRO_BITMAP *, ALLEGRO_DISPLAY *);
+        GraphicManager(int, int ,int, int, ALLEGRO_BITMAP *, ALLEGRO_DISPLAY *);
         int drawMenu();
-        void drawMap(char [16][28]);
+        void drawMap(char [16][28], int);
         void drawEntity(Entity *);
         void drawFinalLadder(char [16][28]);
-        void drawStats(int points, int lives);
+        void drawStats(int , int , int, int);
         void setLevel(int);
         int getLevel();
 };
