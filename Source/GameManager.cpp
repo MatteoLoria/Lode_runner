@@ -100,10 +100,11 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 for (auto &i : enemies)
                 {
-                    /*if (i.getMirrorX() && (i.getX() == player.getX()+15)  && i.getY() == player.getY())
+                    /*if ((i.getMirrorX() && (i.getX() == player.getX()+15)  && i.getY() == player.getY()) || (!i.getMirrorX() && i.getX() + 15 == player.getX() && i.getY() == player.getY())
+                        || (i.getY() + 15 == player.getY() && i.getX() == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX()))
                     {
                         player.decreaseLives();
-                        if (player.getLives() == 0)
+                        if (player.getLives() == 0)//quando muore va controllato il keys[]
                             return 0;
                         else
                         {
@@ -127,6 +128,17 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
                     if (path.size() > 1)
                         path.pop_back(); //forse non serve più
+                    else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true)){
+                        player.decreaseLives();
+                        if (player.getLives() == 0)//quando muore va controllato il keys[]
+                            return 0;
+                        else
+                        {
+                            restart();
+                            loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                            break;
+                        }
+                    }
                     /*//debug
                 for (auto j : path)
                 {
@@ -226,6 +238,24 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 break;
             }
         }
+        for(auto i : enemies)
+            /*if ((i.getMirrorX() && (i.getX() == player.getX()+15)  && i.getY() == player.getY()) || (!i.getMirrorX() && i.getX() + 15 == player.getX() && i.getY() == player.getY())
+                || (i.getY() + 15 == player.getY() && i.getX() == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX())
+                || (i.getY() + 15 == player.getY() && i.getX() + 5 == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX() + 5)
+                || (i.getY() + 15 == player.getY() && i.getX() + 10 == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX() + 10)
+                || (i.getY() + 15 == player.getY() && i.getX() + 15 == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX() + 15))
+            {
+                cout << "qui";
+                player.decreaseLives();
+                if (player.getLives() == 0)//quando muore va controllato il keys[]
+                    return 0;
+                else
+                {
+                    restart();
+                    loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                    break;
+                }
+            }*/
         if (redraw && al_is_event_queue_empty(queue))
         {
             redraw = false;
@@ -281,6 +311,18 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 restart();
                 return 1;
+            }
+            if (player.getY() > 340 || map[player.getY()/20][player.getX()/20] == '#')
+            {
+                player.decreaseLives();
+                if (player.getLives() == 0)//quando muore va controllato il keys[]
+                    return 0;
+                else
+                {
+                    restart();
+                    loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                    break;
+                }
             }
             graphic.drawMap(map, level);
             graphic.drawEntity(&player);
@@ -377,8 +419,8 @@ void GameManager::createEntities(int level)
         Enemy e1(14 * 20, (9 * 20) + 18);
         Enemy e2(23 * 20, (6 * 20) + 18);
         Enemy e3(5 * 20, (6 * 20) + 18);
-        //enemies.push_back(e1);
-        //enemies.push_back(e2);
+        enemies.push_back(e1);
+        enemies.push_back(e2);
         enemies.push_back(e3);
     }
     else if(level == 2)
@@ -400,7 +442,7 @@ void GameManager::createEntities(int level)
         Enemy e2(15 * 20, (7 * 20) + 18);
         Enemy e3(19 * 20, (9 * 20) + 18);
         enemies.push_back(e1);
-        //enemies.push_back(e2);
-        //enemies.push_back(e3);
+        enemies.push_back(e2);
+        enemies.push_back(e3);
     }
 }

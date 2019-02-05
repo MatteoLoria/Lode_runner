@@ -168,12 +168,9 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
             this->setFall(false);
         }
     }
-    if (map[getY() / 20][(getX()) / 20] == '$')
+    if (map[getY() / 20][(getX()) / 20] == '$' && !isRedHat())
     {
-        if (!isRedHat())
-        {
-            setRedHat(true);
-            map[getY() / 20][getX() / 20] = ' ';
-        }
+        setRedHat(true);
+        map[getY() / 20][getX() / 20] = ' ';
     }
 }

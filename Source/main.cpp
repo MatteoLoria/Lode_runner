@@ -26,7 +26,7 @@ int main()
     int scaleX = (windowWidth - scaleW) / 2;
     int scaleY = (windowHeight - scaleH) / 2;
     int feedback = 0;
-    int level = 4;
+    int level = 0;
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -35,10 +35,10 @@ int main()
     GameManager G(Gr);
     while (feedback != 2)
     {
-        cout<<feedback;
         switch (feedback)
         {
         case 0:
+            level = 0;
             feedback = Gr.drawMenu();
             break;
         case 1:
