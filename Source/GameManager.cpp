@@ -363,6 +363,7 @@ void GameManager::loadMap(string path)
     else
     {
         cout << "File " + path + " does not exist";
+        exit(1);
     }
 }
 
@@ -391,7 +392,7 @@ void GameManager::createEntities(int level)
         enemies.push_back(e2);
         enemies.push_back(e3);
     }
-    else if(level == 3)
+    else if(level >= 3)
     {
         player.setInitX(12*20);
         player.setInitY((14*20)+18);
@@ -399,7 +400,7 @@ void GameManager::createEntities(int level)
         Enemy e2(15 * 20, (7 * 20) + 18);
         Enemy e3(19 * 20, (9 * 20) + 18);
         enemies.push_back(e1);
-        enemies.push_back(e2);
-        enemies.push_back(e3);
+        //enemies.push_back(e2);
+        //enemies.push_back(e3);
     }
 }

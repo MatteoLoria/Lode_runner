@@ -98,6 +98,8 @@ void GraphicManager::drawMap(char map[16][28], int level)
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     ALLEGRO_BITMAP *bitmap = NULL;
+    if(level>3)
+        level=3;
     for (int i = 0; i < 16; ++i)
     {
         for (int j = 0; j < 28; ++j)
