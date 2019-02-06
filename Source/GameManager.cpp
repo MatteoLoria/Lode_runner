@@ -48,6 +48,8 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
     bool close = false;
     while (!close)
     {
+        waitForDigDx += 0.1;
+        waitForDigSx += 0.1;
         ALLEGRO_EVENT event;
         al_wait_for_event(queue, &event);
         if (event.type == ALLEGRO_EVENT_TIMER)
@@ -68,7 +70,6 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             {
                 player.moveDown(map, false);
             }
-            waitForDigDx += 0.1;
             if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
             {
                 waitForDigDx = 0.0;
@@ -79,7 +80,6 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                                      (player.getX() + 39) / 20, 0, 0});
                 }
             }
-            waitForDigSx += 0.1;
             if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
             {
                 waitForDigSx = 0.0;
@@ -238,24 +238,6 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 break;
             }
         }
-        for(auto i : enemies)
-            /*if ((i.getMirrorX() && (i.getX() == player.getX()+15)  && i.getY() == player.getY()) || (!i.getMirrorX() && i.getX() + 15 == player.getX() && i.getY() == player.getY())
-                || (i.getY() + 15 == player.getY() && i.getX() == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX())
-                || (i.getY() + 15 == player.getY() && i.getX() + 5 == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX() + 5)
-                || (i.getY() + 15 == player.getY() && i.getX() + 10 == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX() + 10)
-                || (i.getY() + 15 == player.getY() && i.getX() + 15 == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX() + 15))
-            {
-                cout << "qui";
-                player.decreaseLives();
-                if (player.getLives() == 0)//quando muore va controllato il keys[]
-                    return 0;
-                else
-                {
-                    restart();
-                    loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
-                    break;
-                }
-            }*/
         if (redraw && al_is_event_queue_empty(queue))
         {
             redraw = false;
@@ -315,13 +297,15 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             if (player.getY() > 340 || map[player.getY()/20][player.getX()/20] == '#')
             {
                 player.decreaseLives();
-                if (player.getLives() == 0)//quando muore va controllato il keys[]
+                if (player.getLives() == 0){//quando muore va controllato il keys[]
+                    player.setLives(3);
+                    restart();
                     return 0;
+                }
                 else
                 {
                     restart();
                     loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
-                    break;
                 }
             }
             graphic.drawMap(map, level);
@@ -434,13 +418,35 @@ void GameManager::createEntities(int level)
         enemies.push_back(e2);
         enemies.push_back(e3);
     }
-    else if(level >= 3)
+    else if(level == 3)
     {
         player.setInitX(12*20);
         player.setInitY((14*20)+18);
-        Enemy e1(7 * 20, (4 * 20) + 18);
-        Enemy e2(15 * 20, (7 * 20) + 18);
-        Enemy e3(19 * 20, (9 * 20) + 18);
+        Enemy e1(4 * 20, (11 * 20) + 18);
+        Enemy e2(13 * 20, (2 * 20) + 18);
+        Enemy e3(22 * 20, (3 * 20) + 18);
+        enemies.push_back(e1);
+        enemies.push_back(e2);
+        enemies.push_back(e3);
+    }
+    else if(level == 4)
+    {
+        player.setInitX(12*20);
+        player.setInitY((14*20)+18);
+        Enemy e1(9 * 20, (1 * 20) + 18);
+        Enemy e2(19 * 20, (1 * 20) + 18);
+        Enemy e3(16 * 20, (8 * 20) + 18);
+        enemies.push_back(e1);
+        enemies.push_back(e2);
+        enemies.push_back(e3);
+    }
+    else if(level == 5)
+    {
+        player.setInitX(12*20);
+        player.setInitY((14*20)+18);
+        Enemy e1(9 * 20, (11 * 20) + 18);
+        Enemy e2(7 * 20, (4 * 20) + 18);
+        Enemy e3(26 * 20, (6 * 20) + 18);
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);

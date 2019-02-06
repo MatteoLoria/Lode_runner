@@ -45,7 +45,7 @@ int GraphicManager::drawMenu()
         switch (ev.type)
         {
         case ALLEGRO_EVENT_MOUSE_AXES:
-            cout<<ev.mouse.x / (scale_w / 560) << " " << ev.mouse.y / (scale_h / 320) << endl;
+            //cout<<ev.mouse.x / (scale_w / 560) << " " << ev.mouse.y / (scale_h / 320) << endl;
             if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 85 && ev.mouse.y / (scale_h / 320) <= 140)
             {
                 btp = al_create_bitmap(140, 40);
@@ -80,7 +80,7 @@ int GraphicManager::drawMenu()
                 al_set_target_bitmap(buffer);
             }
             break;
-        case ALLEGRO_EVENT_KEY_DOWN:
+        case ALLEGRO_EVENT_KEY_DOWN://entra qui(vedi nel main)
             if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
                 exit(1);
             break;

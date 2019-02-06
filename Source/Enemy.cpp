@@ -76,12 +76,12 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
         {
             this->setFall(false);
             if(this->isRedHat()){
-            setRedHat(false);
-            if(map[(this->getY()+5)/20][(this->getX()/20)+1] == ' ')
-                map[(this->getY()+5)/20][(this->getX()/20)+1] == '$';
-            else
-                map[(this->getY()+5)/20][(this->getX()/20)-1] == '$';
-        }
+                setRedHat(false);
+                if(map[(this->getY()+5)/20][(this->getX()/20)+1] == ' ')
+                    map[(this->getY()+5)/20][(this->getX()/20)+1] == '$';
+                else
+                    map[(this->getY()+5)/20][(this->getX()/20)-1] == '$';
+            }
         }
         if (map[((this->getY() - 18) / 20)][(this->getX() / 20)] == '-' && map[((this->getY()) / 20)][(this->getX() / 20)] == '-')
         {

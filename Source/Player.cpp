@@ -6,7 +6,7 @@ string Player::getEntity() { return "Player"; }
 int Player::getPoints(){return points;}
 int Player::getLives() { return lives; }
 void Player::decreaseLives() { lives--; }
-void Player::increaseLives() { lives++; }
+void Player::setLives(int lives) { this->lives = lives; }
 void Player::increasePoints() { points++; }
 void Player::setPoints(int points) {this->points = points;}
 

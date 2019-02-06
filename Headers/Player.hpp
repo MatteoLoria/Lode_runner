@@ -12,7 +12,7 @@ class Player : public Entity
         Player(int, int, string[10]);
         int getLives();
         string getEntity();
-        void increaseLives();
+        void setLives(int);
         void decreaseLives();
         void increasePoints();
         int getPoints();

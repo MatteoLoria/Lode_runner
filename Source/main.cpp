@@ -27,7 +27,7 @@ int main()
     int scaleX = (windowWidth - scaleW) / 2;
     int scaleY = (windowHeight - scaleH) / 2;
     int feedback = 0;
-    int level = 0;
+    int level = 0;// da controllare il livello 4(scale e monete sulla mappa)
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -38,20 +38,21 @@ int main()
     {
         switch (feedback)
         {
-        case 0:
-            level = 0;
-            feedback = Gr.drawMenu();
-            break;
-        case 1:
-            ++level;
-            feedback = G.run(level, display);
-            break;
-        case 3:
-            //i credits poi li faccio
-            break;
+            case 0:
+                level = 4;
+                feedback = Gr.drawMenu();//quando muori bisogna premere un tasto qualsiasi per far riapparire il menu
+                break;
+            case 1:
+                ++level;
+                feedback = G.run(level, display);
+                break;
+            case 3:
+                //i credits poi li faccio
+                break;
+            case -1:
+                return 0;
+                break;
         }
-        if (feedback == -1)
-            return 0;
     }
 
     al_destroy_display(display);
