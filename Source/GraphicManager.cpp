@@ -45,7 +45,8 @@ int GraphicManager::drawMenu()
         switch (ev.type)
         {
         case ALLEGRO_EVENT_MOUSE_AXES:
-            if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 80 && ev.mouse.y / (scale_h / 320) <= 130)
+            cout<<ev.mouse.x / (scale_w / 560) << " " << ev.mouse.y / (scale_h / 320) << endl;
+            if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 85 && ev.mouse.y / (scale_h / 320) <= 140)
             {
                 btp = al_create_bitmap(140, 40);
                 al_set_target_bitmap(btp);
@@ -53,7 +54,7 @@ int GraphicManager::drawMenu()
                 al_set_target_bitmap(buffer);
                 al_draw_bitmap(btp, 190, 70, 0);
             }
-            else if (ev.mouse.x / (scale_w / 560) >= 200 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 140 && ev.mouse.y / (scale_h / 320) <= 188)
+            else if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 420 && ev.mouse.y / (scale_h / 320) >= 150 && ev.mouse.y / (scale_h / 320) <= 195)
             {
                 btp = al_create_bitmap(195, 45);
                 al_set_target_bitmap(btp);
@@ -61,7 +62,7 @@ int GraphicManager::drawMenu()
                 al_set_target_bitmap(buffer);
                 al_draw_bitmap(btp, 165, 128, 0);
             }
-            else if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 200 && ev.mouse.y / (scale_h / 320) <= 250)
+            else if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 210 && ev.mouse.y / (scale_h / 320) <= 260)
             {
                 btp = al_create_bitmap(140, 40);
                 al_set_target_bitmap(btp);
@@ -83,7 +84,7 @@ int GraphicManager::drawMenu()
             if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
                 exit(1);
             break;
-        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+        case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
             if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 80 && ev.mouse.y / (scale_h / 320) <= 130)
                 return 1; //first level
             else if (ev.mouse.x / (scale_w / 560) >= 200 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 140 && ev.mouse.y / (scale_h / 320) <= 188)
