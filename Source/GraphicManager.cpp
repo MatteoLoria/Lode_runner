@@ -20,17 +20,28 @@ GraphicManager::GraphicManager(int scale_w, int scale_h, int scale_x, int scale_
 
 int GraphicManager::drawMenu()
 {
+    //cout<<"okay";
+    if(!buffer)
+        return 2;
     al_set_target_bitmap(buffer);
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
-    ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
+    if(!queue)
+        return 2;
+    //cout<<"okay";
     al_register_event_source(queue, al_get_mouse_event_source());
     al_register_event_source(queue, al_get_keyboard_event_source());
+    //cout<<"okay";
+    ALLEGRO_BITMAP *btp = al_create_bitmap(140,40);
     while (true)
     {
+        ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
+        if(!menu)
+            return 2;
+        //cout<<"okay";
         ALLEGRO_EVENT ev;
         al_wait_for_event(queue, &ev);
-        ALLEGRO_BITMAP *btp;
         al_clear_to_color(al_map_rgb(0, 0, 0));
+       // cout<<"okay";
         switch (ev.type)
         {
         case ALLEGRO_EVENT_MOUSE_AXES:
@@ -60,7 +71,7 @@ int GraphicManager::drawMenu()
             }
             else
             {
-                if (btp)
+                if (btp != 0 || btp != NULL)
                 {
                     al_set_target_bitmap(btp);
                     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -90,6 +101,12 @@ int GraphicManager::drawMenu()
         al_flip_display();
         al_set_target_bitmap(buffer);
         al_clear_to_color(al_map_rgb(0, 0, 0));
+        if(btp != 0)
+            al_destroy_bitmap(btp);
+        if(menu != 0)
+            al_destroy_bitmap(menu);
+        btp = 0;
+        menu = 0;
     }
     return 1;
 }

@@ -10,7 +10,8 @@ int main()
     al_init();
     al_init_image_addon();
     al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
-    al_install_mouse();
+    if(!al_install_mouse())
+        exit(2);
     al_init_font_addon();
     al_install_keyboard();
     al_init_ttf_addon();
