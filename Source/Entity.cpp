@@ -110,10 +110,10 @@ void Entity::moveLeft(char map[16][28], bool red)
         setMirrorX(true);
         setMirrorRope(true);
     }
-    if (map[(getY() + 5) / 20][(getX() + 18) / 20] == ' ' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '-' 
-        && map[(getY() - 18) / 20][(getX()) / 20] != '-' && map[(getY()) / 20][(getX() / 20)] != 'H' 
-        && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' 
-        && map[(getY() + 5) / 20][(getX() / 20)] != '}')
+    if ((map[(getY() + 5) / 20][(getX() + 18) / 20] == ' ' || map[(getY() + 5) / 20][(getX() + 18) / 20] == '$') 
+        && map[(getY() - 18) / 20][(getX() - 1) / 20] != '-' && map[(getY() - 18) / 20][(getX()) / 20] != '-' 
+        && map[(getY() + 5) / 20][(getX() / 20)] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '#' //ho aggiunto un +5
+        && map[(getY() + 5) / 20][(getX() / 20)] != '@' && map[(getY() + 5) / 20][(getX() / 20)] != '}')
     {
         red ? setFrame(11) : setFrame(4);
         setFall(true);
@@ -194,6 +194,7 @@ void Entity::moveDown(char map[16][28], bool red)
     if (map[(getY() / 20) + 1][getX() / 20] == ' ' && map[(getY() / 20) + 1][getX() / 20] != 'H' 
         && map[(getY() / 20) + 1][getX() / 20] != '#' && map[(getY() / 20) + 1][(getX() + 18) / 20] != '#')
     {
+        cout << "ciao";
         setFrame(4);
         setFall(true);
     }
