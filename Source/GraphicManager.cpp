@@ -262,3 +262,13 @@ void GraphicManager::drawEntity(Entity *E)
     al_set_target_backbuffer(this->display);
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
+
+void GraphicManager::drawYouDied()
+{
+    ALLEGRO_BITMAP * b = al_load_bitmap("../Assets/Tiles/Died.png");
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_scaled_bitmap(b, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+    al_destroy_bitmap(b);
+    al_flip_display();
+}

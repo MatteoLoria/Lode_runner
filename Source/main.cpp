@@ -61,7 +61,7 @@ int main()
     int scaleX = (windowWidth - scaleW) / 2;
     int scaleY = (windowHeight - scaleH) / 2;
     int feedback = 0;
-    int level = 4;// da controllare il movimento nel livello 3
+    int level = 0;// da controllare il movimento nel livello 3
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -73,6 +73,7 @@ int main()
         switch (feedback)
         {
             case 0:
+                level = 0;
                 feedback = Gr.drawMenu();//quando muori bisogna premere un tasto qualsiasi per far riapparire il menu
                 break;
             case 1:

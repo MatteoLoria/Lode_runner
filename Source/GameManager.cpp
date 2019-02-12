@@ -72,6 +72,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             }
             if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
             {
+                sound.playDig();
                 waitForDigDx = 0.0;
                 if (player.dig(map, false))
                 {
@@ -82,6 +83,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             }
             if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
             {
+                sound.playDig();
                 waitForDigSx = 0.0;
                 if (player.dig(map, true))
                 {
@@ -92,6 +94,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             }
             if (map[player.getY() / 20][player.getX() / 20] == '$')
             {
+                sound.playCoin();
                 player.increasePoints();
                 map[player.getY() / 20][player.getX() / 20] = ' ';
             }
@@ -130,9 +133,15 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                         path.pop_back(); //forse non serve più
                     else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true))
                     {
+                        sound.playDie();
                         player.decreaseLives();
                         if (player.getLives() == 0) //quando muore va controllato il keys[]
+                        {
+                            player.setLives(3);
+                            restart();
+                            graphic.drawYouDied();
                             return 0;
+                        }
                         else
                         {
                             restart();
@@ -249,14 +258,12 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
                 {
                     player.setFall(false);
-                    cout << "a";
                     sound.stopFall();
                 }
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && map[((player.getY()) / 20)][(player.getX() / 20)] == '-')
                 {
                     player.setFall(false);
-                    cout << "b";
-                    //sound.stopFall();
+                    sound.stopFall();
                     player.setFrame(5);
                 }
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && lastIsDown && map[((player.getY() + 5) / 20)][(player.getX() / 20)] != '#')
@@ -299,16 +306,20 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             }
             if (player.getY() < 0)
             {
+                sound.playWin();
                 restart();
                 return 1;
             }
             if (player.getY() > 340 || map[player.getY() / 20][player.getX() / 20] == '#')
             {
+                sound.stopFall();
+                sound.playDie();
                 player.decreaseLives();
                 if (player.getLives() == 0)
                 { //quando muore va controllato il keys[]
                     player.setLives(3);
                     restart();
+                    graphic.drawYouDied();
                     return 0;
                 }
                 else

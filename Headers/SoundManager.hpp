@@ -9,10 +9,13 @@ class SoundManager
     ALLEGRO_SAMPLE *die;
     ALLEGRO_SAMPLE *win;
     ALLEGRO_SAMPLE *menu;
+    ALLEGRO_SAMPLE_ID idMenu;
     ALLEGRO_SAMPLE *coin;
     ALLEGRO_SAMPLE *background;
+    ALLEGRO_SAMPLE_ID idBackground;
     ALLEGRO_SAMPLE *dig;
     ALLEGRO_SAMPLE *clickMenu;
+    ALLEGRO_SAMPLE_ID idClic;
     bool isPlaying;
 
   public:
@@ -27,11 +30,7 @@ class SoundManager
     void playDig();
     void playClick();
     void stopFall();
-    void stopDie();
-    void stopWin();
     void stopMenu();
-    void stopCoin();
     void stopBackground();
-    void stopDig();
     void stopClick();
 };

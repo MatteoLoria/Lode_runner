@@ -32,4 +32,44 @@ void SoundManager::stopFall()
         isPlaying = false;
     }
 }
+void SoundManager::playDie()
+{
+    al_play_sample(die, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+}
+void SoundManager::playWin()
+{
+    al_play_sample(win, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+}
+void SoundManager::playMenu()
+{
+    al_play_sample(menu, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, &idMenu);
+}
+void SoundManager::stopMenu()
+{
+    al_stop_sample(&idMenu);
+}
+void SoundManager::playCoin()
+{
+    al_play_sample(coin, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+}
+void SoundManager::playBackground()
+{
+    al_play_sample(background, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, &idBackground);
+}
+void SoundManager::stopBackground()
+{
+    al_stop_sample(&idBackground);
+}
+void SoundManager::playDig()
+{
+    al_play_sample(this->dig, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+}
+void SoundManager::playClick()
+{
+    al_play_sample(clickMenu, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, &idClic);
+}
+void SoundManager::stopClick()
+{
+    al_stop_sample(&idClic);
+}
 SoundManager::~SoundManager() {}

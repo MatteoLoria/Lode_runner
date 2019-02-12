@@ -24,6 +24,7 @@ class GraphicManager
         void drawEntity(Entity *);
         void drawFinalLadder(char [16][28]);
         void drawStats(int , int , int, int);
+        void drawYouDied();
         void setLevel(int);
         int getLevel();
 };
