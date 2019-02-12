@@ -5,7 +5,7 @@ class SoundManager
 {
   private:
     ALLEGRO_SAMPLE *fall;
-    ALLEGRO_SAMPLE_ID *idFall;
+    ALLEGRO_SAMPLE_ID idFall;
     ALLEGRO_SAMPLE *die;
     ALLEGRO_SAMPLE *win;
     ALLEGRO_SAMPLE *menu;

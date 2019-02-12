@@ -4,7 +4,39 @@
 #include <allegro5/allegro_ttf.h>
 #define WINDOW_H 320
 #define WINDOW_W 560
+/*
 
+    Lista:
+    Pulizia cartelle V
+    Efficienza codice
+     -Astar
+     -Enemy
+     -Entity
+     -GameMan
+     -Graphic
+     -main
+     -player
+     -Quadruple
+     -Sound
+    Commenti da aggiungere
+     -Astar
+     -Enemy
+     -Entity
+     -GameMan
+     -Graphic
+     -main
+     -player
+     -Quadruple
+     -Sound
+    Schermata finale
+    Schermata you died
+    Schermata crediti
+    Colori
+    Bonus (per ora nemico)
+    Difficoltà
+    Trollface (secondo livello)
+    Decidere i livelli (quarto e quinto)
+*/
 int main()
 {
     al_init();
@@ -29,7 +61,7 @@ int main()
     int scaleX = (windowWidth - scaleW) / 2;
     int scaleY = (windowHeight - scaleH) / 2;
     int feedback = 0;
-    int level = 0;// da controllare il movimento nel livello 3
+    int level = 4;// da controllare il movimento nel livello 3
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
 

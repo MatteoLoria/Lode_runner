@@ -108,6 +108,7 @@ int GraphicManager::drawMenu()
             al_destroy_bitmap(menu);
         btp = 0;
         menu = 0;
+        al_flush_event_queue(queue);
     }
     return 1;
 }
