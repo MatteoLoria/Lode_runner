@@ -39,7 +39,6 @@ int main()
         switch (feedback)
         {
             case 0:
-                level = 2;
                 feedback = Gr.drawMenu();//quando muori bisogna premere un tasto qualsiasi per far riapparire il menu
                 break;
             case 1:

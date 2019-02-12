@@ -425,10 +425,10 @@ void GameManager::createEntities(int level)
         Enemy e1(4 * 20, (11 * 20) + 18);
         Enemy e2(13 * 20, (2 * 20) + 18);
         Enemy e3(22 * 20, (3 * 20) + 18);
-        /*enemies.push_back(e1);
+        enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);
-    */}
+    }
     else if(level == 4)
     {
         player.setInitX(12*20);
