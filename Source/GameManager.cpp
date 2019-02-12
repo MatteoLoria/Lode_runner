@@ -15,7 +15,7 @@ ALLEGRO_DISPLAY *d;
 
 GameManager::GameManager() {}
 
-GameManager::GameManager(GraphicManager graphic) {this->graphic = graphic;}
+GameManager::GameManager(GraphicManager graphic) { this->graphic = graphic; }
 
 GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic)
 {
@@ -42,7 +42,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_display_event_source(display));
     createEntities(level);
-    loadMap("../Assets/Maps/level"+to_string(level)+".txt");
+    loadMap("../Assets/Maps/level" + to_string(level) + ".txt");
     pathFinder.setWorldSize({16, 28});
     al_start_timer(timer);
     bool close = false;
@@ -128,9 +128,10 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
                     if (path.size() > 1)
                         path.pop_back(); //forse non serve più
-                    else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true)){
+                    else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true))
+                    {
                         player.decreaseLives();
-                        if (player.getLives() == 0)//quando muore va controllato il keys[]
+                        if (player.getLives() == 0) //quando muore va controllato il keys[]
                             return 0;
                         else
                         {
@@ -246,15 +247,15 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 sound.playFall();
                 player.setY(player.getY() + 5);
                 if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
-                {    
+                {
                     player.setFall(false);
-                    cout<<"a";
+                    cout << "a";
                     sound.stopFall();
                 }
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && map[((player.getY()) / 20)][(player.getX() / 20)] == '-')
                 {
                     player.setFall(false);
-                    cout<<"b";
+                    cout << "b";
                     //sound.stopFall();
                     player.setFrame(5);
                 }
@@ -301,10 +302,11 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 restart();
                 return 1;
             }
-            if (player.getY() > 340 || map[player.getY()/20][player.getX()/20] == '#')
+            if (player.getY() > 340 || map[player.getY() / 20][player.getX() / 20] == '#')
             {
                 player.decreaseLives();
-                if (player.getLives() == 0){//quando muore va controllato il keys[]
+                if (player.getLives() == 0)
+                { //quando muore va controllato il keys[]
                     player.setLives(3);
                     restart();
                     return 0;
@@ -386,10 +388,11 @@ void GameManager::loadMap(string path)
             }
         }
         for (int i = 0; i < 16; i++)
-            for (int j = 0; j < 28; j++){
+            for (int j = 0; j < 28; j++)
+            {
                 if (map[i][j] == ' ' && map[i + 1][j] != '#' && map[i + 1][j] != 'H' && map[i + 1][j] != '@')
                     pathFinder.addCollision({i, j});
-                if(map[i][j] == '$')
+                if (map[i][j] == '$')
                     ++coins;
             }
     }
@@ -403,10 +406,10 @@ void GameManager::loadMap(string path)
 void GameManager::createEntities(int level)
 {
     enemies.clear();
-    if(level == 1)
+    if (level == 1)
     {
-        player.setInitX(14*20);
-        player.setInitY((14*20)+18);
+        player.setInitX(14 * 20);
+        player.setInitY((14 * 20) + 18);
         Enemy e1(14 * 20, (9 * 20) + 18);
         Enemy e2(23 * 20, (6 * 20) + 18);
         Enemy e3(5 * 20, (6 * 20) + 18);
@@ -414,10 +417,10 @@ void GameManager::createEntities(int level)
         enemies.push_back(e2);
         enemies.push_back(e3);
     }
-    else if(level == 2)
+    else if (level == 2)
     {
-        player.setInitX(14*20);
-        player.setInitY((14*20)+18);
+        player.setInitX(14 * 20);
+        player.setInitY((14 * 20) + 18);
         Enemy e1(4 * 20, (3 * 20) + 18);
         Enemy e2(4 * 20, (8 * 20) + 18);
         Enemy e3(20 * 20, (5 * 20) + 18);
@@ -425,10 +428,10 @@ void GameManager::createEntities(int level)
         enemies.push_back(e2);
         enemies.push_back(e3);
     }
-    else if(level == 3)
+    else if (level == 3)
     {
-        player.setInitX(12*20);
-        player.setInitY((14*20)+18);
+        player.setInitX(12 * 20);
+        player.setInitY((14 * 20) + 18);
         Enemy e1(4 * 20, (11 * 20) + 18);
         Enemy e2(13 * 20, (2 * 20) + 18);
         Enemy e3(22 * 20, (3 * 20) + 18);
@@ -436,10 +439,10 @@ void GameManager::createEntities(int level)
         enemies.push_back(e2);
         enemies.push_back(e3);
     }
-    else if(level == 4)
+    else if (level == 4)
     {
-        player.setInitX(12*20);
-        player.setInitY((14*20)+18);
+        player.setInitX(12 * 20);
+        player.setInitY((14 * 20) + 18);
         Enemy e1(9 * 20, (1 * 20) + 18);
         Enemy e2(19 * 20, (1 * 20) + 18);
         Enemy e3(16 * 20, (8 * 20) + 18);
@@ -447,10 +450,10 @@ void GameManager::createEntities(int level)
         enemies.push_back(e2);
         enemies.push_back(e3);
     }
-    else if(level == 5)
+    else if (level == 5)
     {
-        player.setInitX(12*20);
-        player.setInitY((14*20)+18);
+        player.setInitX(12 * 20);
+        player.setInitY((14 * 20) + 18);
         Enemy e1(9 * 20, (11 * 20) + 18);
         Enemy e2(7 * 20, (4 * 20) + 18);
         Enemy e3(26 * 20, (6 * 20) + 18);
