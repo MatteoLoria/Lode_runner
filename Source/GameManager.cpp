@@ -243,12 +243,19 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             redraw = false;
             if (player.getFall())
             {
+                sound.playFall();
                 player.setY(player.getY() + 5);
                 if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
+                {    
                     player.setFall(false);
+                    cout<<"a";
+                    sound.stopFall();
+                }
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && map[((player.getY()) / 20)][(player.getX() / 20)] == '-')
                 {
                     player.setFall(false);
+                    cout<<"b";
+                    //sound.stopFall();
                     player.setFrame(5);
                 }
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && lastIsDown && map[((player.getY() + 5) / 20)][(player.getX() / 20)] != '#')

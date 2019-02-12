@@ -5,6 +5,7 @@
 #include "GraphicManager.hpp"
 #include "AStar.hpp"
 #include "Quadruple.hpp"
+#include "SoundManager.hpp"
 #include <list>
 #include <vector>
 using namespace std;
@@ -17,6 +18,7 @@ private:
     GraphicManager graphic;
     list<Quadruple> holes;
     Generator pathFinder;
+    SoundManager sound;
     char map[16][28];
     void loadMap(string path);
     void createEntities(int);

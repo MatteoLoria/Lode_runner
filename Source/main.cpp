@@ -9,6 +9,8 @@ int main()
 {
     al_init();
     al_init_image_addon();
+    al_install_audio();
+    al_init_acodec_addon();
     al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
     if(!al_install_mouse())
         exit(2);
