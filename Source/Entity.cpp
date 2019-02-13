@@ -57,8 +57,8 @@ void Entity::moveRight(char map[16][28], bool red)
         setMirrorX(false);
         setMirrorRope(false);
     }
-    if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == ' ' || map[(getY() + 5) / 20][((getX() + 10) / 20)] == ' ') 
-        && map[(getY() - 18) / 20][(getX() / 20) + 1] != '-' && map[(getY() - 18) / 20][(getX() / 20) + 1] != 'S' 
+    if ((map[(getY() + 5) / 20][(getX() / 20) + 1] == ' ' || map[(getY() + 5) / 20][((getX() + 10) / 20)] == ' ' || map[(getY()+5)/20][(getX()+10)/20] == 'S') //aggiunto s 
+        && map[(getY() - 18) / 20][(getX() / 20) + 1] != '-' 
         && map[(getY() - 18) / 20][(getX() / 20)] != '-' && map[(getY() + 5) / 20][(getX() / 20)] != 'H' 
         && map[(getY() + 5) / 20][(getX() / 20)] != '#' && map[(getY() + 5) / 20][(getX() / 20)] != '@' 
         && map[(getY() + 5) / 20][(getX() / 20)] != '}')
@@ -110,7 +110,7 @@ void Entity::moveLeft(char map[16][28], bool red)
         setMirrorX(true);
         setMirrorRope(true);
     }
-    if ((map[(getY() + 5) / 20][(getX() + 18) / 20] == ' ' || map[(getY() + 5) / 20][(getX() + 18) / 20] == '$') 
+    if ((map[(getY() + 5) / 20][(getX() + 18) / 20] == ' ' || map[(getY() + 5) / 20][(getX() + 18) / 20] == '$' || map[(getY()+5)/20][(getX()+18)/20] == 'S' ) // aggiunto S
         && map[(getY() - 18) / 20][(getX() - 1) / 20] != '-' && map[(getY() - 18) / 20][(getX()) / 20] != '-' 
         && map[(getY() + 5) / 20][(getX() / 20)] != 'H' && map[(getY() + 5) / 20][(getX() / 20)] != '#' //ho aggiunto un +5
         && map[(getY() + 5) / 20][(getX() / 20)] != '@' && map[(getY() + 5) / 20][(getX() / 20)] != '}')

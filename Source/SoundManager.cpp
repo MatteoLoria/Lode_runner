@@ -5,15 +5,16 @@ SoundManager::SoundManager()
 {
     al_reserve_samples(10);
     this->fall = al_load_sample("../Assets/Sounds/fall.wav");
-    if (!fall)
-        exit(1);
+    this->stairs = al_load_sample("../Assets/Sounds/stairs.wav");
     this->die = al_load_sample("../Assets/Sounds/dead.wav");
-    this->win = al_load_sample("../Assets/Sounds/goldFinish1.mp3");
+    if(!die)
+        exit(2);
+    this->win = al_load_sample("../Assets/Sounds/pass.ogg");
     //menu
     this->coin = al_load_sample("../Assets/Sounds/getGold.wav");
     //background
     this->dig = al_load_sample("../Assets/Sounds/dig.wav");
-    //clickMenu
+    this->clickMenu = al_load_sample("../Assets/Sounds/click.wav");
 }
 
 void SoundManager::playFall()
@@ -31,6 +32,11 @@ void SoundManager::stopFall()
         al_stop_sample(&idFall);
         isPlaying = false;
     }
+}
+void SoundManager::playStair()
+{
+
+    al_play_sample(stairs, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 }
 void SoundManager::playDie()
 {

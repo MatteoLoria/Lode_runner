@@ -8,6 +8,7 @@
 
     Lista:
     Pulizia cartelle V
+    Suoni
     Efficienza codice
      -Astar
      -Enemy
@@ -29,7 +30,7 @@
      -Quadruple
      -Sound
     Schermata finale
-    Schermata you died
+    Schermata you died V
     Schermata crediti
     Colori
     Bonus (per ora nemico)
@@ -74,7 +75,7 @@ int main()
         {
             case 0:
                 level = 0;
-                feedback = Gr.drawMenu();//quando muori bisogna premere un tasto qualsiasi per far riapparire il menu
+                feedback = Gr.drawMenu();
                 break;
             case 1:
                 ++level;

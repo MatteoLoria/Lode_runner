@@ -4,6 +4,7 @@
 #include <allegro5/allegro_ttf.h>
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "SoundManager.hpp"
 #ifndef GRAPHICMANAGER_H
 #define GRAPHICMANAGER_H
 class GraphicManager
@@ -16,6 +17,7 @@ class GraphicManager
         ALLEGRO_DISPLAY * display;
         ALLEGRO_BITMAP * buffer;
         ALLEGRO_FONT * font;
+        SoundManager sound; // why i can't have a garbage collector? :'( #IMissYouJava
     public:
         GraphicManager();
         GraphicManager(int, int ,int, int, ALLEGRO_BITMAP *, ALLEGRO_DISPLAY *);

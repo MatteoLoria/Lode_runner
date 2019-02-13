@@ -1,12 +1,14 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
-
+#ifndef SOUND_H
+#define SOUND_H
 class SoundManager
 {
   private:
     ALLEGRO_SAMPLE *fall;
     ALLEGRO_SAMPLE_ID idFall;
     ALLEGRO_SAMPLE *die;
+    ALLEGRO_SAMPLE *stairs;
     ALLEGRO_SAMPLE *win;
     ALLEGRO_SAMPLE *menu;
     ALLEGRO_SAMPLE_ID idMenu;
@@ -22,6 +24,7 @@ class SoundManager
     SoundManager();
     ~SoundManager();
     void playFall();
+    void playStair();
     void playDie();
     void playWin();
     void playMenu();
@@ -34,3 +37,4 @@ class SoundManager
     void stopBackground();
     void stopClick();
 };
+#endif

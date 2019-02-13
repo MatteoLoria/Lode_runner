@@ -32,6 +32,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
     bool redraw = false;
     bool lastIsLeft = false;
     bool lastIsDown = false;
+    bool stair = false;
     double waitForDigDx = 2.1;
     double waitForDigSx = 2.1;
     double delay = 0.0;
@@ -72,10 +73,10 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             }
             if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
             {
-                sound.playDig();
                 waitForDigDx = 0.0;
                 if (player.dig(map, false))
                 {
+                    sound.playDig();
                     player.setFrame(8);
                     holes.push_back({(player.getY() + 5) / 20,
                                      (player.getX() + 39) / 20, 0, 0});
@@ -83,10 +84,10 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             }
             if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
             {
-                sound.playDig();
                 waitForDigSx = 0.0;
                 if (player.dig(map, true))
                 {
+                    sound.playDig();
                     player.setFrame(9);
                     holes.push_back({(player.getY() + 5) / 20,
                                      (player.getX() / 20) - 1, 0, 0});
@@ -134,6 +135,8 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true))
                     {
                         sound.playDie();
+                        if(player.getFall()) 
+                            sound.stopFall();
                         player.decreaseLives();
                         if (player.getLives() == 0) //quando muore va controllato il keys[]
                         {
@@ -300,9 +303,11 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     }
                 }
             }
-            if (player.getPoints() == coins)
+            if (player.getPoints() == coins && !stair)
             {
+                sound.playStair();
                 graphic.drawFinalLadder(map);
+                stair = true;
             }
             if (player.getY() < 0)
             {
@@ -316,7 +321,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 sound.playDie();
                 player.decreaseLives();
                 if (player.getLives() == 0)
-                { //quando muore va controllato il keys[]
+                { //risolto keys
                     player.setLives(3);
                     restart();
                     graphic.drawYouDied();
@@ -353,7 +358,9 @@ bool GameManager::avaibleSpot(int y, int x)
 
 void GameManager::restart()
 {
+    cout<<"okay";
     coins = 0;
+    fill(keys,keys+6,false);
     player.setX(player.getInitX());
     player.setY(player.getInitY());
     player.setFall(false);
@@ -366,6 +373,7 @@ void GameManager::restart()
         i.setY(i.getInitY());
         i.setFall(false);
         i.setFallen(0);
+        i.setRedHat(false);
     }
     holes.clear();
 }

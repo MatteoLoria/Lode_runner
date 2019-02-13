@@ -17,6 +17,12 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
         {
             if ((this->getY() - 18) / 20 == i.first && this->getX() / 20 == i.second)
             {
+                if (isRedHat()) //credo stia meglio qui
+                {
+                    map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
+                    this->setRedHat(false);
+                    this->setFrame(4);
+                }
                 if (map[i.first][i.second] == '#')
                 {
                     fallen = 0;
@@ -37,8 +43,20 @@ bool Enemy::isInHole(list<Quadruple> holes, char map[16][28], bool head)
         {
             if ((this->getY()) / 20 == i.first && this->getX() / 20 == i.second)
             {
+                if (isRedHat()) //come su
+                {
+                    map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
+                    this->setRedHat(false);
+                    this->setFrame(4);
+                }
                 if (map[i.first][i.second] == '#')
                 {
+                    if (isRedHat()) //forse è meglio con il foot per un bug
+                    {
+                        map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
+                        this->setRedHat(false);
+                        this->setFrame(4);
+                    }
                     fallen = 0;
                     this->setFall(false);
                     this->setX(this->getInitX());
@@ -61,13 +79,6 @@ void Enemy::update(char map[16][28], list<Quadruple> holes, Player &p, int &next
 {
     bool headInHole = isInHole(holes, map, true);
     bool footInHole = isInHole(holes, map, false);
-    
-    if (headInHole && isRedHat())
-    {
-        map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
-        this->setRedHat(false);
-        this->setFrame(4);
-    }
     if (this->getFall() && !headInHole)
     {
         this->setY(this->getY() + 5);

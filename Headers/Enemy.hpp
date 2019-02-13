@@ -13,8 +13,6 @@ class Enemy : public Entity
     double fallen = 0;
     bool hat = false;
     void releaseGold(char[16][28]);
-    void setRedHat(bool hat);
-    bool isRedHat();
   public:
     Enemy();
     Enemy(int, int);
@@ -23,5 +21,7 @@ class Enemy : public Entity
     double getFallen();
     void setFallen(double);
     bool isInHole(list<Quadruple>, char[][28], bool);//l'ho messa public per usarla nel game manager
+    void setRedHat(bool hat);
+    bool isRedHat();
 };
 #endif

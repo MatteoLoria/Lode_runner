@@ -1,4 +1,5 @@
 #include "../Headers/GraphicManager.hpp"
+#include "../Headers/SoundManager.hpp"
 #include <iostream>
 
 GraphicManager::GraphicManager() {}
@@ -27,6 +28,14 @@ int GraphicManager::drawMenu()
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     if (!queue)
         return 2;
+    ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(menu, 0, 0, 0);
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+    al_flip_display();
+    al_set_target_bitmap(buffer);
     //cout<<"okay";
     al_register_event_source(queue, al_get_mouse_event_source());
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -34,13 +43,14 @@ int GraphicManager::drawMenu()
     ALLEGRO_BITMAP *btp = al_create_bitmap(140, 40);
     while (true)
     {
-        ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
+        menu = al_load_bitmap("../Assets/Tiles/Menu.png");
         if (!menu)
             return 2;
         //cout<<"okay";
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_bitmap(menu, 0, 0, 0);
         ALLEGRO_EVENT ev;
         al_wait_for_event(queue, &ev);
-        al_clear_to_color(al_map_rgb(0, 0, 0));
         // cout<<"okay";
         switch (ev.type)
         {
@@ -81,6 +91,7 @@ int GraphicManager::drawMenu()
             }
             break;
         case ALLEGRO_EVENT_KEY_DOWN: //entra qui(vedi nel main)
+            sound.playClick();
             if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
                 exit(1);
             break;
@@ -92,10 +103,12 @@ int GraphicManager::drawMenu()
             else if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 200 && ev.mouse.y / (scale_h / 320) <= 250)
                 return 2; //quit
             break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            sound.playClick();
+            break;
         default:
             break;
         }
-        al_draw_bitmap(menu, 0, 0, 0);
         al_set_target_bitmap(al_get_backbuffer(display));
         al_clear_to_color(al_map_rgb(0, 0, 0));
         al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
@@ -265,10 +278,37 @@ void GraphicManager::drawEntity(Entity *E)
 
 void GraphicManager::drawYouDied()
 {
-    ALLEGRO_BITMAP * b = al_load_bitmap("../Assets/Tiles/Died.png");
     al_set_target_bitmap(al_get_backbuffer(display));
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_draw_scaled_bitmap(b, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
-    al_destroy_bitmap(b);
-    al_flip_display();
+    int incr = 0.1;
+    int alpha = 0.1;
+    for(int i=0; i<5; i++){
+        ALLEGRO_BITMAP *b = al_load_bitmap("../Assets/Tiles/Died.png");
+        al_rest(0.02);
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_tinted_scaled_bitmap(b, al_map_rgba_f(1,1,1,alpha), 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+        alpha+=incr;
+        al_destroy_bitmap(b);
+        al_flip_display();
+    }
+    ALLEGRO_EVENT_QUEUE * q = al_create_event_queue();
+    al_register_event_source(q,al_get_mouse_event_source());
+    al_register_event_source(q,al_get_keyboard_event_source());
+    while(1)
+    {
+        ALLEGRO_EVENT ev;
+        al_wait_for_event(q,&ev);
+        switch (ev.type)
+        {
+            case ALLEGRO_EVENT_KEY_DOWN:
+                sound.playClick();
+                return;
+                break;
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+                sound.playClick();
+                return;
+                break;
+            default:
+                break;
+        }
+    }
 }
