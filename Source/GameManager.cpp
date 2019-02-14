@@ -47,6 +47,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
     pathFinder.setWorldSize({16, 28});
     al_start_timer(timer);
     bool close = false;
+    sound.playBackground();
     while (!close)
     {
         waitForDigDx += 0.1;
@@ -138,10 +139,12 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                         if(player.getFall()) 
                             sound.stopFall();
                         player.decreaseLives();
-                        if (player.getLives() == 0) //quando muore va controllato il keys[]
+                        if (player.getLives() == 0)
                         {
                             player.setLives(3);
                             restart();
+                            sound.stopBackground();
+                            sound.playGameover();
                             graphic.drawYouDied();
                             return 0;
                         }
@@ -311,6 +314,7 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             }
             if (player.getY() < 0)
             {
+                sound.stopBackground();
                 sound.playWin();
                 restart();
                 return 1;
@@ -323,7 +327,9 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 if (player.getLives() == 0)
                 { //risolto keys
                     player.setLives(3);
+                    sound.stopBackground();
                     restart();
+                    sound.playGameover();
                     graphic.drawYouDied();
                     return 0;
                 }

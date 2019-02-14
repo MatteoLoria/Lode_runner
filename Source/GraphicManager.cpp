@@ -28,6 +28,7 @@ int GraphicManager::drawMenu()
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     if (!queue)
         return 2;
+    sound.playMenu();
     ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(menu, 0, 0, 0);
@@ -97,7 +98,10 @@ int GraphicManager::drawMenu()
             break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
             if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 80 && ev.mouse.y / (scale_h / 320) <= 130)
+            {
+                sound.stopMenu();
                 return 1; //first level
+            }
             else if (ev.mouse.x / (scale_w / 560) >= 200 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 140 && ev.mouse.y / (scale_h / 320) <= 188)
                 return 3; //credits
             else if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 200 && ev.mouse.y / (scale_h / 320) <= 250)
@@ -281,34 +285,35 @@ void GraphicManager::drawYouDied()
     al_set_target_bitmap(al_get_backbuffer(display));
     int incr = 0.1;
     int alpha = 0.1;
-    for(int i=0; i<5; i++){
+    for (int i = 0; i < 5; i++)
+    {
         ALLEGRO_BITMAP *b = al_load_bitmap("../Assets/Tiles/Died.png");
-        al_rest(0.02);
+        //al_rest(0.02);
         al_clear_to_color(al_map_rgb(0, 0, 0));
-        al_draw_tinted_scaled_bitmap(b, al_map_rgba_f(1,1,1,alpha), 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
-        alpha+=incr;
+        al_draw_tinted_scaled_bitmap(b, al_map_rgba_f(1, 1, 1, alpha), 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+        alpha += incr;
         al_destroy_bitmap(b);
         al_flip_display();
     }
-    ALLEGRO_EVENT_QUEUE * q = al_create_event_queue();
-    al_register_event_source(q,al_get_mouse_event_source());
-    al_register_event_source(q,al_get_keyboard_event_source());
-    while(1)
+    ALLEGRO_EVENT_QUEUE *q = al_create_event_queue();
+    al_register_event_source(q, al_get_mouse_event_source());
+    al_register_event_source(q, al_get_keyboard_event_source());
+    while (1)
     {
         ALLEGRO_EVENT ev;
-        al_wait_for_event(q,&ev);
+        al_wait_for_event(q, &ev);
         switch (ev.type)
         {
-            case ALLEGRO_EVENT_KEY_DOWN:
-                sound.playClick();
-                return;
-                break;
-            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-                sound.playClick();
-                return;
-                break;
-            default:
-                break;
+        case ALLEGRO_EVENT_KEY_DOWN:
+            sound.playClick();
+            return;
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            sound.playClick();
+            return;
+            break;
+        default:
+            break;
         }
     }
 }

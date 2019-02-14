@@ -9,14 +9,18 @@ SoundManager::SoundManager()
     this->die = al_load_sample("../Assets/Sounds/dead.wav");
     if(!die)
         exit(2);
+    this->gameover = al_load_sample("../Assets/Sounds/gameover.wav");
     this->win = al_load_sample("../Assets/Sounds/pass.ogg");
-    //menu
+    this->menu = al_load_sample("../Assets/Sounds/menu.wav");
     this->coin = al_load_sample("../Assets/Sounds/getGold.wav");
-    //background
+    this->background = al_load_sample("../Assets/Sounds/background.wav");
     this->dig = al_load_sample("../Assets/Sounds/dig.wav");
     this->clickMenu = al_load_sample("../Assets/Sounds/click.wav");
 }
 
+void SoundManager::playGameover(){
+    al_play_sample(this->gameover, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+}
 void SoundManager::playFall()
 {
     if (!isPlaying)
@@ -48,7 +52,7 @@ void SoundManager::playWin()
 }
 void SoundManager::playMenu()
 {
-    al_play_sample(menu, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, &idMenu);
+    al_play_sample(menu, 0.3, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &idMenu);
 }
 void SoundManager::stopMenu()
 {
@@ -60,7 +64,7 @@ void SoundManager::playCoin()
 }
 void SoundManager::playBackground()
 {
-    al_play_sample(background, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, &idBackground);
+    al_play_sample(background, 0.1, 0.0, 1.3, ALLEGRO_PLAYMODE_LOOP, &idBackground);
 }
 void SoundManager::stopBackground()
 {

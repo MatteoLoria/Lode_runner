@@ -18,6 +18,7 @@ class SoundManager
     ALLEGRO_SAMPLE *dig;
     ALLEGRO_SAMPLE *clickMenu;
     ALLEGRO_SAMPLE_ID idClic;
+    ALLEGRO_SAMPLE *gameover;
     bool isPlaying;
 
   public:
@@ -32,6 +33,7 @@ class SoundManager
     void playBackground();
     void playDig();
     void playClick();
+    void playGameover();
     void stopFall();
     void stopMenu();
     void stopBackground();
