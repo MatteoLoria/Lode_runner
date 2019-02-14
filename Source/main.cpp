@@ -62,7 +62,7 @@ int main()
     int scaleX = (windowWidth - scaleW) / 2;
     int scaleY = (windowHeight - scaleH) / 2;
     int feedback = 0;
-    int level = 0;// da controllare il movimento nel livello 3
+    int level = 0;// da controllare il movimento nel livello 3(scala e corda)
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
 

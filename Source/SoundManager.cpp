@@ -64,7 +64,7 @@ void SoundManager::playCoin()
 }
 void SoundManager::playBackground()
 {
-    al_play_sample(background, 0.1, 0.0, 1.3, ALLEGRO_PLAYMODE_LOOP, &idBackground);
+    al_play_sample(background, 0.3, 0.0, 1.3, ALLEGRO_PLAYMODE_LOOP, &idBackground);
 }
 void SoundManager::stopBackground()
 {
@@ -76,10 +76,22 @@ void SoundManager::playDig()
 }
 void SoundManager::playClick()
 {
-    al_play_sample(clickMenu, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, &idClic);
+    al_play_sample(clickMenu, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 }
-void SoundManager::stopClick()
+/*void SoundManager::stopClick()
 {
     al_stop_sample(&idClic);
+}*/
+SoundManager::~SoundManager()
+{
+    /*al_destroy_sample(fall);
+    al_destroy_sample(die);
+    al_destroy_sample(stairs);
+    al_destroy_sample(win);
+    al_destroy_sample(menu);
+    al_destroy_sample(coin);
+    al_destroy_sample(background);
+    al_destroy_sample(dig);
+    al_destroy_sample(clickMenu);
+    al_destroy_sample(gameover);*/
 }
-SoundManager::~SoundManager() {}

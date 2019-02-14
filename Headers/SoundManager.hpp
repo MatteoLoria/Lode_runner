@@ -17,7 +17,7 @@ class SoundManager
     ALLEGRO_SAMPLE_ID idBackground;
     ALLEGRO_SAMPLE *dig;
     ALLEGRO_SAMPLE *clickMenu;
-    ALLEGRO_SAMPLE_ID idClic;
+    //ALLEGRO_SAMPLE_ID idClic;
     ALLEGRO_SAMPLE *gameover;
     bool isPlaying;
 
@@ -37,6 +37,6 @@ class SoundManager
     void stopFall();
     void stopMenu();
     void stopBackground();
-    void stopClick();
+    //void stopClick();
 };
 #endif
