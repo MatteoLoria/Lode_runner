@@ -10,8 +10,6 @@ class Enemy : public Entity
   private:
     double fallen = 0;                       //serve per capire a che punto della caduta in una buca è
     bool hat = false;                        //se è true ha raccolto una moneta
-    void releaseGold(char[16][28]);          //quando perde una moneta la deve rimettere sulla mappa
-
   public:
     Enemy();
     Enemy(const int&, const int&);

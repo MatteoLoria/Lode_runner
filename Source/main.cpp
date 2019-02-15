@@ -27,7 +27,7 @@
      -Graphic V(c'è poco da dire)
      -main
      -player V
-     -HoleManager (tocca a te)
+     -HoleManager V
      -Sound
     Schermata finale
     Schermata you died V
@@ -62,7 +62,7 @@ int main()
     int scaleX = (windowWidth - scaleW) / 2;
     int scaleY = (windowHeight - scaleH) / 2;
     int feedback = 0;
-    int level = 0;// da controllare il movimento nel livello 3(scala e corda)
+    int level = 2;
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -75,7 +75,7 @@ int main()
         switch (feedback)
         {
             case 0:
-                level = 0;
+                level = 2;
                 feedback = Gr.drawMenu(Sm);
                 break;
             case 1:
@@ -90,7 +90,10 @@ int main()
                 break;
         }
     }
-
+    al_destroy_bitmap(buffer);
+    al_uninstall_keyboard();
+    al_uninstall_audio();
+    al_uninstall_mouse();
     al_destroy_display(display);
     return 0;
 }

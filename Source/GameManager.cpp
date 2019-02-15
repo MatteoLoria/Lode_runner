@@ -127,7 +127,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                         if(player.getFall()) 
                             sound.stopFall();
                         player.decreaseLives();
-                        if (player.getLives() == 0)//scala una vita e riparte
+                        if (player.getLives() == 0)//se ha esaurito le vite il gioco finisce
                         {
                             player.setLives(3);
                             restart();
@@ -138,7 +138,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                             al_destroy_event_queue(queue);
                             return 0;
                         }
-                        else //altrimenti torna al menù
+                        else //altrimenti ricostruisce il livello
                         {
                             restart();
                             loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
@@ -298,7 +298,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                     }
                 }
             }
-            if (player.getPoints() == coins && !stair)//ha raccolto tutte le monete e attiva la scala finale
+            if (player.getPoints() == coins && !stair) //ha raccolto tutte le monete e attiva la scala finale
             {
                 sound.playStair();
                 graphic.drawFinalLadder(map);
@@ -315,7 +315,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                 return 1;
             }
             if (player.getY() > 340 || map[player.getY() / 20][player.getX() / 20] == '#')
-            {   //cade sotto la mappa oppure viene "mangiato da un blocco"
+            {   //cade sotto la mappa oppure viene rinchiuso all'interno di un blocco
                 sound.stopFall();
                 sound.playDie();
                 player.decreaseLives();

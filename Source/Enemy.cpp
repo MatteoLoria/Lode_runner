@@ -39,20 +39,14 @@ bool Enemy::isInHole(const list<HoleManager>& holes, char map[16][28], const boo
         {
             if ((this->getY()) / 20 == i.first && this->getX() / 20 == i.second)//entra se i piedi sono nella buca
             {
-                /*if (isRedHat()) da controllare se serve
+                if (isRedHat()) //rilascia la moneta
                 {
                     map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
                     this->setRedHat(false);
                     this->setFrame(4);
-                }*/
+                }
                 if (map[i.first][i.second] == '#')
                 {
-                    /*if (isRedHat()) //da controllare se serve
-                    {
-                        map[(this->getY() / 20) - 1][this->getX() / 20] = '$';
-                        this->setRedHat(false);
-                        this->setFrame(4);
-                    }*/
                     //respawn
                     fallen = 0;
                     this->setFall(false);
@@ -99,7 +93,7 @@ void Enemy::update(char map[16][28], const list<HoleManager>& holes, Player& p, 
     }
     else
     {
-        bool left = false;//va a sinistra?
+        bool left = false;// booleana che serve a capire da che lato sta approcciando la scala
         if (!footInHole && !headInHole)//se non è in una buca
         {
             if (this->getX() / 20 < nextX)//va a destra
