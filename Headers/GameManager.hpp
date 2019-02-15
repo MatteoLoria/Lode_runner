@@ -28,7 +28,7 @@ private:
     int coins = 0;
 public:
     GameManager();
-    GameManager(GraphicManager);
+    GameManager(GraphicManager&);
     GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic);
     int run(int, ALLEGRO_DISPLAY *);
 };

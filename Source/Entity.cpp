@@ -194,7 +194,6 @@ void Entity::moveDown(char map[16][28], bool red)
     if (map[(getY() / 20) + 1][getX() / 20] == ' ' && map[(getY() / 20) + 1][getX() / 20] != 'H' 
         && map[(getY() / 20) + 1][getX() / 20] != '#' && map[(getY() / 20) + 1][(getX() + 18) / 20] != '#')
     {
-        cout << "ciao";
         setFrame(4);
         setFall(true);
     }

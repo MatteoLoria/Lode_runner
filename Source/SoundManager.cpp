@@ -7,7 +7,7 @@ SoundManager::SoundManager()
     this->fall = al_load_sample("../Assets/Sounds/fall.wav");
     this->stairs = al_load_sample("../Assets/Sounds/stairs.wav");
     this->die = al_load_sample("../Assets/Sounds/dead.wav");
-    if(!die)
+    if (!die)
         exit(2);
     this->gameover = al_load_sample("../Assets/Sounds/gameover.wav");
     this->win = al_load_sample("../Assets/Sounds/pass.ogg");
@@ -18,7 +18,8 @@ SoundManager::SoundManager()
     this->clickMenu = al_load_sample("../Assets/Sounds/click.wav");
 }
 
-void SoundManager::playGameover(){
+void SoundManager::playGameover()
+{
     al_play_sample(this->gameover, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 }
 void SoundManager::playFall()
@@ -84,14 +85,56 @@ void SoundManager::playClick()
 }*/
 SoundManager::~SoundManager()
 {
-    /*al_destroy_sample(fall);
-    al_destroy_sample(die);
-    al_destroy_sample(stairs);
-    al_destroy_sample(win);
-    al_destroy_sample(menu);
-    al_destroy_sample(coin);
-    al_destroy_sample(background);
-    al_destroy_sample(dig);
-    al_destroy_sample(clickMenu);
-    al_destroy_sample(gameover);*/
+    cout<<"1";
+    
+    if (fall!=0)
+    {
+        al_destroy_sample(fall);
+        fall = 0;
+    }
+    if (die!=0)
+    {
+        al_destroy_sample(die);
+        die = 0;
+    }
+    if (stairs!=0)
+    {
+        al_destroy_sample(stairs);
+        stairs = 0;
+    }
+    if (win!=0)
+    {
+        al_destroy_sample(win);
+        win = 0;
+    }
+    if (menu!=0)
+    {
+        al_destroy_sample(menu);
+        menu = 0;
+    }
+    if (coin!=0)
+    {
+        al_destroy_sample(coin);
+        coin = 0;
+    }
+    if (background!=0)
+    {
+        al_destroy_sample(background);
+        background = 0;
+    }
+    if (dig!=0)
+    {
+        al_destroy_sample(dig);
+        dig = 0;
+    }
+    if (clickMenu!=0)
+    {
+        al_destroy_sample(clickMenu);
+        clickMenu = 0;
+    }
+    if (gameover!=0)
+    {
+        al_destroy_sample(gameover);
+        gameover = 0;
+    }
 }

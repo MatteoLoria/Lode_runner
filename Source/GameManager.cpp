@@ -15,7 +15,7 @@ ALLEGRO_DISPLAY *d;
 
 GameManager::GameManager() {}
 
-GameManager::GameManager(GraphicManager graphic) { this->graphic = graphic; }
+GameManager::GameManager(GraphicManager &graphic) { this->graphic = graphic; }
 
 GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic)
 {

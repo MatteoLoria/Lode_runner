@@ -74,7 +74,7 @@ int main()
         switch (feedback)
         {
             case 0:
-                level = 0;
+                level = 1;
                 feedback = Gr.drawMenu();
                 break;
             case 1:
