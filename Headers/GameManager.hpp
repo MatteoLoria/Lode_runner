@@ -18,18 +18,16 @@ private:
     GraphicManager graphic;
     list<Quadruple> holes;
     Generator pathFinder;
-    SoundManager sound;
     char map[16][28];
     void loadMap(string path);
-    void createEntities(int);
+    void createEntities(const int&);
     void restart();
     bool keys[6] = {false,false,false,false,false,false};
-    bool avaibleSpot(int x, int y);
+    bool avaibleSpot(const int& x, const int& y);
     int coins = 0;
 public:
     GameManager();
     GameManager(GraphicManager&);
-    GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic);
-    int run(int, ALLEGRO_DISPLAY *);
+    int run(const int&, ALLEGRO_DISPLAY *, SoundManager&);
 };
 #endif

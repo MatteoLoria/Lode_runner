@@ -5,18 +5,18 @@
 class Player : public Entity
 {
     private:
-        int lives=3;
-        int points=0;
+        int lives=3;  //vite del player
+        int points=0; //monete raccolte
     public:
         Player();
-        Player(int, int, string[10]);
+        Player(const int&, const int&, string[10]);
         int getLives();
-        string getEntity();
-        void setLives(int);
+        string getEntity();      //restituisce il nome dell'entità(player)
+        void setLives(const int&);
         void decreaseLives();
         void increasePoints();
         int getPoints();
-        void setPoints(int);
-        bool dig(char[16][28], bool);
+        void setPoints(const int&);
+        bool dig(char[16][28], const bool&); //restituisce true se si può fare dig
 };
 #endif

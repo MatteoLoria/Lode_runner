@@ -10,24 +10,24 @@
 class GraphicManager
 {
     private:
-        int scale_w;
+        int scale_w;      //risoluzione dinamica
         int scale_h;
         int scale_x;
         int scale_y;
         ALLEGRO_DISPLAY * display;
         ALLEGRO_BITMAP * buffer;
         ALLEGRO_FONT * font;
-        SoundManager sound; // why i can't have a garbage collector? :'( #IMissYouJava
     public:
         GraphicManager();
-        GraphicManager(int, int ,int, int, ALLEGRO_BITMAP *, ALLEGRO_DISPLAY *);
-        int drawMenu();
-        void drawMap(char [16][28], int);
+        GraphicManager(const int&, const int& ,const int&, const int&, ALLEGRO_BITMAP *, ALLEGRO_DISPLAY *);
+        ~GraphicManager();
+        int drawMenu(SoundManager&);
+        void drawMap(char [16][28], const int&);
         void drawEntity(Entity *);
-        void drawFinalLadder(char [16][28]);
-        void drawStats(int , int , int, int);
-        void drawYouDied();
-        void setLevel(int);
+        void drawFinalLadder(char [16][28]);//stampa la scala finale dopo aver raccolto tutte le monete
+        void drawStats(const int& , const int& , const int&, const int&);//stampa le statistiche in tempo reale
+        void drawYouDied(SoundManager&);//stampa la schermata della morte
+        void setLevel(const int&);
         int getLevel();
 };
 #endif

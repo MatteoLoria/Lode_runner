@@ -4,7 +4,7 @@
 
 GraphicManager::GraphicManager() {}
 
-GraphicManager::GraphicManager(int scale_w, int scale_h, int scale_x, int scale_y, ALLEGRO_BITMAP *buffer, ALLEGRO_DISPLAY *display)
+GraphicManager::GraphicManager(const int& scale_w, const int& scale_h, const int& scale_x, const int& scale_y, ALLEGRO_BITMAP *buffer, ALLEGRO_DISPLAY *display)
 {
     this->scale_h = scale_h;
     this->scale_w = scale_w;
@@ -19,9 +19,13 @@ GraphicManager::GraphicManager(int scale_w, int scale_h, int scale_x, int scale_
     }
 }
 
-int GraphicManager::drawMenu()
+GraphicManager::~GraphicManager()
 {
-    //cout<<"okay";
+    al_destroy_font(font);
+}
+
+int GraphicManager::drawMenu(SoundManager& sound)
+{
     if (!buffer)
         return 2;
     al_set_target_bitmap(buffer);
@@ -37,26 +41,21 @@ int GraphicManager::drawMenu()
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
     al_flip_display();
     al_set_target_bitmap(buffer);
-    //cout<<"okay";
     al_register_event_source(queue, al_get_mouse_event_source());
     al_register_event_source(queue, al_get_keyboard_event_source());
-    //cout<<"okay";
     ALLEGRO_BITMAP *btp = al_create_bitmap(140, 40);
     while (true)
     {
         menu = al_load_bitmap("../Assets/Tiles/Menu.png");
         if (!menu)
             return 2;
-        //cout<<"okay";
         al_clear_to_color(al_map_rgb(0, 0, 0));
         al_draw_bitmap(menu, 0, 0, 0);
         ALLEGRO_EVENT ev;
         al_wait_for_event(queue, &ev);
-        // cout<<"okay";
         switch (ev.type)
         {
         case ALLEGRO_EVENT_MOUSE_AXES:
-            //cout<<ev.mouse.x / (scale_w / 560) << " " << ev.mouse.y / (scale_h / 320) << endl;
             if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 85 && ev.mouse.y / (scale_h / 320) <= 140)
             {
                 btp = al_create_bitmap(140, 40);
@@ -127,9 +126,10 @@ int GraphicManager::drawMenu()
         menu = 0;
         al_flush_event_queue(queue);
     }
+    al_destroy_event_queue(queue);
     return 1;
 }
-void GraphicManager::drawMap(char map[16][28], int level)
+void GraphicManager::drawMap(char map[16][28], const int& level)
 {
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -160,18 +160,13 @@ void GraphicManager::drawMap(char map[16][28], int level)
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
-            case 'X': //troll brick
+            /*case 'X': //troll brick
                 bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/normalBrick.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
-                break;
+                break;*/
             case '$': //coins
                 bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/coin.png").c_str());
-                al_draw_bitmap(bitmap, j * 20, i * 20, 0);
-                al_destroy_bitmap(bitmap);
-                break;
-            case '_':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/ground.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
@@ -220,9 +215,6 @@ void GraphicManager::drawMap(char map[16][28], int level)
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
-            case '&':
-                map[i][j] = ' ';
-                break;
             default: //clean space
                 break;
             }
@@ -233,9 +225,9 @@ void GraphicManager::drawMap(char map[16][28], int level)
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
 
-void GraphicManager::drawStats(int points, int coins, int lives, int level)
+void GraphicManager::drawStats(const int& points, const int& coins, const int& lives, const int& level)
 {
-    al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Coins Remaining: %02d \t \t \t \t Lifes: %02d \t \t \t Level: %02d", coins - points, lives, level);
+    al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Coins Remaining: %02d \t \t \t \t Lives: %02d \t \t \t Level: %02d", coins - points, lives, level);
 }
 
 void GraphicManager::drawFinalLadder(char map[16][28])
@@ -251,7 +243,7 @@ void GraphicManager::drawFinalLadder(char map[16][28])
         }
     }
 }
-void GraphicManager::drawEntity(Entity *E)
+void GraphicManager::drawEntity(Entity * E)
 {
     al_set_target_bitmap(buffer);
     ALLEGRO_BITMAP *bitmap = al_load_bitmap(("../Assets/Characters/" + E->getEntity() + "/" + to_string(E->getFrame()) + ".png").c_str());
@@ -280,7 +272,7 @@ void GraphicManager::drawEntity(Entity *E)
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
 
-void GraphicManager::drawYouDied()
+void GraphicManager::drawYouDied(SoundManager& sound)
 {
     al_set_target_bitmap(al_get_backbuffer(display));
     int incr = 0.1;

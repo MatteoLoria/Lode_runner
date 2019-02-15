@@ -11,23 +11,12 @@ enum MYKEYS
     KEY_X,
     KEY_Z
 };
-ALLEGRO_DISPLAY *d;
 
 GameManager::GameManager() {}
 
 GameManager::GameManager(GraphicManager &graphic) { this->graphic = graphic; }
 
-GameManager::GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic)
-{
-    this->player = p;
-    for (auto i : enemies)
-    {
-        this->enemies.push_back(i);
-    }
-    this->graphic = graphic;
-}
-
-int GameManager::run(int level, ALLEGRO_DISPLAY *display)
+int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& sound)
 {
     bool redraw = false;
     bool lastIsLeft = false;
@@ -36,7 +25,6 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
     double waitForDigDx = 2.1;
     double waitForDigSx = 2.1;
     double delay = 0.0;
-    d = display;
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 15);
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -145,7 +133,9 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                             restart();
                             sound.stopBackground();
                             sound.playGameover();
-                            graphic.drawYouDied();
+                            graphic.drawYouDied(sound);
+                            al_destroy_timer(timer);
+                            al_destroy_event_queue(queue);
                             return 0;
                         }
                         else
@@ -185,45 +175,47 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
         }
         else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
+            al_destroy_timer(timer);
+            al_destroy_event_queue(queue);
             return 0;
         }
         else if (event.type == ALLEGRO_EVENT_KEY_DOWN)
         {
             switch (event.keyboard.keycode)
             {
-            case ALLEGRO_KEY_X:
-                keys[KEY_X] = true;
-                break;
-            case ALLEGRO_KEY_Z:
-                keys[KEY_Z] = true;
-                break;
-            case ALLEGRO_KEY_UP:
-                keys[KEY_UP] = true;
-                lastIsDown = false;
-                lastIsLeft = false;
-                break;
+                case ALLEGRO_KEY_X:
+                    keys[KEY_X] = true;
+                    break;
+                case ALLEGRO_KEY_Z:
+                    keys[KEY_Z] = true;
+                    break;
+                case ALLEGRO_KEY_UP:
+                    keys[KEY_UP] = true;
+                    lastIsDown = false;
+                    lastIsLeft = false;
+                    break;
 
-            case ALLEGRO_KEY_DOWN:
-                keys[KEY_DOWN] = true;
-                lastIsLeft = false;
-                lastIsDown = true;
-                break;
+                case ALLEGRO_KEY_DOWN:
+                    keys[KEY_DOWN] = true;
+                    lastIsLeft = false;
+                    lastIsDown = true;
+                    break;
 
-            case ALLEGRO_KEY_LEFT:
-                keys[KEY_LEFT] = true;
-                lastIsLeft = true;
-                lastIsDown = false;
-                break;
+                case ALLEGRO_KEY_LEFT:
+                    keys[KEY_LEFT] = true;
+                    lastIsLeft = true;
+                    lastIsDown = false;
+                    break;
 
-            case ALLEGRO_KEY_RIGHT:
-                keys[KEY_RIGHT] = true;
-                lastIsLeft = false;
-                lastIsDown = false;
-                break;
+                case ALLEGRO_KEY_RIGHT:
+                    keys[KEY_RIGHT] = true;
+                    lastIsLeft = false;
+                    lastIsDown = false;
+                    break;
 
-            case ALLEGRO_KEY_ESCAPE:
-                close = true;
-                break;
+                case ALLEGRO_KEY_ESCAPE:
+                    close = true;
+                    break;
             }
         }
         else if (event.type == ALLEGRO_EVENT_KEY_UP)
@@ -231,27 +223,27 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             player.setFrame(player.getFrame() == 3 ? 3 : player.getFrame()); //bu
             switch (event.keyboard.keycode)
             {
-            case ALLEGRO_KEY_X:
-                keys[KEY_X] = false;
-                break;
-            case ALLEGRO_KEY_Z:
-                keys[KEY_Z] = false;
-                break;
-            case ALLEGRO_KEY_UP:
-                keys[KEY_UP] = false;
-                break;
+                case ALLEGRO_KEY_X:
+                    keys[KEY_X] = false;
+                    break;
+                case ALLEGRO_KEY_Z:
+                    keys[KEY_Z] = false;
+                    break;
+                case ALLEGRO_KEY_UP:
+                    keys[KEY_UP] = false;
+                    break;
 
-            case ALLEGRO_KEY_DOWN:
-                keys[KEY_DOWN] = false;
-                break;
+                case ALLEGRO_KEY_DOWN:
+                    keys[KEY_DOWN] = false;
+                    break;
 
-            case ALLEGRO_KEY_LEFT:
-                keys[KEY_LEFT] = false;
-                break;
+                case ALLEGRO_KEY_LEFT:
+                    keys[KEY_LEFT] = false;
+                    break;
 
-            case ALLEGRO_KEY_RIGHT:
-                keys[KEY_RIGHT] = false;
-                break;
+                case ALLEGRO_KEY_RIGHT:
+                    keys[KEY_RIGHT] = false;
+                    break;
             }
         }
         if (redraw && al_is_event_queue_empty(queue))
@@ -318,6 +310,8 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                 sound.playWin();
                 restart();
                 player.setLives(player.getLives()+1);
+                al_destroy_timer(timer);
+                al_destroy_event_queue(queue);
                 return 1;
             }
             if (player.getY() > 340 || map[player.getY() / 20][player.getX() / 20] == '#')
@@ -331,7 +325,9 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
                     sound.stopBackground();
                     restart();
                     sound.playGameover();
-                    graphic.drawYouDied();
+                    graphic.drawYouDied(sound);
+                    al_destroy_timer(timer);
+                    al_destroy_event_queue(queue);
                     return 0;
                 }
                 else
@@ -350,10 +346,12 @@ int GameManager::run(int level, ALLEGRO_DISPLAY *display)
             al_flip_display();
         }
     }
+    al_destroy_timer(timer);
+    al_destroy_event_queue(queue);
     return -1;
 }
 
-bool GameManager::avaibleSpot(int y, int x)
+bool GameManager::avaibleSpot(const int& y, const int& x)
 {
     for (auto i : enemies)
     {
@@ -365,7 +363,6 @@ bool GameManager::avaibleSpot(int y, int x)
 
 void GameManager::restart()
 {
-    cout<<"okay";
     coins = 0;
     fill(keys,keys+6,false);
     player.setX(player.getInitX());
@@ -429,7 +426,7 @@ void GameManager::loadMap(string path)
     }
 }
 
-void GameManager::createEntities(int level)
+void GameManager::createEntities(const int& level)
 {
     enemies.clear();
     if (level == 1)

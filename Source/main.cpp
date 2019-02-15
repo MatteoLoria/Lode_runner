@@ -11,22 +11,22 @@
     Suoni
     Efficienza codice
      -Astar
-     -Enemy
-     -Entity
+     -Enemy V
+     -Entity V
      -GameMan
-     -Graphic
+     -Graphic V 
      -main
-     -player
+     -player V
      -Quadruple
      -Sound
     Commenti da aggiungere
      -Astar
-     -Enemy
-     -Entity
+     -Enemy (da valutare isInhole e se il nemico potrà mai cadere)
+     -Entity V
      -GameMan
      -Graphic
      -main
-     -player
+     -player V
      -Quadruple
      -Sound
     Schermata finale
@@ -67,6 +67,7 @@ int main()
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
     GraphicManager Gr(scaleW, scaleH, scaleX, scaleY, buffer, display);
+    SoundManager Sm();
 
     GameManager G(Gr);
     while (feedback != 2)
@@ -75,11 +76,11 @@ int main()
         {
             case 0:
                 level = 1;
-                feedback = Gr.drawMenu();
+                feedback = Gr.drawMenu(Sm);
                 break;
             case 1:
                 ++level;
-                feedback = G.run(level, display);
+                feedback = G.run(level, display, Sm);
                 break;
             case 3:
                 //i credits poi li faccio
