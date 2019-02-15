@@ -19,20 +19,20 @@ GameManager::GameManager(GraphicManager &graphic) { this->graphic = graphic; }
 int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& sound)
 {
     bool redraw = false;
-    bool lastIsLeft = false;
-    bool lastIsDown = false;
+    bool lastIsLeft = false;//se è true si stava andando a sinistra
+    bool lastIsDown = false;//se è true si stava andando sotto
     bool stair = false;
-    double waitForDigDx = 2.1;
-    double waitForDigSx = 2.1;
-    double delay = 0.0;
+    double waitForDigDx = 2.1;//contatore per il dig destro(serve per evitare di un abuso di dig)
+    double waitForDigSx = 2.1;//contatore per il dig sinistro(serve per evitare di un abuso di dig)
+    double delay = 0.0;//scandisce il movimento dei nemici
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 15);
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_display_event_source(display));
     createEntities(level);
-    loadMap("../Assets/Maps/level" + to_string(level) + ".txt");
-    pathFinder.setWorldSize({16, 28});
+    loadMap("../Assets/Maps/level" + to_string(level) + ".txt");//carica la mappa dal file di testo
+    pathFinder.setWorldSize({16, 28});//setta la dimensione della mappa per Astar
     al_start_timer(timer);
     bool close = false;
     sound.playBackground();
@@ -43,7 +43,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
         ALLEGRO_EVENT event;
         al_wait_for_event(queue, &event);
         if (event.type == ALLEGRO_EVENT_TIMER)
-        {
+        {   //movimento del player in base agli input
             if (keys[KEY_RIGHT] && player.getX() < 540 && !player.getFall())
             {
                 player.moveRight(map, false);
@@ -63,16 +63,16 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
             if (keys[KEY_X] && !player.getFall() && player.getFrame() != 4 && waitForDigDx > 2.0)
             {
                 waitForDigDx = 0.0;
-                if (player.dig(map, false))
+                if (player.dig(map, false))//controllo se si può fare il dig
                 {
                     sound.playDig();
                     player.setFrame(8);
                     holes.push_back({(player.getY() + 5) / 20,
-                                     (player.getX() + 39) / 20, 0, 0});
+                                     (player.getX() + 39) / 20, 0, 0});//pusha la buca da gestire
                 }
             }
             if (keys[KEY_Z] && !player.getFall() && player.getFrame() != 4 && waitForDigSx > 2.0)
-            {
+            {   //stessa cosa sopra
                 waitForDigSx = 0.0;
                 if (player.dig(map, true))
                 {
@@ -83,7 +83,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                 }
             }
             if (map[player.getY() / 20][player.getX() / 20] == '$')
-            {
+            {   //il player raccoglie la moneta
                 sound.playCoin();
                 player.increasePoints();
                 map[player.getY() / 20][player.getX() / 20] = ' ';
@@ -118,16 +118,16 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                             break;
                         }
                     }*/
-                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});
+                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});//trova il percorso per raggiungere il player
                     if (path.size() > 1)
                         path.pop_back(); //forse non serve più
                     else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true))
-                    {
+                    {   //se il percorso dice che è arrivato significa che ha raggiunto il player, quindi collisione
                         sound.playDie();
                         if(player.getFall()) 
                             sound.stopFall();
                         player.decreaseLives();
-                        if (player.getLives() == 0)
+                        if (player.getLives() == 0)//scala una vita e riparte
                         {
                             player.setLives(3);
                             restart();
@@ -138,7 +138,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                             al_destroy_event_queue(queue);
                             return 0;
                         }
-                        else
+                        else //altrimenti torna al menù
                         {
                             restart();
                             loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
@@ -164,9 +164,9 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                     al_flip_display();
                 }
                 //end debug*/
-                    int x = path.back().x;
+                    int x = path.back().x;   //le cordinate da seguire
                     int y = path.back().y;
-                    if (avaibleSpot(x, y))
+                    if (avaibleSpot(x, y))   //controlla se non sono già occupate da un altro enemy
                         i.update(map, holes, player, x, y);
                 }
                 delay = 0;
@@ -220,7 +220,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
         }
         else if (event.type == ALLEGRO_EVENT_KEY_UP)
         {
-            player.setFrame(player.getFrame() == 3 ? 3 : player.getFrame()); //bu
+            player.setFrame(player.getFrame() == 3 ? 3 : player.getFrame()); //setta i frame ad ogni giro
             switch (event.keyboard.keycode)
             {
                 case ALLEGRO_KEY_X:
@@ -249,30 +249,30 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
         if (redraw && al_is_event_queue_empty(queue))
         {
             redraw = false;
-            if (player.getFall())
+            if (player.getFall())//se sta cadendo gestisci i vari casi
             {
                 sound.playFall();
                 player.setY(player.getY() + 5);
                 if (map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '#' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == 'H' || map[((player.getY() + 5) / 20)][(player.getX() / 20)] == '@')
-                {
+                {   //arriva ad un blocco e si ferma
                     player.setFall(false);
                     sound.stopFall();
                 }
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && map[((player.getY()) / 20)][(player.getX() / 20)] == '-')
-                {
+                {   //arriva ad una corda e si ferma
                     player.setFall(false);
                     sound.stopFall();
                     player.setFrame(5);
                 }
                 if (map[((player.getY() - 18) / 20)][(player.getX() / 20)] == '-' && lastIsDown && map[((player.getY() + 5) / 20)][(player.getX() / 20)] != '#')
-                {
+                {   
                     player.setFall(true);
                     player.setFrame(4);
                 }
             }
             if (!holes.empty())
-            {
-                for (list<Quadruple>::iterator i = holes.begin(); i != holes.end(); i++)
+            {   //scandisce l'animazione della buca che si distrugge e ricrea
+                for (list<HoleManager>::iterator i = holes.begin(); i != holes.end(); i++)
                 {
                     i->third += 1.0 / 15;
                     if (map[i->first][i->second] == '7' && !i->already)
@@ -298,14 +298,14 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                     }
                 }
             }
-            if (player.getPoints() == coins && !stair)
+            if (player.getPoints() == coins && !stair)//ha raccolto tutte le monete e attiva la scala finale
             {
                 sound.playStair();
                 graphic.drawFinalLadder(map);
                 stair = true;
             }
             if (player.getY() < 0)
-            {
+            {   //supera il livello
                 sound.stopBackground();
                 sound.playWin();
                 restart();
@@ -315,12 +315,12 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                 return 1;
             }
             if (player.getY() > 340 || map[player.getY() / 20][player.getX() / 20] == '#')
-            {
+            {   //cade sotto la mappa oppure viene "mangiato da un blocco"
                 sound.stopFall();
                 sound.playDie();
                 player.decreaseLives();
-                if (player.getLives() == 0)
-                { //risolto keys
+                if (player.getLives() == 0)// se le vite sono finite torna al menù
+                {
                     player.setLives(3);
                     sound.stopBackground();
                     restart();

@@ -55,7 +55,7 @@ int GraphicManager::drawMenu(SoundManager& sound)
         al_wait_for_event(queue, &ev);
         switch (ev.type)
         {
-        case ALLEGRO_EVENT_MOUSE_AXES:
+        case ALLEGRO_EVENT_MOUSE_AXES: //movimento mouse
             if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 85 && ev.mouse.y / (scale_h / 320) <= 140)
             {
                 btp = al_create_bitmap(140, 40);
@@ -90,7 +90,7 @@ int GraphicManager::drawMenu(SoundManager& sound)
                 al_set_target_bitmap(buffer);
             }
             break;
-        case ALLEGRO_EVENT_KEY_DOWN: //entra qui(vedi nel main)
+        case ALLEGRO_EVENT_KEY_DOWN:
             sound.playClick();
             if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
                 exit(1);

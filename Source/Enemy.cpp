@@ -9,7 +9,7 @@ void Enemy::setFallen(const double& fallen) { this->fallen = fallen; }
 Enemy::Enemy() : Entity() {}
 Enemy::Enemy(const int& x, const int& y) : Entity(x, y) {}
 
-bool Enemy::isInHole(const list<Quadruple>& holes, char map[16][28], const bool& head)
+bool Enemy::isInHole(const list<HoleManager>& holes, char map[16][28], const bool& head)
 {
     for (auto i : holes)
     {
@@ -67,7 +67,7 @@ bool Enemy::isInHole(const list<Quadruple>& holes, char map[16][28], const bool&
     }
     return false;
 }
-void Enemy::update(char map[16][28], const list<Quadruple>& holes, Player& p, const int& nextY, const int& nextX)
+void Enemy::update(char map[16][28], const list<HoleManager>& holes, Player& p, const int& nextY, const int& nextX)
 {
     bool headInHole = isInHole(holes, map, true);
     bool footInHole = isInHole(holes, map, false);

@@ -17,17 +17,17 @@
      -Graphic V 
      -main
      -player V
-     -Quadruple
+     -HoleManager V
      -Sound
     Commenti da aggiungere
      -Astar
      -Enemy (da valutare isInhole e se il nemico potrà mai cadere)
      -Entity V
-     -GameMan
-     -Graphic
+     -GameMan V
+     -Graphic V(c'è poco da dire)
      -main
      -player V
-     -Quadruple
+     -HoleManager (tocca a te)
      -Sound
     Schermata finale
     Schermata you died V
@@ -67,7 +67,7 @@ int main()
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
     GraphicManager Gr(scaleW, scaleH, scaleX, scaleY, buffer, display);
-    SoundManager Sm();
+    SoundManager Sm;
 
     GameManager G(Gr);
     while (feedback != 2)
@@ -75,7 +75,7 @@ int main()
         switch (feedback)
         {
             case 0:
-                level = 1;
+                level = 0;
                 feedback = Gr.drawMenu(Sm);
                 break;
             case 1:
