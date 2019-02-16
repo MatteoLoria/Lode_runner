@@ -84,6 +84,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
             {   //il player raccoglie la moneta
                 sound.playCoin();
                 player.increasePoints();
+                coins--;
                 map[player.getY() / 20][player.getX() / 20] = ' ';
             }
             delay += (double)1.0 / 10;
@@ -116,7 +117,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                             else //altrimenti ricostruisce il livello
                             {
                                 restart();
-                                loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                                //loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
                                 break;
                             }
                         }
@@ -274,7 +275,7 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                     }
                 }
             }
-            if (player.getPoints() == coins && !stair) //ha raccolto tutte le monete e attiva la scala finale
+            if (coins == 0 && !stair) //ha raccolto tutte le monete e attiva la scala finale
             {
                 sound.playStair();
                 graphic.drawFinalLadder(map);
@@ -309,12 +310,12 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
                 else
                 {
                     restart();
-                    loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                    //loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
                 }
             }
             graphic.drawMap(map, level);
             graphic.drawEntity(&player);
-            graphic.drawStats(player.getPoints(), coins, player.getLives(), level);
+            graphic.drawStats(coins, player.getLives(), level);
             for (auto i : enemies)
             {
                 graphic.drawEntity(&i);
@@ -339,7 +340,6 @@ bool GameManager::avaibleSpot(const int& y, const int& x)
 
 void GameManager::restart()
 {
-    coins = 0;
     fill(keys,keys+6,false);
     player.setX(player.getInitX());
     player.setY(player.getInitY());
@@ -351,15 +351,25 @@ void GameManager::restart()
         i.setFrame(0);
         i.setX(i.getInitX());
         i.setY(i.getInitY());
-        i.setFall(false);
+        if (i.isRedHat()){
+            if (map[i.getY() / 20][i.getX() / 20] == '$')
+                map[i.getY() / 20][(i.getX() / 20)+1] = '$'; 
+            else
+                map[i.getY() / 20][i.getX() / 20] = '$';
+        }i.setFall(false);
         i.setFallen(0);
         i.setRedHat(false);
+    }
+    for(auto i:holes){
+        if(!i.already)
+            map[i.first][i.second] = '#';
     }
     holes.clear();
 }
 
 void GameManager::loadMap(string path)
 {
+    coins = 0;
     pathFinder.clearCollisions();
     ifstream input(path);
     if (input.is_open())

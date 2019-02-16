@@ -225,9 +225,9 @@ void GraphicManager::drawMap(char map[16][28], const int& level)
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
 
-void GraphicManager::drawStats(const int& points, const int& coins, const int& lives, const int& level)
+void GraphicManager::drawStats(const int& coins, const int& lives, const int& level)
 {
-    al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Coins Remaining: %02d \t \t \t \t Lives: %02d \t \t \t Level: %02d", coins - points, lives, level);
+    al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Coins Remaining: %02d \t \t \t \t Lives: %02d \t \t \t Level: %02d", coins, lives, level);
 }
 
 void GraphicManager::drawFinalLadder(char map[16][28])
