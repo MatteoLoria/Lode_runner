@@ -8,7 +8,7 @@
 
     Lista:
     Pulizia cartelle V
-    Suoni
+    Suoni V
     Efficienza codice
      -Astar
      -Enemy V
@@ -18,9 +18,9 @@
      -main
      -player V
      -HoleManager V
-     -Sound
+     -Sound V
     Commenti da aggiungere
-     -Astar
+     -Astar V
      -Enemy (da valutare isInhole e se il nemico potrà mai cadere)
      -Entity V
      -GameMan V
@@ -28,7 +28,7 @@
      -main
      -player V
      -HoleManager V
-     -Sound
+     -Sound V
     Schermata finale
     Schermata you died V
     Schermata crediti

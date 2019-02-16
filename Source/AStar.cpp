@@ -20,7 +20,7 @@ AStar::Node::Node(Vec2i coordinates_, Node *parent_)
     G = H = 0;
 }
 
-AStar::uint AStar::Node::getScore()
+unsigned AStar::Node::getScore()
 {
     return G + H;
 }
@@ -69,13 +69,16 @@ void AStar::Generator::clearCollisions()
 
 AStar::CoordinateList AStar::Generator::findPath(Vec2i source_, Vec2i target_)
 {
+    //il nodo corrente
     Node *current = nullptr;
+    //nodi da visitare e già visitati
     NodeSet openSet, closedSet;
     openSet.reserve(100);
     closedSet.reserve(100);
+    //Il primo nodo entra in lista
     openSet.push_back(new Node(source_));
 
-    while (!openSet.empty())
+    while (!openSet.empty()) // se la lista è vuota non esiste nessun percorso
     {
         auto current_it = openSet.begin();
         current = *current_it;
@@ -83,36 +86,36 @@ AStar::CoordinateList AStar::Generator::findPath(Vec2i source_, Vec2i target_)
         for (auto it = openSet.begin(); it != openSet.end(); it++)
         {
             auto node = *it;
-            if (node->getScore() <= current->getScore())
+            if (node->getScore() <= current->getScore()) //se un nodo nella lista ha punteggio migliore del precedente, questo nodo diventa il corrente
             {
                 current = node;
                 current_it = it;
             }
         }
 
-        if (current->coordinates == target_)
+        if (current->coordinates == target_) // se il nodo corrente è il nodo d'arrivo, l'algoritmo termina
         {
             break;
         }
 
-        closedSet.push_back(current);
-        openSet.erase(current_it);
+        closedSet.push_back(current); // metto il corrente nei nodi già visitati
+        openSet.erase(current_it); // lo elimino da quelli da visitare
 
-        for (uint i = 0; i < directions; ++i)
+        for (unsigned i = 0; i < directions; ++i) //trovo i prossmi nodi da mettere in lista
         {
             Vec2i newCoordinates(current->coordinates + direction[i]);
-            if (!detectCollision(newCoordinates) && !findNodeOnList(closedSet, newCoordinates))
+            if (!detectCollision(newCoordinates) && !findNodeOnList(closedSet, newCoordinates)) //se il nuovo nodo è nei nodi da visitare e non è un muro
             {
-                uint totalCost = current->G + ((i < 4) ? 10 : 14);
-                Node *successor = findNodeOnList(openSet, newCoordinates);
-                if (successor == nullptr)
+                unsigned totalCost = current->G + ((i < 4) ? 10 : 14); // calcolo il nuovo costo totale per quel arco
+                Node *successor = findNodeOnList(openSet, newCoordinates);  // ne prendo il riferimento dai nodi da visitare
+                if (successor == nullptr) //se non esiste lo creo
                 {
                     successor = new Node(newCoordinates, current);
                     successor->G = totalCost;
                     successor->H = heuristic(successor->coordinates, target_);
                     openSet.push_back(successor);
                 }
-                else if (totalCost < successor->G)
+                else if (totalCost < successor->G) //altrimenti lo aggiorno se necessario
                 {
                     successor->parent = current;
                     successor->G = totalCost;
@@ -122,7 +125,7 @@ AStar::CoordinateList AStar::Generator::findPath(Vec2i source_, Vec2i target_)
     }
 
     CoordinateList path;
-    while (current != nullptr)
+    while (current != nullptr) //genero il path
     {
         path.push_back(current->coordinates);
         current = current->parent;
@@ -171,20 +174,14 @@ AStar::Vec2i AStar::Heuristic::getDelta(Vec2i source_, Vec2i target_)
     return {abs(source_.x - target_.x), abs(source_.y - target_.y)};
 }
 
-AStar::uint AStar::Heuristic::manhattan(Vec2i source_, Vec2i target_)
+unsigned AStar::Heuristic::manhattan(Vec2i source_, Vec2i target_)
 {
     auto delta = std::move(getDelta(source_, target_));
-    return static_cast<uint>(10 * (delta.x + delta.y));
+    return static_cast<unsigned>(10 * (delta.x + delta.y));
 }
 
-AStar::uint AStar::Heuristic::euclidean(Vec2i source_, Vec2i target_)
+unsigned AStar::Heuristic::euclidean(Vec2i source_, Vec2i target_)
 {
     auto delta = std::move(getDelta(source_, target_));
-    return static_cast<uint>(10 * sqrt(pow(delta.x, 2) + pow(delta.y, 2)));
-}
-
-AStar::uint AStar::Heuristic::octagonal(Vec2i source_, Vec2i target_)
-{
-    auto delta = std::move(getDelta(source_, target_));
-    return 10 * (delta.x + delta.y) + (-6) * std::min(delta.x, delta.y);
+    return static_cast<unsigned>(10 * sqrt(pow(delta.x, 2) + pow(delta.y, 2)));
 }

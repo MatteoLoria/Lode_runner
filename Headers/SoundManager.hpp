@@ -2,6 +2,10 @@
 #include <allegro5/allegro_acodec.h>
 #ifndef SOUND_H
 #define SOUND_H
+
+/*
+  Semplice classe che fa wrapper per i metodi di allegro.
+*/
 class SoundManager
 {
   private:
@@ -17,7 +21,6 @@ class SoundManager
     ALLEGRO_SAMPLE_ID idBackground;
     ALLEGRO_SAMPLE *dig;
     ALLEGRO_SAMPLE *clickMenu;
-    //ALLEGRO_SAMPLE_ID idClic;
     ALLEGRO_SAMPLE *gameover;
     bool isPlaying;
 

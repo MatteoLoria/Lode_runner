@@ -1,6 +1,9 @@
 #include "../Headers/SoundManager.hpp"
 #include <iostream>
 using namespace std;
+/*
+  Semplice classe che fa wrapper per i metodi di allegro.
+*/
 SoundManager::SoundManager()
 {
     al_reserve_samples(10);
