@@ -69,18 +69,18 @@ int main()
     GraphicManager Gr(scaleW, scaleH, scaleX, scaleY, buffer, display);
     SoundManager Sm;
 
-    GameManager G(Gr);
+    GameManager G;
     while (feedback != 2)
     {
         switch (feedback)
         {
             case 0:
-                level = 2;
+                level = 0;
                 feedback = Gr.drawMenu(Sm);
                 break;
             case 1:
                 ++level;
-                feedback = G.run(level, display, Sm);
+                feedback = G.run(level, display, Sm, Gr);
                 break;
             case 3:
                 //i credits poi li faccio

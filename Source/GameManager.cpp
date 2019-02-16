@@ -14,9 +14,7 @@ enum MYKEYS
 
 GameManager::GameManager() {}
 
-GameManager::GameManager(GraphicManager &graphic) { this->graphic = graphic; }
-
-int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& sound)
+int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& sound, GraphicManager& graphic)
 {
     bool redraw = false;
     bool lastIsLeft = false;//se è true si stava andando a sinistra
@@ -93,81 +91,59 @@ int GameManager::run(const int& level, ALLEGRO_DISPLAY *display, SoundManager& s
             {
                 for (auto &i : enemies)
                 {
-                    /*if ((i.getMirrorX() && (i.getX() == player.getX()+15)  && i.getY() == player.getY()) || (!i.getMirrorX() && i.getX() + 15 == player.getX() && i.getY() == player.getY())
-                        || (i.getY() + 15 == player.getY() && i.getX() == player.getX()) || (i.getY() == player.getY() + 15 && i.getX() == player.getX()))
+                    if(avaibleSpot(i.getX(), i.getY()))//controllo la posizione corrente
                     {
-                        player.decreaseLives();
-                        if (player.getLives() == 0)//quando muore va controllato il keys[]
-                            return 0;
-                        else
-                        {
-                            restart();
-                            loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
-                            break;
+                        auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});//trova il percorso per raggiungere il player
+                        if (path.size() > 1)
+                            path.pop_back(); //forse non serve più
+                        else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true))
+                        {   //se il percorso dice che è arrivato significa che ha raggiunto il player, quindi collisione
+                            sound.playDie();
+                            if(player.getFall()) 
+                                sound.stopFall();
+                            player.decreaseLives();
+                            if (player.getLives() == 0)//se ha esaurito le vite il gioco finisce
+                            {
+                                player.setLives(3);
+                                restart();
+                                sound.stopBackground();
+                                sound.playGameover();
+                                graphic.drawYouDied(sound);
+                                al_destroy_timer(timer);
+                                al_destroy_event_queue(queue);
+                                return 0;
+                            }
+                            else //altrimenti ricostruisce il livello
+                            {
+                                restart();
+                                loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                                break;
+                            }
                         }
+                            /*//debug
+                        for (auto j : path)
+                        {
+                            ALLEGRO_BITMAP *b = al_create_bitmap(20, 20);
+                            al_set_target_bitmap(b);
+                            if (j.x == path.back().x && j.y == path.back().y)
+                            {
+                                al_clear_to_color(al_map_rgb(255, 255, 255));
+                            }
+                            else
+                                al_clear_to_color(al_map_rgb(255, 0, 0));
+                            if (j.x == player.getY() && j.y == player.getX())
+                                al_clear_to_color(al_map_rgb(0, 0, 255));
+                            al_set_target_bitmap(al_get_backbuffer(display));
+                            al_draw_bitmap(b, j.y * 20, j.x * 20, 0);
+                            al_destroy_bitmap(b);
+                            al_flip_display();
+                        }
+                        //end debug*/
+                        int x = path.back().x;   //le cordinate da seguire
+                        int y = path.back().y;
+                        if (avaibleSpot(x, y))   //controllo la prossima posizione
+                            i.update(map, holes, player, x, y);
                     }
-                    else if (i.getX() + 15 == player.getX() && i.getY() == player.getY())
-                    {
-                        player.decreaseLives();
-                        if (player.getLives() == 0)
-                            return 0;
-                        else
-                        {
-                            restart();
-                            loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
-                            break;
-                        }
-                    }*/
-                    auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20});//trova il percorso per raggiungere il player
-                    if (path.size() > 1)
-                        path.pop_back(); //forse non serve più
-                    else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true))
-                    {   //se il percorso dice che è arrivato significa che ha raggiunto il player, quindi collisione
-                        sound.playDie();
-                        if(player.getFall()) 
-                            sound.stopFall();
-                        player.decreaseLives();
-                        if (player.getLives() == 0)//se ha esaurito le vite il gioco finisce
-                        {
-                            player.setLives(3);
-                            restart();
-                            sound.stopBackground();
-                            sound.playGameover();
-                            graphic.drawYouDied(sound);
-                            al_destroy_timer(timer);
-                            al_destroy_event_queue(queue);
-                            return 0;
-                        }
-                        else //altrimenti ricostruisce il livello
-                        {
-                            restart();
-                            loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
-                            break;
-                        }
-                    }
-                    /*//debug
-                for (auto j : path)
-                {
-                    ALLEGRO_BITMAP *b = al_create_bitmap(20, 20);
-                    al_set_target_bitmap(b);
-                    if (j.x == path.back().x && j.y == path.back().y)
-                    {
-                        al_clear_to_color(al_map_rgb(255, 255, 255));
-                    }
-                    else
-                        al_clear_to_color(al_map_rgb(255, 0, 0));
-                    if (j.x == player.getY() && j.y == player.getX())
-                        al_clear_to_color(al_map_rgb(0, 0, 255));
-                    al_set_target_bitmap(al_get_backbuffer(display));
-                    al_draw_bitmap(b, j.y * 20, j.x * 20, 0);
-                    al_destroy_bitmap(b);
-                    al_flip_display();
-                }
-                //end debug*/
-                    int x = path.back().x;   //le cordinate da seguire
-                    int y = path.back().y;
-                    if (avaibleSpot(x, y))   //controlla se non sono già occupate da un altro enemy
-                        i.update(map, holes, player, x, y);
                 }
                 delay = 0;
             }

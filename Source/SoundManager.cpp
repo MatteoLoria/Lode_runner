@@ -79,62 +79,16 @@ void SoundManager::playClick()
 {
     al_play_sample(clickMenu, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 }
-/*void SoundManager::stopClick()
-{
-    al_stop_sample(&idClic);
-}*/
 SoundManager::~SoundManager()
 {
-    cout<<"1";
-    
-    if (fall!=0)
-    {
-        al_destroy_sample(fall);
-        fall = 0;
-    }
-    if (die!=0)
-    {
-        al_destroy_sample(die);
-        die = 0;
-    }
-    if (stairs!=0)
-    {
-        al_destroy_sample(stairs);
-        stairs = 0;
-    }
-    if (win!=0)
-    {
-        al_destroy_sample(win);
-        win = 0;
-    }
-    if (menu!=0)
-    {
-        al_destroy_sample(menu);
-        menu = 0;
-    }
-    if (coin!=0)
-    {
-        al_destroy_sample(coin);
-        coin = 0;
-    }
-    if (background!=0)
-    {
-        al_destroy_sample(background);
-        background = 0;
-    }
-    if (dig!=0)
-    {
-        al_destroy_sample(dig);
-        dig = 0;
-    }
-    if (clickMenu!=0)
-    {
-        al_destroy_sample(clickMenu);
-        clickMenu = 0;
-    }
-    if (gameover!=0)
-    {
-        al_destroy_sample(gameover);
-        gameover = 0;
-    }
+    al_destroy_sample(fall);
+    al_destroy_sample(die);
+    al_destroy_sample(stairs);
+    al_destroy_sample(win);
+    al_destroy_sample(menu);
+    al_destroy_sample(coin);
+    al_destroy_sample(background);
+    al_destroy_sample(dig);
+    al_destroy_sample(clickMenu);
+    al_destroy_sample(gameover);
 }

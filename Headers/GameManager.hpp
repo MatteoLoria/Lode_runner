@@ -15,7 +15,6 @@ class GameManager
 private:
     Player player;             //giocatore
     vector<Enemy> enemies;     //vettore di nemici
-    GraphicManager graphic;
     list<HoleManager> holes;     //se il dig si può fare la buca da distruggere e ricreare viene aggiunta qui dentro
     Generator pathFinder;      //Astar
     char map[16][28];
@@ -27,7 +26,6 @@ private:
     int coins = 0;  //monete presente nella mappa
 public:
     GameManager();
-    GameManager(GraphicManager&);
-    int run(const int&, ALLEGRO_DISPLAY *, SoundManager&); //gestisce il gioco(input, ecc.)
+    int run(const int&, ALLEGRO_DISPLAY *, SoundManager&, GraphicManager&); //gestisce il gioco(input, ecc.)
 };
 #endif
