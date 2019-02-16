@@ -94,4 +94,5 @@ SoundManager::~SoundManager()
     al_destroy_sample(dig);
     al_destroy_sample(clickMenu);
     al_destroy_sample(gameover);
+    al_uninstall_audio();
 }

@@ -1,6 +1,6 @@
 #include "../Headers/HoleManager.hpp"
 
-HoleManager::HoleManager(const int& first, const int& second, const double& third, const bool& already)
+HoleManager::HoleManager(const int &first, const int &second, const double &third, const bool &already)
 {
     this->first = first;
     this->second = second;
@@ -8,7 +8,7 @@ HoleManager::HoleManager(const int& first, const int& second, const double& thir
     this->already = already;
 }
 
-bool HoleManager::operator==(const HoleManager& t)
+bool HoleManager::operator==(const HoleManager &t)
 {
     if (t.first == first && t.second == second && t.third == third && t.already == already)
         return true;

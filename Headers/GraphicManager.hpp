@@ -24,9 +24,10 @@ class GraphicManager
         int drawMenu(SoundManager&);
         void drawMap(char [16][28], const int&);
         void drawEntity(Entity *);
-        void drawFinalLadder(char [16][28]);//stampa la scala finale dopo aver raccolto tutte le monete
-        void drawStats(const int& , const int&, const int&);//stampa le statistiche in tempo reale
-        void drawYouDied(SoundManager&);//stampa la schermata della morte
+        void drawFinalLadder(char [16][28]); //stampa la scala finale dopo aver raccolto tutte le monete
+        void drawStats(const int& , const int&, const int&); //stampa le statistiche in tempo reale
+        void drawYouDied(SoundManager&); //stampa la schermata della morte
+        int drawFinal(SoundManager&);
         void setLevel(const int&);
         int getLevel();
 };

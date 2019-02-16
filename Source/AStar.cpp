@@ -99,16 +99,16 @@ AStar::CoordinateList AStar::Generator::findPath(Vec2i source_, Vec2i target_)
         }
 
         closedSet.push_back(current); // metto il corrente nei nodi già visitati
-        openSet.erase(current_it); // lo elimino da quelli da visitare
+        openSet.erase(current_it);    // lo elimino da quelli da visitare
 
         for (unsigned i = 0; i < directions; ++i) //trovo i prossmi nodi da mettere in lista
         {
             Vec2i newCoordinates(current->coordinates + direction[i]);
             if (!detectCollision(newCoordinates) && !findNodeOnList(closedSet, newCoordinates)) //se il nuovo nodo è nei nodi da visitare e non è un muro
             {
-                unsigned totalCost = current->G + ((i < 4) ? 10 : 14); // calcolo il nuovo costo totale per quel arco
-                Node *successor = findNodeOnList(openSet, newCoordinates);  // ne prendo il riferimento dai nodi da visitare
-                if (successor == nullptr) //se non esiste lo creo
+                unsigned totalCost = current->G + ((i < 4) ? 10 : 14);     // calcolo il nuovo costo totale per quel arco
+                Node *successor = findNodeOnList(openSet, newCoordinates); // ne prendo il riferimento dai nodi da visitare
+                if (successor == nullptr)                                  //se non esiste lo creo
                 {
                     successor = new Node(newCoordinates, current);
                     successor->G = totalCost;

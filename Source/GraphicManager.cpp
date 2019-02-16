@@ -4,7 +4,7 @@
 
 GraphicManager::GraphicManager() {}
 
-GraphicManager::GraphicManager(const int& scale_w, const int& scale_h, const int& scale_x, const int& scale_y, ALLEGRO_BITMAP *buffer, ALLEGRO_DISPLAY *display)
+GraphicManager::GraphicManager(const int &scale_w, const int &scale_h, const int &scale_x, const int &scale_y, ALLEGRO_BITMAP *buffer, ALLEGRO_DISPLAY *display)
 {
     this->scale_h = scale_h;
     this->scale_w = scale_w;
@@ -24,7 +24,7 @@ GraphicManager::~GraphicManager()
     al_destroy_font(font);
 }
 
-int GraphicManager::drawMenu(SoundManager& sound)
+int GraphicManager::drawMenu(SoundManager &sound)
 {
     if (!buffer)
         return 2;
@@ -129,7 +129,7 @@ int GraphicManager::drawMenu(SoundManager& sound)
     al_destroy_event_queue(queue);
     return 1;
 }
-void GraphicManager::drawMap(char map[16][28], const int& level)
+void GraphicManager::drawMap(char map[16][28], const int &level)
 {
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -225,7 +225,7 @@ void GraphicManager::drawMap(char map[16][28], const int& level)
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
 
-void GraphicManager::drawStats(const int& coins, const int& lives, const int& level)
+void GraphicManager::drawStats(const int &coins, const int &lives, const int &level)
 {
     al_draw_textf(font, al_map_rgb(145, 0, 0), 0, 0, 0, "Coins Remaining: %02d \t \t \t \t Lives: %02d \t \t \t Level: %02d", coins, lives, level);
 }
@@ -243,7 +243,7 @@ void GraphicManager::drawFinalLadder(char map[16][28])
         }
     }
 }
-void GraphicManager::drawEntity(Entity * E)
+void GraphicManager::drawEntity(Entity *E)
 {
     al_set_target_bitmap(buffer);
     ALLEGRO_BITMAP *bitmap = al_load_bitmap(("../Assets/Characters/" + E->getEntity() + "/" + to_string(E->getFrame()) + ".png").c_str());
@@ -272,7 +272,12 @@ void GraphicManager::drawEntity(Entity * E)
     al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
 }
 
-void GraphicManager::drawYouDied(SoundManager& sound)
+int GraphicManager::drawFinal(SoundManager &sound)
+{
+    
+}
+
+void GraphicManager::drawYouDied(SoundManager &sound)
 {
     al_set_target_bitmap(al_get_backbuffer(display));
     int incr = 0.1;
