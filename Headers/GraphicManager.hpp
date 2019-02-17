@@ -28,6 +28,7 @@ class GraphicManager
         void drawStats(const int& , const int&, const int&); //stampa le statistiche in tempo reale
         void drawYouDied(SoundManager&); //stampa la schermata della morte
         int drawFinal(SoundManager&);
+        int drawCredits(SoundManager&);
         void setLevel(const int&);
         int getLevel();
 };

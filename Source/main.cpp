@@ -92,7 +92,7 @@ int main()
             }
             break;
         case 3:
-            //i credits poi li faccio
+            feedback = Gr.drawCredits(Sm);
             break;
         case -1:
             return 0;

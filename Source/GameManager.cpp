@@ -189,7 +189,10 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                 lastIsLeft = false;
                 lastIsDown = false;
                 break;
-
+            case ALLEGRO_KEY_M:
+                sound.stopBackground();
+                return 1;
+                break;
             case ALLEGRO_KEY_ESCAPE:
                 close = true;
                 break;

@@ -32,6 +32,7 @@ int GraphicManager::drawMenu(SoundManager &sound)
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     if (!queue)
         return 2;
+    sound.stopMenu();
     sound.playMenu();
     ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -269,43 +270,100 @@ void GraphicManager::drawEntity(Entity *E)
 
 int GraphicManager::drawFinal(SoundManager &sound)
 {
-    
-}
-
-void GraphicManager::drawYouDied(SoundManager &sound)
-{
     al_set_target_bitmap(al_get_backbuffer(display));
-    int incr = 0.1;
-    int alpha = 0.1;
-    for (int i = 0; i < 5; i++)
-    {
-        ALLEGRO_BITMAP *b = al_load_bitmap("../Assets/Tiles/Died.png");
-        //al_rest(0.02);
-        al_clear_to_color(al_map_rgb(0, 0, 0));
-        al_draw_tinted_scaled_bitmap(b, al_map_rgba_f(1, 1, 1, alpha), 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
-        alpha += incr;
-        al_destroy_bitmap(b);
-        al_flip_display();
-    }
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    ALLEGRO_BITMAP *credits = al_load_bitmap("../Assets/Tiles/Final.png");
+    al_set_target_bitmap(buffer);
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(credits, 0, 0, 0);
     ALLEGRO_EVENT_QUEUE *q = al_create_event_queue();
-    al_register_event_source(q, al_get_mouse_event_source());
     al_register_event_source(q, al_get_keyboard_event_source());
+    al_register_event_source(q, al_get_mouse_event_source());
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+    al_flip_display();
     while (1)
     {
         ALLEGRO_EVENT ev;
         al_wait_for_event(q, &ev);
-        switch (ev.type)
+        if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
         {
-        case ALLEGRO_EVENT_KEY_DOWN:
             sound.playClick();
-            return;
-            break;
-        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            return 0;
+        }
+        if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+        {
             sound.playClick();
-            return;
-            break;
-        default:
-            break;
+            return 0;
         }
     }
+    return 2;
+}
+
+int GraphicManager::drawCredits(SoundManager &sound){
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    ALLEGRO_BITMAP *credits = al_load_bitmap("../Assets/Tiles/Credits.png");
+    al_set_target_bitmap(buffer);
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(credits, 0, 0, 0);
+    ALLEGRO_EVENT_QUEUE *q = al_create_event_queue();
+    al_register_event_source(q, al_get_keyboard_event_source());
+    al_register_event_source(q, al_get_mouse_event_source());
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+    al_flip_display();
+    while (1)
+    {
+        ALLEGRO_EVENT ev;
+        al_wait_for_event(q, &ev);
+        if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
+        {
+            sound.playClick();
+            return 0;
+        }
+        if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+        {
+            sound.playClick();
+            return 0;
+        }
+    }
+    return 2;
+}
+    void GraphicManager::drawYouDied(SoundManager & sound)
+    {
+        al_set_target_bitmap(al_get_backbuffer(display));
+        int incr = 0.1;
+        int alpha = 0.1;
+        for (int i = 0; i < 5; i++)
+        {
+            ALLEGRO_BITMAP *b = al_load_bitmap("../Assets/Tiles/Died.png");
+            //al_rest(0.02);
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+            al_draw_tinted_scaled_bitmap(b, al_map_rgba_f(1, 1, 1, alpha), 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+            alpha += incr;
+            al_destroy_bitmap(b);
+            al_flip_display();
+        }
+        ALLEGRO_EVENT_QUEUE *q = al_create_event_queue();
+        al_register_event_source(q, al_get_mouse_event_source());
+        al_register_event_source(q, al_get_keyboard_event_source());
+        while (1)
+        {
+            ALLEGRO_EVENT ev;
+            al_wait_for_event(q, &ev);
+            switch (ev.type)
+            {
+            case ALLEGRO_EVENT_KEY_DOWN:
+                sound.playClick();
+                return;
+                break;
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+                sound.playClick();
+                return;
+                break;
+            default:
+                break;
+            }
+        }
 }
