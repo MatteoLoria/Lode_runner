@@ -27,7 +27,7 @@ namespace AStar
         //Nodo del quale è figlio, nullptr per il root
         Node *parent;
 
-        Node(Vec2i coord_, Node *parent_ = nullptr);
+        Node(const Vec2i& coord_, Node *parent_ = nullptr);
         unsigned getScore();
     };
     //Facendo alcuni test si è riscontrato che con vector l'algoritmo è più efficiente che con list
@@ -37,24 +37,24 @@ namespace AStar
     class Generator
     {
         //Controlla se il prossimo nodo è una collisione
-        bool detectCollision(Vec2i coordinates_);
+        bool detectCollision(const Vec2i& coordinates_);
         //Trova un nodo nella lista
-        Node* findNodeOnList(NodeSet& nodes_, Vec2i coordinates_);
+        Node* findNodeOnList(const NodeSet& nodes_, const Vec2i& coordinates_);
         //Concella dei nodi dalla lista
         void releaseNodes(NodeSet& nodes_);
 
     public:
         Generator();
         //set delle dimensioni del mondo
-        void setWorldSize(Vec2i worldSize_);
+        void setWorldSize(const Vec2i& worldSize_);
         //accetta anche movimenti diagonali
-        void setDiagonalMovement(bool enable_);
+        void setDiagonalMovement(const bool& enable_);
         //set della funzione euristica con il quale valutare il parametro H di un nodo
         void setHeuristic(HeuristicFunction heuristic_);
         //metodo che genera il percorso
-        CoordinateList findPath(Vec2i source_, Vec2i target_);
-        void addCollision(Vec2i coordinates_);
-        void removeCollision(Vec2i coordinates_);
+        CoordinateList findPath(const Vec2i& source_, const Vec2i& target_);
+        void addCollision(const Vec2i& coordinates_);
+        void removeCollision(const Vec2i& coordinates_);
         void clearCollisions();
 
     private:
@@ -69,13 +69,13 @@ namespace AStar
     class Heuristic
     {
         //restituisce il vettore con componenti le rispettive differenze tra le componenti dei nodi source e target
-        static Vec2i getDelta(Vec2i source_, Vec2i target_);
+        static Vec2i getDelta(const Vec2i& source_, const Vec2i& target_);
 
     public:
         //Distanza di manhattan o geometria del taxi, |x1-x2|+|y1+y2|
-        static unsigned manhattan(Vec2i source_, Vec2i target_);
+        static unsigned manhattan(const Vec2i& source_, const Vec2i& target_);
         //Distanza euclidea o metrica pitagorica, sqrt(pow(x1-x2,2)+pow(y1-y2,2))
-        static unsigned euclidean(Vec2i source_, Vec2i target_);
+        static unsigned euclidean(const Vec2i& source_, const Vec2i& target_);
     };
 }
 

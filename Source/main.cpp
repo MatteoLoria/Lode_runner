@@ -9,37 +9,37 @@
     Lista:
     Pulizia cartelle V
     Suoni V
-    Efficienza codice
-     -Astar
+    Efficienza codice V
+     -Astar V
      -Enemy V
      -Entity V
-     -GameMan
+     -GameMan V
      -Graphic V 
-     -main
+     -main V
      -player V
      -HoleManager V
      -Sound V
-    Commenti da aggiungere
+    Commenti da aggiungere V
      -Astar V
-     -Enemy (da valutare isInhole e se il nemico potrà mai cadere)
+     -Enemy V
      -Entity V
      -GameMan V
-     -Graphic V(c'è poco da dire)
-     -main
+     -Graphic V
+     -main V
      -player V
      -HoleManager V
      -Sound V
-    Schermata finale
+    Decidere i livelli (quarto e quinto) V
     Schermata you died V
+    Schermata finale
     Schermata crediti
     Colori
     Bonus (per ora nemico)
     Difficoltà
     Trollface (secondo livello)
-    Decidere i livelli (quarto e quinto)
 */
 int main()
-{
+{   //inizializzazione allegro
     al_init();
     al_init_image_addon();
     al_install_audio();
@@ -50,6 +50,7 @@ int main()
     al_init_font_addon();
     al_install_keyboard();
     al_init_ttf_addon();
+    //risoluzione dinamica
     ALLEGRO_DISPLAY *display = al_create_display(WINDOW_W, WINDOW_H);
     ALLEGRO_BITMAP *buffer = al_create_bitmap(WINDOW_W, WINDOW_H);
     int windowHeight = al_get_display_height(display);
@@ -65,11 +66,12 @@ int main()
     int level = 0;
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
-
+    //creazione oggetti
     GraphicManager Gr(scaleW, scaleH, scaleX, scaleY, buffer, display);
     SoundManager Sm;
 
     GameManager G;
+    //gestione dei feedback ricevuti durante l'esecuzione del gioco
     while (feedback != 2)
     {
         switch (feedback)
@@ -94,9 +96,9 @@ int main()
             break;
         case -1:
             return 0;
-            break;
         }
     }
+    //distruzione allegro
     al_destroy_bitmap(buffer);
     al_uninstall_keyboard();
     al_uninstall_mouse();

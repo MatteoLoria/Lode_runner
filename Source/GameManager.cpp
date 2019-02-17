@@ -351,16 +351,16 @@ void GameManager::restart()
         i.setFrame(0);
         i.setX(i.getInitX());
         i.setY(i.getInitY());
-        if (i.isRedHat())
+        /*if (i.isRedHat())
         {
             if (map[i.getY() / 20][i.getX() / 20] == '$')
                 map[i.getY() / 20][(i.getX() / 20) + 1] = '$';
             else
                 map[i.getY() / 20][i.getX() / 20] = '$';
-        }
+        }*/
         i.setFall(false);
         i.setFallen(0);
-        i.setRedHat(false);
+        //i.setRedHat(false);
     }
     for (auto i : holes)
     {
@@ -455,20 +455,20 @@ void GameManager::createEntities(const int &level)
     {
         player.setInitX(12 * 20);
         player.setInitY((14 * 20) + 18);
-        Enemy e1(23 * 20, (1 * 20) + 18);
-        Enemy e2(1 * 20, (5 * 20) + 18);
-        Enemy e3(4 * 20, (8 * 20) + 18);
+        Enemy e1(9 * 20, (1 * 20) + 18);
+        Enemy e2(19 * 20, (1 * 20) + 18);
+        Enemy e3(16 * 20, (8 * 20) + 18);
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);
     }
-    else if (level == 5)
+        else if (level == 5)
     {
         player.setInitX(12 * 20);
         player.setInitY((14 * 20) + 18);
-        Enemy e1(9 * 20, (1 * 20) + 18);
-        Enemy e2(19 * 20, (1 * 20) + 18);
-        Enemy e3(16 * 20, (8 * 20) + 18);
+        Enemy e1(0 * 20, (5 * 20) + 18);
+        Enemy e2(19 * 20, (6 * 20) + 18);
+        Enemy e3(27 * 20, (13 * 20) + 18);
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);

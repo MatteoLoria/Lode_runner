@@ -65,7 +65,7 @@ void Enemy::update(char map[16][28], const list<HoleManager> &holes, Player &p, 
 {
     bool headInHole = isInHole(holes, map, true);
     bool footInHole = isInHole(holes, map, false);
-    if (this->getFall() && !headInHole) //gestisce la caduta(serve?)
+    /*if (this->getFall() && !headInHole) //gestisce la caduta(serve?)
     {
         this->setY(this->getY() + 5);
         if (map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '#' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == 'H' || map[((this->getY() + 5) / 20)][(this->getX() / 20)] == '@')
@@ -90,28 +90,28 @@ void Enemy::update(char map[16][28], const list<HoleManager> &holes, Player &p, 
             this->setFall(true);
             this->setFrame(4);
         }
-    }
-    else
+    }*/
+    //else
+    //{
+    bool left = false;              // booleana che serve a capire da che lato sta approcciando una scala
+    if (!footInHole && !headInHole) //se non è in una buca
     {
-        bool left = false;              // booleana che serve a capire da che lato sta approcciando la scala
-        if (!footInHole && !headInHole) //se non è in una buca
+        if (this->getX() / 20 < nextX) //va a destra
         {
-            if (this->getX() / 20 < nextX) //va a destra
-            {
-                this->moveRight(map, isRedHat());
-                left = false;
-            }
-            if ((this->getX() + 18) / 20 > nextX) //va a sinistra
-            {
-                this->moveLeft(map, isRedHat());
-                left = true;
-            }
-            if (this->getY() < (nextY * 20) + 18) //va sotto
-                this->moveDown(map, isRedHat());
-            if (this->getY() / 20 > nextY) //va sopra
-                this->moveUp(map, left, isRedHat());
+            this->moveRight(map, isRedHat());
+            left = false;
         }
+        if ((this->getX() + 18) / 20 > nextX) //va a sinistra
+        {
+            this->moveLeft(map, isRedHat());
+            left = true;
+        }
+        if (this->getY() < (nextY * 20) + 18) //va sotto
+            this->moveDown(map, isRedHat());
+        if (this->getY() / 20 > nextY) //va sopra
+            this->moveUp(map, left, isRedHat());
     }
+    //}
     if (footInHole) //gestione animazione caduta nella buca
     {
         fallen += 0.1; //serve per scandire i frame, il setMirrorY li alterna

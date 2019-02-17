@@ -160,11 +160,6 @@ void GraphicManager::drawMap(char map[16][28], const int &level)
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
-            /*case 'X': //troll brick
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/normalBrick.png").c_str());
-                al_draw_bitmap(bitmap, j * 20, i * 20, 0);
-                al_destroy_bitmap(bitmap);
-                break;*/
             case '$': //coins
                 bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/coin.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
