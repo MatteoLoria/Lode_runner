@@ -17,12 +17,17 @@ class GraphicManager
         ALLEGRO_DISPLAY * display;
         ALLEGRO_BITMAP * buffer;
         ALLEGRO_FONT * font;
+        string tiles = "classic";
+        int drawAssets();
+        int drawDifficulty();
+
     public:
         GraphicManager();
         GraphicManager(const int&, const int& ,const int&, const int&, ALLEGRO_BITMAP *, ALLEGRO_DISPLAY *);
         ~GraphicManager();
         int drawMenu(SoundManager&);
-        void drawMap(char [16][28], const int&);
+        int drawOptions(SoundManager&);
+        void drawMap(char [16][28]);
         void drawEntity(Entity *);
         void drawFinalLadder(char [16][28]); //stampa la scala finale dopo aver raccolto tutte le monete
         void drawStats(const int& , const int&, const int&); //stampa le statistiche in tempo reale

@@ -14,6 +14,12 @@ enum MYKEYS
 
 GameManager::GameManager() {}
 
+void GameManager::setDiffulty(const int& difficulty)
+{
+    if(difficulty != 4)
+        this->difficulty = difficulty;
+}
+
 int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &sound, GraphicManager &graphic)
 {
     bool redraw = false;
@@ -117,7 +123,8 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                             else //altrimenti ricostruisce il livello
                             {
                                 restart();
-                                //loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                                if(difficulty == 3)
+                                    loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
                                 break;
                             }
                         }
@@ -289,7 +296,8 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                 sound.stopBackground();
                 sound.playWin();
                 restart();
-                player.setLives(player.getLives() + 1);
+                if(difficulty == 1)
+                    player.setLives(player.getLives() + 1);
                 al_destroy_timer(timer);
                 al_destroy_event_queue(queue);
                 return 1;
@@ -313,10 +321,11 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                 else
                 {
                     restart();
-                    //loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
+                    if(difficulty == 3)
+                        loadMap(string("../Assets/Maps/level") + to_string(level) + ".txt");
                 }
             }
-            graphic.drawMap(map, level);
+            graphic.drawMap(map);
             graphic.drawEntity(&player);
             graphic.drawStats(coins, player.getLives(), level);
             for (auto i : enemies)
@@ -363,7 +372,8 @@ void GameManager::restart()
         }*/
         i.setFall(false);
         i.setFallen(0);
-        //i.setRedHat(false);
+        if(difficulty == 3)
+            i.setRedHat(false);
     }
     for (auto i : holes)
     {
@@ -371,6 +381,8 @@ void GameManager::restart()
             map[i.first][i.second] = '#';
     }
     holes.clear();
+    if(difficulty == 3)
+        coins = 0;
 }
 
 void GameManager::loadMap(string path)

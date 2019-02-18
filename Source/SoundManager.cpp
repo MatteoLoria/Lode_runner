@@ -27,18 +27,18 @@ void SoundManager::playGameover()
 }
 void SoundManager::playFall()
 {
-    if (!isPlaying)
+    if (!isFallPlaying)
     {
-        isPlaying = true;
+        isFallPlaying = true;
         al_play_sample(this->fall, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, &idFall);
     }
 }
 void SoundManager::stopFall()
 {
-    if (isPlaying)
+    if (isFallPlaying)
     {
         al_stop_sample(&idFall);
-        isPlaying = false;
+        isFallPlaying = false;
     }
 }
 void SoundManager::playStair()
@@ -56,11 +56,19 @@ void SoundManager::playWin()
 }
 void SoundManager::playMenu()
 {
-    al_play_sample(menu, 0.3, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &idMenu);
+    if(!isMenuPlaying)
+    {
+        al_play_sample(menu, 0.3, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &idMenu);
+        isMenuPlaying = true;
+    }
 }
 void SoundManager::stopMenu()
 {
-    al_stop_sample(&idMenu);
+    if(isMenuPlaying)
+    {
+        al_stop_sample(&idMenu);
+        isMenuPlaying = false;
+    }
 }
 void SoundManager::playCoin()
 {

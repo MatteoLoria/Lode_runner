@@ -24,8 +24,10 @@ private:
     bool keys[6] = {false,false,false,false,false,false};//vari input
     bool avaibleSpot(const int& x, const int& y);   //controlla se la pos(x,y) è già occupata da un nemico
     int coins = 0;  //monete presente nella mappa
+    int difficulty = 1;
 public:
     GameManager();
     int run(const int&, ALLEGRO_DISPLAY *, SoundManager&, GraphicManager&); //gestisce il gioco(input, ecc.)
+    void setDiffulty(const int&);
 };
 #endif

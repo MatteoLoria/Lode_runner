@@ -22,7 +22,8 @@ class SoundManager
     ALLEGRO_SAMPLE *dig;
     ALLEGRO_SAMPLE *clickMenu;
     ALLEGRO_SAMPLE *gameover;
-    bool isPlaying;
+    bool isFallPlaying;
+    bool isMenuPlaying;
 
   public:
     SoundManager();

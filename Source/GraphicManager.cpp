@@ -32,7 +32,7 @@ int GraphicManager::drawMenu(SoundManager &sound)
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     if (!queue)
         return 2;
-    sound.stopMenu();
+    //sound.stopMenu();
     sound.playMenu();
     ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -57,29 +57,37 @@ int GraphicManager::drawMenu(SoundManager &sound)
         switch (ev.type)
         {
         case ALLEGRO_EVENT_MOUSE_AXES: //movimento mouse
-            if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 85 && ev.mouse.y / (scale_h / 320) <= 140)
+            if (ev.mouse.x / (scale_w / 560) >= 230 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 108 && ev.mouse.y / (scale_h / 320) <= 148)
             {
                 btp = al_create_bitmap(140, 40);
                 al_set_target_bitmap(btp);
                 al_clear_to_color(al_map_rgba(120, 120, 120, 120)); //choose color
                 al_set_target_bitmap(buffer);
-                al_draw_bitmap(btp, 190, 70, 0);
+                al_draw_bitmap(btp, 190, 90, 0);
             }
-            else if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 420 && ev.mouse.y / (scale_h / 320) >= 150 && ev.mouse.y / (scale_h / 320) <= 195)
+            else if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 165 && ev.mouse.y / (scale_h / 320) <= 210)
             {
                 btp = al_create_bitmap(195, 45);
                 al_set_target_bitmap(btp);
                 al_clear_to_color(al_map_rgba(120, 120, 120, 120));
                 al_set_target_bitmap(buffer);
-                al_draw_bitmap(btp, 165, 128, 0);
+                al_draw_bitmap(btp, 165, 145, 0);
             }
-            else if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 210 && ev.mouse.y / (scale_h / 320) <= 260)
+            else if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 220 && ev.mouse.y / (scale_h / 320) <= 265)
             {
-                btp = al_create_bitmap(140, 40);
+                btp = al_create_bitmap(195, 45);
                 al_set_target_bitmap(btp);
                 al_clear_to_color(al_map_rgba(120, 120, 120, 120));
                 al_set_target_bitmap(buffer);
-                al_draw_bitmap(btp, 190, 190, 0);
+                al_draw_bitmap(btp, 165, 200, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 238 && ev.mouse.x / (scale_w / 560) <= 358 && ev.mouse.y / (scale_h / 320) >= 277 && ev.mouse.y / (scale_h / 320) <= 317)
+            {
+                btp = al_create_bitmap(120, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 198, 260, 0);
             }
             else
             {
@@ -97,14 +105,16 @@ int GraphicManager::drawMenu(SoundManager &sound)
                 exit(1);
             break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-            if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 80 && ev.mouse.y / (scale_h / 320) <= 130)
+            if (ev.mouse.x / (scale_w / 560) >= 230 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 108 && ev.mouse.y / (scale_h / 320) <= 148)
             {
                 sound.stopMenu();
                 return 1; //first level
             }
-            else if (ev.mouse.x / (scale_w / 560) >= 200 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 140 && ev.mouse.y / (scale_h / 320) <= 188)
+            else if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 165 && ev.mouse.y / (scale_h / 320) <= 210)
+                return 4; //options
+            else if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 400 && ev.mouse.y / (scale_h / 320) >= 220 && ev.mouse.y / (scale_h / 320) <= 265)
                 return 3; //credits
-            else if (ev.mouse.x / (scale_w / 560) >= 220 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 200 && ev.mouse.y / (scale_h / 320) <= 250)
+            else if (ev.mouse.x / (scale_w / 560) >= 238 && ev.mouse.x / (scale_w / 560) <= 358 && ev.mouse.y / (scale_h / 320) >= 277 && ev.mouse.y / (scale_h / 320) <= 317)
                 return 2; //quit
             break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
@@ -130,7 +140,321 @@ int GraphicManager::drawMenu(SoundManager &sound)
     al_destroy_event_queue(queue);
     return 1;
 }
-void GraphicManager::drawMap(char map[16][28], const int &level)
+
+int GraphicManager::drawOptions(SoundManager& sound)
+{
+    al_set_target_bitmap(buffer);
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    ALLEGRO_BITMAP *options = al_load_bitmap("../Assets/Tiles/Options.png");
+    int diff = 4;//guardare set di gameManager
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(options, 0, 0, 0);
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+    al_flip_display();
+    al_set_target_bitmap(buffer);
+    al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_keyboard_event_source());
+    ALLEGRO_BITMAP *btp = al_create_bitmap(140, 40);
+    while (true)
+    {
+        options = al_load_bitmap("../Assets/Tiles/Options.png");
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_bitmap(options, 0, 0, 0);
+        ALLEGRO_EVENT ev;
+        al_wait_for_event(queue, &ev);
+        switch (ev.type)
+        {
+        case ALLEGRO_EVENT_MOUSE_AXES: //movimento mouse
+            if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 403 && ev.mouse.y / (scale_h / 320) >= 77 && ev.mouse.y / (scale_h / 320) <= 117)
+            {
+                btp = al_create_bitmap(198, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 165, 60, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 175 && ev.mouse.x / (scale_w / 560) <= 440 && ev.mouse.y / (scale_h / 320) >= 145 && ev.mouse.y / (scale_h / 320) <= 185)
+            {
+                btp = al_create_bitmap(265, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 137, 125, 0);
+            }
+             else if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 210 && ev.mouse.y / (scale_h / 320) <= 260)
+            {
+                btp = al_create_bitmap(140, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 190, 190, 0);
+            }
+            else
+            {
+                if (btp != 0 || btp != NULL)
+                {
+                    al_set_target_bitmap(btp);
+                    al_clear_to_color(al_map_rgb(0, 0, 0));
+                }
+                al_set_target_bitmap(buffer);
+            }
+            break;
+        case ALLEGRO_EVENT_KEY_DOWN:
+            if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                return diff;
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+            if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 403 && ev.mouse.y / (scale_h / 320) >= 77 && ev.mouse.y / (scale_h / 320) <= 117)
+                diff = drawAssets(); //assets
+            else if (ev.mouse.x / (scale_w / 560) >= 175 && ev.mouse.x / (scale_w / 560) <= 440 && ev.mouse.y / (scale_h / 320) >= 145 && ev.mouse.y / (scale_h / 320) <= 185)
+                diff = drawDifficulty(); //difficolta
+            else if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 210 && ev.mouse.y / (scale_h / 320) <= 260)
+                return diff;//non cambia il livello di difficoltà
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            sound.playClick();
+            break;
+        default:
+            break;
+        }
+        al_set_target_bitmap(al_get_backbuffer(display));
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+        al_flip_display();
+        al_set_target_bitmap(buffer);
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        if (btp != 0)
+            al_destroy_bitmap(btp);
+        if (options != 0)
+            al_destroy_bitmap(options);
+        btp = 0;
+        options = 0;
+        al_flush_event_queue(queue);
+    }
+    al_destroy_event_queue(queue);
+    return diff;
+}
+
+int GraphicManager::drawAssets()
+{
+    al_set_target_bitmap(buffer);
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    ALLEGRO_BITMAP *assets = al_load_bitmap("../Assets/Tiles/Assets.png");
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(assets, 0, 0, 0);
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+    al_flip_display();
+    al_set_target_bitmap(buffer);
+    al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_keyboard_event_source());
+    ALLEGRO_BITMAP *btp = al_create_bitmap(140, 40);
+    while (true)
+    {
+        assets = al_load_bitmap("../Assets/Tiles/Assets.png");
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_bitmap(assets, 0, 0, 0);
+        ALLEGRO_EVENT ev;
+        al_wait_for_event(queue, &ev);
+        switch (ev.type)
+        {
+        case ALLEGRO_EVENT_MOUSE_AXES: //movimento mouse
+            if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 405 && ev.mouse.y / (scale_h / 320) >= 60 && ev.mouse.y / (scale_h / 320) <= 100)
+            {
+                btp = al_create_bitmap(200, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 165, 45, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 140 && ev.mouse.x / (scale_w / 560) <= 485 && ev.mouse.y / (scale_h / 320) >= 125 && ev.mouse.y / (scale_h / 320) <= 165)
+            {
+                btp = al_create_bitmap(345, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 100, 105, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 145 && ev.mouse.x / (scale_w / 560) <= 480 && ev.mouse.y / (scale_h / 320) >= 180 && ev.mouse.y / (scale_h / 320) <= 220)
+            {
+                btp = al_create_bitmap(335, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 105, 165, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 238 && ev.mouse.x / (scale_w / 560) <= 358 && ev.mouse.y / (scale_h / 320) >= 235 && ev.mouse.y / (scale_h / 320) <= 275)
+            {
+                btp = al_create_bitmap(120, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 198, 225, 0);
+            }
+            else
+            {
+                if (btp != 0 || btp != NULL)
+                {
+                    al_set_target_bitmap(btp);
+                    al_clear_to_color(al_map_rgb(0, 0, 0));
+                }
+                al_set_target_bitmap(buffer);
+            }
+            break;
+        case ALLEGRO_EVENT_KEY_DOWN:
+            if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                return 4;
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+            if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 405 && ev.mouse.y / (scale_h / 320) >= 60 && ev.mouse.y / (scale_h / 320) <= 100)
+            {
+                tiles = "classic";
+                return 4;
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 140 && ev.mouse.x / (scale_w / 560) <= 485 && ev.mouse.y / (scale_h / 320) >= 125 && ev.mouse.y / (scale_h / 320) <= 165)
+            {
+                tiles = "professional";
+                return 4;
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 145 && ev.mouse.x / (scale_w / 560) <= 480 && ev.mouse.y / (scale_h / 320) >= 180 && ev.mouse.y / (scale_h / 320) <= 220)
+            {
+                tiles = "championship";
+                return 4;
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 238 && ev.mouse.x / (scale_w / 560) <= 358 && ev.mouse.y / (scale_h / 320) >= 235 && ev.mouse.y / (scale_h / 320) <= 275)
+                return 4;
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            break;
+        default:
+            break;
+        }
+        al_set_target_bitmap(al_get_backbuffer(display));
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+        al_flip_display();
+        al_set_target_bitmap(buffer);
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        if (btp != 0)
+            al_destroy_bitmap(btp);
+        if (assets != 0)
+            al_destroy_bitmap(assets);
+        btp = 0;
+        assets = 0;
+        al_flush_event_queue(queue);
+    }
+    al_destroy_event_queue(queue);
+    return 4;
+}
+
+int GraphicManager::drawDifficulty()
+{
+    al_set_target_bitmap(buffer);
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    ALLEGRO_BITMAP *difficulty = al_load_bitmap("../Assets/Tiles/Difficulty.png");
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(difficulty, 0, 0, 0);
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+    al_flip_display();
+    al_set_target_bitmap(buffer);
+    al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_keyboard_event_source());
+    ALLEGRO_BITMAP *btp = al_create_bitmap(140, 40);
+    while (true)
+    {
+        difficulty = al_load_bitmap("../Assets/Tiles/Difficulty.png");
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_bitmap(difficulty, 0, 0, 0);
+        ALLEGRO_EVENT ev;
+        al_wait_for_event(queue, &ev);
+        switch (ev.type)
+        {
+        case ALLEGRO_EVENT_MOUSE_AXES: //movimento mouse
+            if (ev.mouse.x / (scale_w / 560) >= 225 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 65 && ev.mouse.y / (scale_h / 320) <= 105)
+            {
+                btp = al_create_bitmap(145, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 190, 50, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 200 && ev.mouse.x / (scale_w / 560) <= 405 && ev.mouse.y / (scale_h / 320) >= 125 && ev.mouse.y / (scale_h / 320) <= 165)
+            {
+                btp = al_create_bitmap(195, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 165, 110, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 225 && ev.mouse.x / (scale_w / 560) <= 370 && ev.mouse.y / (scale_h / 320) >= 180 && ev.mouse.y / (scale_h / 320) <= 220)
+            {
+                btp = al_create_bitmap(145, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 185, 165, 0);
+            }
+            else if (ev.mouse.x / (scale_w / 560) >= 238 && ev.mouse.x / (scale_w / 560) <= 358 && ev.mouse.y / (scale_h / 320) >= 235 && ev.mouse.y / (scale_h / 320) <= 275)
+            {
+                btp = al_create_bitmap(120, 40);
+                al_set_target_bitmap(btp);
+                al_clear_to_color(al_map_rgba(120, 120, 120, 120));
+                al_set_target_bitmap(buffer);
+                al_draw_bitmap(btp, 198, 225, 0);
+            }
+            else
+            {
+                if (btp != 0 || btp != NULL)
+                {
+                    al_set_target_bitmap(btp);
+                    al_clear_to_color(al_map_rgb(0, 0, 0));
+                }
+                al_set_target_bitmap(buffer);
+            }
+            break;
+        case ALLEGRO_EVENT_KEY_DOWN:
+            if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                return 4;//se ritorna 4 non cambia nulla(guardare il set nel gameManager)
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+            if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 405 && ev.mouse.y / (scale_h / 320) >= 60 && ev.mouse.y / (scale_h / 320) <= 100)
+                return 1;
+            else if (ev.mouse.x / (scale_w / 560) >= 140 && ev.mouse.x / (scale_w / 560) <= 485 && ev.mouse.y / (scale_h / 320) >= 125 && ev.mouse.y / (scale_h / 320) <= 165)
+                return 2;
+            else if (ev.mouse.x / (scale_w / 560) >= 145 && ev.mouse.x / (scale_w / 560) <= 480 && ev.mouse.y / (scale_h / 320) >= 180 && ev.mouse.y / (scale_h / 320) <= 220)
+                return 3;
+            else if (ev.mouse.x / (scale_w / 560) >= 238 && ev.mouse.x / (scale_w / 560) <= 358 && ev.mouse.y / (scale_h / 320) >= 235 && ev.mouse.y / (scale_h / 320) <= 275)
+                return 4;//se ritorna 4 non cambia nulla(guardare il set nel gameManager)
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            break;
+        default:
+            break;
+        }
+        al_set_target_bitmap(al_get_backbuffer(display));
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+        al_flip_display();
+        al_set_target_bitmap(buffer);
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        if (btp != 0)
+            al_destroy_bitmap(btp);
+        if (difficulty != 0)
+            al_destroy_bitmap(difficulty);
+        btp = 0;
+        difficulty = 0;
+        al_flush_event_queue(queue);
+    }
+    al_destroy_event_queue(queue);
+    return 4;
+}
+
+void GraphicManager::drawMap(char map[16][28])
 {
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -142,72 +466,72 @@ void GraphicManager::drawMap(char map[16][28], const int &level)
             switch (map[i][j])
             {
             case '#': //normal brick
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/normalBrick.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Tiles/normalBrick.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '@': //solid brick
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/solidBrick.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Tiles/solidBrick.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case 'H': //ladder
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/ladder.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Tiles/ladder.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '-': //rope
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/rope.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Tiles/rope.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '$': //coins
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Tiles/coin.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Tiles/coin.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '1':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Destructions/0.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Destructions/0.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, (i - 1) * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '2':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Destructions/1.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Destructions/1.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, (i - 1) * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '3':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Destructions/2.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Destructions/2.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, (i - 1) * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '4':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Destructions/3.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Destructions/3.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, (i - 1) * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '5':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Destructions/4.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Destructions/4.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, (i - 1) * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '6':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Destructions/5.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Destructions/5.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, (i - 1) * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '7':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Destructions/6.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Destructions/6.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, (i - 1) * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '/':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Creations/0.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Creations/0.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
             case '^':
-                bitmap = al_load_bitmap(("../Assets/Tiles/Level" + to_string(level) + "/Hole/Creations/1.png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/" + tiles + "/Hole/Creations/1.png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;

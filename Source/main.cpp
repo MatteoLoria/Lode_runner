@@ -31,12 +31,11 @@
      -Sound V
     Decidere i livelli (quarto e quinto) V
     Schermata you died V
-    Schermata finale
-    Schermata crediti
-    Colori
+    Schermata finale V
+    Schermata crediti V
+    Colori V
+    Difficoltà V
     Bonus (per ora nemico)
-    Difficoltà
-    Trollface (secondo livello)
 */
 int main()
 {   //inizializzazione allegro
@@ -90,6 +89,10 @@ int main()
             {
                 feedback = G.run(level, display, Sm, Gr);
             }
+            break;
+        case 4:
+            G.setDiffulty(Gr.drawOptions(Sm));
+            feedback = 0;
             break;
         case 3:
             feedback = Gr.drawCredits(Sm);
