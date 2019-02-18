@@ -102,7 +102,7 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                     {
                         auto path = pathFinder.findPath({i.getY() / 20, i.getX() / 20}, {player.getY() / 20, (player.getX() + 10) / 20}); //trova il percorso per raggiungere il player
                         if (path.size() > 1)
-                            path.pop_back(); //forse non serve più
+                            path.pop_back();
                         else if (path.size() == 1 && !i.isInHole(holes, map, false) && !i.isInHole(holes, map, true))
                         { //se il percorso dice che è arrivato significa che ha raggiunto il player, quindi collisione
                             sound.playDie();
@@ -196,7 +196,7 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                 lastIsLeft = false;
                 lastIsDown = false;
                 break;
-            case ALLEGRO_KEY_M:
+            case ALLEGRO_KEY_M: // Cambia livello senza giocarlo
                 sound.stopBackground();
                 return 1;
                 break;

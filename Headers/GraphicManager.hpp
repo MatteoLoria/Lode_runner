@@ -18,8 +18,8 @@ class GraphicManager
         ALLEGRO_BITMAP * buffer;
         ALLEGRO_FONT * font;
         string tiles = "classic";
-        int drawAssets();
-        int drawDifficulty();
+        int drawAssets(SoundManager&);
+        int drawDifficulty(SoundManager&);
 
     public:
         GraphicManager();

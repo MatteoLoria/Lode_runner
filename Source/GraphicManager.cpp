@@ -141,12 +141,12 @@ int GraphicManager::drawMenu(SoundManager &sound)
     return 1;
 }
 
-int GraphicManager::drawOptions(SoundManager& sound)
+int GraphicManager::drawOptions(SoundManager &sound)
 {
     al_set_target_bitmap(buffer);
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_BITMAP *options = al_load_bitmap("../Assets/Tiles/Options.png");
-    int diff = 4;//guardare set di gameManager
+    int diff = 4; //guardare set di gameManager
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(options, 0, 0, 0);
     al_set_target_bitmap(al_get_backbuffer(display));
@@ -183,7 +183,7 @@ int GraphicManager::drawOptions(SoundManager& sound)
                 al_set_target_bitmap(buffer);
                 al_draw_bitmap(btp, 137, 125, 0);
             }
-             else if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 210 && ev.mouse.y / (scale_h / 320) <= 260)
+            else if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 210 && ev.mouse.y / (scale_h / 320) <= 260)
             {
                 btp = al_create_bitmap(140, 40);
                 al_set_target_bitmap(btp);
@@ -207,11 +207,11 @@ int GraphicManager::drawOptions(SoundManager& sound)
             break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
             if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 403 && ev.mouse.y / (scale_h / 320) >= 77 && ev.mouse.y / (scale_h / 320) <= 117)
-                diff = drawAssets(); //assets
+                diff = drawAssets(sound); //assets
             else if (ev.mouse.x / (scale_w / 560) >= 175 && ev.mouse.x / (scale_w / 560) <= 440 && ev.mouse.y / (scale_h / 320) >= 145 && ev.mouse.y / (scale_h / 320) <= 185)
-                diff = drawDifficulty(); //difficolta
+                diff = drawDifficulty(sound); //difficolta
             else if (ev.mouse.x / (scale_w / 560) >= 250 && ev.mouse.x / (scale_w / 560) <= 390 && ev.mouse.y / (scale_h / 320) >= 210 && ev.mouse.y / (scale_h / 320) <= 260)
-                return diff;//non cambia il livello di difficoltà
+                return diff; //non cambia il livello di difficoltà
             break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
             sound.playClick();
@@ -237,7 +237,7 @@ int GraphicManager::drawOptions(SoundManager& sound)
     return diff;
 }
 
-int GraphicManager::drawAssets()
+int GraphicManager::drawAssets(SoundManager &sound)
 {
     al_set_target_bitmap(buffer);
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
@@ -305,22 +305,26 @@ int GraphicManager::drawAssets()
             }
             break;
         case ALLEGRO_EVENT_KEY_DOWN:
+            sound.playClick();
             if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
                 return 4;
             break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
             if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 405 && ev.mouse.y / (scale_h / 320) >= 60 && ev.mouse.y / (scale_h / 320) <= 100)
             {
+                sound.playClick();
                 tiles = "classic";
                 return 4;
             }
             else if (ev.mouse.x / (scale_w / 560) >= 140 && ev.mouse.x / (scale_w / 560) <= 485 && ev.mouse.y / (scale_h / 320) >= 125 && ev.mouse.y / (scale_h / 320) <= 165)
             {
+                sound.playClick();
                 tiles = "professional";
                 return 4;
             }
             else if (ev.mouse.x / (scale_w / 560) >= 145 && ev.mouse.x / (scale_w / 560) <= 480 && ev.mouse.y / (scale_h / 320) >= 180 && ev.mouse.y / (scale_h / 320) <= 220)
             {
+                sound.playClick();
                 tiles = "championship";
                 return 4;
             }
@@ -350,7 +354,7 @@ int GraphicManager::drawAssets()
     return 4;
 }
 
-int GraphicManager::drawDifficulty()
+int GraphicManager::drawDifficulty(SoundManager &sound)
 {
     al_set_target_bitmap(buffer);
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
@@ -418,10 +422,12 @@ int GraphicManager::drawDifficulty()
             }
             break;
         case ALLEGRO_EVENT_KEY_DOWN:
+            sound.playClick();
             if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
-                return 4;//se ritorna 4 non cambia nulla(guardare il set nel gameManager)
+                return 4; //se ritorna 4 non cambia nulla(guardare il set nel gameManager)
             break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+            sound.playClick();
             if (ev.mouse.x / (scale_w / 560) >= 205 && ev.mouse.x / (scale_w / 560) <= 405 && ev.mouse.y / (scale_h / 320) >= 60 && ev.mouse.y / (scale_h / 320) <= 100)
                 return 1;
             else if (ev.mouse.x / (scale_w / 560) >= 140 && ev.mouse.x / (scale_w / 560) <= 485 && ev.mouse.y / (scale_h / 320) >= 125 && ev.mouse.y / (scale_h / 320) <= 165)
@@ -429,7 +435,7 @@ int GraphicManager::drawDifficulty()
             else if (ev.mouse.x / (scale_w / 560) >= 145 && ev.mouse.x / (scale_w / 560) <= 480 && ev.mouse.y / (scale_h / 320) >= 180 && ev.mouse.y / (scale_h / 320) <= 220)
                 return 3;
             else if (ev.mouse.x / (scale_w / 560) >= 238 && ev.mouse.x / (scale_w / 560) <= 358 && ev.mouse.y / (scale_h / 320) >= 235 && ev.mouse.y / (scale_h / 320) <= 275)
-                return 4;//se ritorna 4 non cambia nulla(guardare il set nel gameManager)
+                return 4; //se ritorna 4 non cambia nulla(guardare il set nel gameManager)
             break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
             break;
@@ -624,7 +630,8 @@ int GraphicManager::drawFinal(SoundManager &sound)
     return 2;
 }
 
-int GraphicManager::drawCredits(SoundManager &sound){
+int GraphicManager::drawCredits(SoundManager &sound)
+{
     al_set_target_bitmap(al_get_backbuffer(display));
     al_clear_to_color(al_map_rgb(0, 0, 0));
     ALLEGRO_BITMAP *credits = al_load_bitmap("../Assets/Tiles/Credits.png");
@@ -654,40 +661,40 @@ int GraphicManager::drawCredits(SoundManager &sound){
     }
     return 2;
 }
-    void GraphicManager::drawYouDied(SoundManager & sound)
+void GraphicManager::drawYouDied(SoundManager &sound)
+{
+    al_set_target_bitmap(al_get_backbuffer(display));
+    int incr = 0.1;
+    int alpha = 0.1;
+    for (int i = 0; i < 5; i++)
     {
-        al_set_target_bitmap(al_get_backbuffer(display));
-        int incr = 0.1;
-        int alpha = 0.1;
-        for (int i = 0; i < 5; i++)
+        ALLEGRO_BITMAP *b = al_load_bitmap("../Assets/Tiles/Died.png");
+        //al_rest(0.02);
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_tinted_scaled_bitmap(b, al_map_rgba_f(1, 1, 1, alpha), 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+        alpha += incr;
+        al_destroy_bitmap(b);
+        al_flip_display();
+    }
+    ALLEGRO_EVENT_QUEUE *q = al_create_event_queue();
+    al_register_event_source(q, al_get_mouse_event_source());
+    al_register_event_source(q, al_get_keyboard_event_source());
+    while (1)
+    {
+        ALLEGRO_EVENT ev;
+        al_wait_for_event(q, &ev);
+        switch (ev.type)
         {
-            ALLEGRO_BITMAP *b = al_load_bitmap("../Assets/Tiles/Died.png");
-            //al_rest(0.02);
-            al_clear_to_color(al_map_rgb(0, 0, 0));
-            al_draw_tinted_scaled_bitmap(b, al_map_rgba_f(1, 1, 1, alpha), 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
-            alpha += incr;
-            al_destroy_bitmap(b);
-            al_flip_display();
+        case ALLEGRO_EVENT_KEY_DOWN:
+            sound.playClick();
+            return;
+            break;
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            sound.playClick();
+            return;
+            break;
+        default:
+            break;
         }
-        ALLEGRO_EVENT_QUEUE *q = al_create_event_queue();
-        al_register_event_source(q, al_get_mouse_event_source());
-        al_register_event_source(q, al_get_keyboard_event_source());
-        while (1)
-        {
-            ALLEGRO_EVENT ev;
-            al_wait_for_event(q, &ev);
-            switch (ev.type)
-            {
-            case ALLEGRO_EVENT_KEY_DOWN:
-                sound.playClick();
-                return;
-                break;
-            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-                sound.playClick();
-                return;
-                break;
-            default:
-                break;
-            }
-        }
+    }
 }
