@@ -74,9 +74,15 @@ void SoundManager::playCoin()
 {
     al_play_sample(coin, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 }
-void SoundManager::playBackground()
+void SoundManager::playBackground(bool speed)
 {
-    al_play_sample(background, 0.3, 0.0, 1.3, ALLEGRO_PLAYMODE_LOOP, &idBackground);
+    if(!speed)
+        al_play_sample(background, 0.3, 0.0, 1.3, ALLEGRO_PLAYMODE_LOOP, &idBackground);
+    else
+    {
+        al_play_sample(background, 0.3, 0.0, 0.5, ALLEGRO_PLAYMODE_LOOP, &idBackground);
+    }
+    
 }
 void SoundManager::stopBackground()
 {

@@ -34,7 +34,7 @@ class SoundManager
     void playWin();
     void playMenu();
     void playCoin();
-    void playBackground();
+    void playBackground(bool);
     void playDig();
     void playClick();
     void playGameover();

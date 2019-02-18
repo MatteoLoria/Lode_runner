@@ -541,6 +541,11 @@ void GraphicManager::drawMap(char map[16][28])
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
+            case 'M':
+                bitmap = al_load_bitmap(("../Assets/Tiles/bonus/"+to_string((rand()%5)+1)+".png").c_str());
+                al_draw_bitmap(bitmap, j * 20, i * 20, 0);
+                al_destroy_bitmap(bitmap);
+                break;
             default: //clean space
                 break;
             }

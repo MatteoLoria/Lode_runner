@@ -26,6 +26,8 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
     bool lastIsLeft = false; //se è true si stava andando a sinistra
     bool lastIsDown = false; //se è true si stava andando sotto
     bool stair = false;
+    bool bonus = false;
+    double timeBonus = 0.0;    //quanto tempo rimane di bonus
     double waitForDigDx = 2.1; //contatore per il dig destro(serve per evitare di un abuso di dig)
     double waitForDigSx = 2.1; //contatore per il dig sinistro(serve per evitare di un abuso di dig)
     double delay = 0.0;        //scandisce il movimento dei nemici
@@ -34,14 +36,22 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_display_event_source(display));
-    createEntities(level);
     loadMap("../Assets/Maps/level" + to_string(level) + ".txt"); //carica la mappa dal file di testo
+    createEntities(level);
     pathFinder.setWorldSize({16, 28});                           //setta la dimensione della mappa per Astar
     al_start_timer(timer);
     bool close = false;
-    sound.playBackground();
+    sound.playBackground(false);
     while (!close)
     {
+        if(bonus)
+            timeBonus += 0.1;
+        if(timeBonus >= 40){ //bonus scaduto
+            bonus = false;
+            timeBonus = 0;
+            sound.stopBackground();
+            sound.playBackground(false);
+        }
         waitForDigDx += 0.1;
         waitForDigSx += 0.1;
         ALLEGRO_EVENT event;
@@ -93,8 +103,16 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                 coins--;
                 map[player.getY() / 20][player.getX() / 20] = ' ';
             }
+            if (map[player.getY() / 20][player.getX() / 20] == 'M')
+            {
+                map[player.getY() / 20][player.getX() / 20] = ' ';
+                sound.playCoin();
+                bonus = true;
+                sound.stopBackground();
+                sound.playBackground(true);
+            }
             delay += (double)1.0 / 10;
-            if (delay >= (1.0 / 15) * 2)
+            if (delay >= (1.0 / 15) * (2+(3*bonus)))
             {
                 for (auto &i : enemies)
                 {
@@ -440,6 +458,7 @@ void GameManager::createEntities(const int &level)
         Enemy e1(14 * 20, (9 * 20) + 18);
         Enemy e2(23 * 20, (6 * 20) + 18);
         Enemy e3(5 * 20, (6 * 20) + 18);
+        map[e1.getY()/20][(e1.getX()/20)+1] = 'M';
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);
@@ -451,6 +470,7 @@ void GameManager::createEntities(const int &level)
         Enemy e1(4 * 20, (3 * 20) + 18);
         Enemy e2(4 * 20, (8 * 20) + 18);
         Enemy e3(20 * 20, (5 * 20) + 18);
+        map[e1.getY() / 20][(e1.getX() / 20) + 1] = 'M';
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);
@@ -462,6 +482,7 @@ void GameManager::createEntities(const int &level)
         Enemy e1(4 * 20, (11 * 20) + 18);
         Enemy e2(13 * 20, (2 * 20) + 18);
         Enemy e3(22 * 20, (3 * 20) + 18);
+        map[e1.getY() / 20][(e1.getX() / 20) + 1] = 'M';
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);
@@ -473,6 +494,7 @@ void GameManager::createEntities(const int &level)
         Enemy e1(9 * 20, (1 * 20) + 18);
         Enemy e2(19 * 20, (1 * 20) + 18);
         Enemy e3(16 * 20, (8 * 20) + 18);
+        map[e1.getY() / 20][(e1.getX() / 20) + 1] = 'M';
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);
@@ -484,6 +506,7 @@ void GameManager::createEntities(const int &level)
         Enemy e1(0 * 20, (5 * 20) + 18);
         Enemy e2(19 * 20, (6 * 20) + 18);
         Enemy e3(27 * 20, (13 * 20) + 18);
+        map[e1.getY() / 20][(e1.getX() / 20) + 1] = 'M';
         enemies.push_back(e1);
         enemies.push_back(e2);
         enemies.push_back(e3);
