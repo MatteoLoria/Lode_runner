@@ -1,3 +1,11 @@
+
+/*
+ @authors Matteo Notaro               &  Matteo Loria
+ @github  https://github.com/MattNot     https://github.com/MatteoLoria
+
+ 19/02/2019
+*/
+
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #ifndef SOUND_H

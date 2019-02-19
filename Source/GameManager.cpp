@@ -1,3 +1,10 @@
+/*
+ @authors Matteo Notaro               &  Matteo Loria
+ @github  https://github.com/MattNot     https://github.com/MatteoLoria
+
+ 19/02/2019
+*/
+
 #include "../Headers/GameManager.hpp"
 #include <iostream>
 #include <fstream>
@@ -32,7 +39,17 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
     double waitForDigSx = 2.1; //contatore per il dig sinistro(serve per evitare di un abuso di dig)
     double delay = 0.0;        //scandisce il movimento dei nemici
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    if (!queue)
+    {
+        cout << "Failed to create the queue";
+        exit(-1);
+    }
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 15);
+    if (!timer)
+    {
+        cout << "Failed to create the timer";
+        exit(-1);
+    }
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_display_event_source(display));
@@ -44,7 +61,8 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
     sound.playBackground(false);
     while (!close)
     {
-        if (bonus){
+        if (bonus)
+        {
             graphic.drawBonus();
             timeBonus += 0.1;
         }
@@ -147,25 +165,6 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                             break;
                         }
                     }
-                    /*//debug
-                    for (auto j : path)
-                    {
-                        ALLEGRO_BITMAP *b = al_create_bitmap(20, 20);
-                        al_set_target_bitmap(b);
-                        if (j.x == path.back().x && j.y == path.back().y)
-                        {
-                            al_clear_to_color(al_map_rgb(255, 255, 255));
-                        }
-                        else
-                            al_clear_to_color(al_map_rgb(255, 0, 0));
-                        if (j.x == player.getY() && j.y == player.getX())
-                            al_clear_to_color(al_map_rgb(0, 0, 255));
-                        al_set_target_bitmap(al_get_backbuffer(display));
-                        al_draw_bitmap(b, j.y * 20, j.x * 20, 0);
-                        al_destroy_bitmap(b);
-                        al_flip_display();
-                    }
-                    //end debug*/
                     int x = path.back().x; //le cordinate da seguire
                     int y = path.back().y;
                     if (avaibleSpot(x, y)) //controllo la prossima posizione
@@ -446,13 +445,6 @@ void GameManager::restart()
         i.setFrame(0);
         i.setX(i.getInitX());
         i.setY(i.getInitY());
-        /*if (i.isRedHat())
-        {
-            if (map[i.getY() / 20][i.getX() / 20] == '$')
-                map[i.getY() / 20][(i.getX() / 20) + 1] = '$';
-            else
-                map[i.getY() / 20][i.getX() / 20] = '$';
-        }*/
         i.setFall(false);
         i.setFallen(0);
         if (difficulty == 3)
@@ -509,7 +501,7 @@ void GameManager::loadMap(string path)
     else
     {
         cout << "File " + path + " does not exist";
-        exit(1);
+        exit(-1);
     }
 }
 

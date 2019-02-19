@@ -1,57 +1,64 @@
+/*
+ @authors Matteo Notaro               &  Matteo Loria
+ @github  https://github.com/MattNot     https://github.com/MatteoLoria
+
+ 19/02/2019
+*/
+
 #include "../Headers/GameManager.hpp"
 #include <iostream>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #define WINDOW_H 320
 #define WINDOW_W 560
-/*
 
-    Lista:
-    Pulizia cartelle V
-    Suoni V
-    Efficienza codice V
-     -Astar V
-     -Enemy V
-     -Entity V
-     -GameMan V
-     -Graphic V 
-     -main V
-     -player V
-     -HoleManager V
-     -Sound V
-    Commenti da aggiungere V
-     -Astar V
-     -Enemy V
-     -Entity V
-     -GameMan V
-     -Graphic V
-     -main V
-     -player V
-     -HoleManager V
-     -Sound V
-    Decidere i livelli (quarto e quinto) V
-    Schermata you died V
-    Schermata finale V
-    Schermata crediti V
-    Colori V
-    Difficoltà V
-    Bonus (per ora nemico)
-*/
 int main()
 {   //inizializzazione allegro
-    al_init();
-    al_init_image_addon();
-    al_install_audio();
-    al_init_acodec_addon();
+    if(!al_init())
+    {
+        cout<<"Fatal error, Allegro 5 failed to start";
+        return -1;
+    }
+    if(!al_init_image_addon()){
+        cout << "Fatal error, Allegro 5 failed to start";
+        return -1;
+    }
+    if(!al_install_audio()){
+        cout << "Fatal error, Allegro 5 failed to start";
+        return -1;
+    }
+    if(!al_init_acodec_addon()){
+        cout << "Fatal error, Allegro 5 failed to start";
+        return -1;
+    }
     al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
-    if (!al_install_mouse())
-        exit(2);
-    al_init_font_addon();
-    al_install_keyboard();
-    al_init_ttf_addon();
+    if (!al_install_mouse()){
+        cout << "Fatal error, Allegro 5 failed to start";
+        return -1;
+    }
+    if(!al_init_font_addon()){
+        cout << "Fatal error, Allegro 5 failed to start";
+        return -1;
+    }
+    if(!al_install_keyboard()){
+        cout << "Fatal error, Allegro 5 failed to start";
+        return -1;
+    }
+    if(!al_init_ttf_addon()){
+        cout << "Fatal error, Allegro 5 failed to start";
+        return -1;
+    }
     //risoluzione dinamica
     ALLEGRO_DISPLAY *display = al_create_display(WINDOW_W, WINDOW_H);
+    if(!display){
+        cout << "Fatal error, unable to create a display";
+        return -1;
+    }
     ALLEGRO_BITMAP *buffer = al_create_bitmap(WINDOW_W, WINDOW_H);
+    if(!buffer){
+        cout << "Fatal error, unable to create a buffer";
+        return -1;
+    }
     int windowHeight = al_get_display_height(display);
     int windowWidth = al_get_display_width(display);
     float sx = windowWidth / float(WINDOW_W);

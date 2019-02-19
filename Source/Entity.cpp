@@ -1,3 +1,10 @@
+/*
+ @authors Matteo Notaro               &  Matteo Loria
+ @github  https://github.com/MattNot     https://github.com/MatteoLoria
+
+ 19/02/2019
+*/
+
 #include "../Headers/Entity.hpp"
 #include <iostream>
 using namespace std;
@@ -33,8 +40,7 @@ void Entity::setFrame(const int &frame) { this->frame = frame; }
 void Entity::moveRight(char map[16][28], const bool &red) //il bool riguarda il nemico e se quest'utlimo ha il cappello rosso, cioè ha raccolto una moneta
 {
     if ((map[(getY() - 18) / 20][(getX() / 20) + 1] != '#' && map[getY() / 20][(getX() / 20) + 1] != '#') //controllo limite blocchi
-        && (map[(getY() - 18) / 20][(getX() / 20) + 1] != '@' && map[getY() / 20][(getX() / 20) + 1] != '@')
-        && (map[(getY() - 18) / 20][(getX() / 20) + 1] != '}' && map[getY() / 20][(getX() / 20) + 1] != '}'))
+        && (map[(getY() - 18) / 20][(getX() / 20) + 1] != '@' && map[getY() / 20][(getX() / 20) + 1] != '@') && (map[(getY() - 18) / 20][(getX() / 20) + 1] != '}' && map[getY() / 20][(getX() / 20) + 1] != '}'))
     {
         setX(getX() + 5);
         if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == '-') //è su una corda, quindi si aggrappa

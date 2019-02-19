@@ -1,3 +1,10 @@
+/*
+ @authors Matteo Notaro               &  Matteo Loria
+ @github  https://github.com/MattNot     https://github.com/MatteoLoria
+
+ 19/02/2019
+*/
+
 #include "../Headers/Enemy.hpp"
 
 string Enemy::getEntity() { return "Enemy"; }
@@ -112,61 +119,6 @@ void Enemy::update(char map[16][28], const list<HoleManager> &holes, Player &p, 
                 this->moveUp(map, left, isRedHat());
         }
     }
-    /*if (footInHole) //gestione animazione caduta nella buca
-    {
-        fallen += 0.1; //serve per scandire i frame, il setMirrorY li alterna
-        if (2.8 < fallen && fallen <= 2.9)
-        {
-            this->setFrame(3);
-            this->setY(this->getY() - 3);
-            this->setFall(false);
-        }
-        if (2.9 < fallen && fallen <= 3.0)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(true);
-        }
-        if (3.1 < fallen && fallen <= 3.2)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(false);
-        }
-        if (3.2 < fallen && fallen <= 3.3)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(true);
-        }
-        if (3.3 < fallen && fallen <= 3.4)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(false);
-        }
-        if (3.4 < fallen && fallen <= 3.5)
-        {
-            this->setY(this->getY() - 3);
-            setMirrorY(true);
-        }
-        if (3.6 < fallen)
-        {
-            //puo cominciare a risalire dal buco
-            fallen = 0;
-            if (map[getY() / 20][getX() / 20] == '}')
-            {
-                map[getY() / 20][getX() / 20] = ' ';
-            }
-            this->setY(this->getY() - 2);
-            //viene deciso dove farlo spwanare(destra o sinistra)
-            if (p.getX() > this->getX() && map[(this->getY()) / 20][(this->getX() / 20) + 1] != '#')
-            {
-                this->setX(this->getX() + 15);
-            }
-            else if (p.getX() < this->getX() && map[(this->getY()) / 20][(this->getX() / 20) - 1] != '#')
-            {
-                this->setX(this->getX() - 15);
-            }
-            this->setFall(false);
-        }
-    }*/
     if (map[getY() / 20][(getX()) / 20] == '$' && !isRedHat()) //raccoglie la moneta
     {
         setRedHat(true);

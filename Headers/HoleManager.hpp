@@ -1,3 +1,10 @@
+/*
+ @authors Matteo Notaro               &  Matteo Loria
+ @github  https://github.com/MattNot     https://github.com/MatteoLoria
+
+ 19/02/2019
+*/
+
 #ifndef TRIPLE_H
 #include <iostream>
 #define TRIPLE_H

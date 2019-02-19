@@ -1,3 +1,10 @@
+/*
+ @authors Matteo Notaro               &  Matteo Loria
+ @github  https://github.com/MattNot     https://github.com/MatteoLoria
+
+ 19/02/2019
+*/
+
 #include "../Headers/SoundManager.hpp"
 #include <iostream>
 using namespace std;

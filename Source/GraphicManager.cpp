@@ -1,3 +1,10 @@
+/*
+ @authors Matteo Notaro               &  Matteo Loria
+ @github  https://github.com/MattNot     https://github.com/MatteoLoria
+
+ 19/02/2019
+*/
+
 #include "../Headers/GraphicManager.hpp"
 #include "../Headers/SoundManager.hpp"
 #include <iostream>
@@ -25,6 +32,8 @@ GraphicManager::~GraphicManager()
 }
 void GraphicManager::drawBonus()
 {
+    if (!buffer)
+        exit(-1);
     al_set_target_bitmap(buffer);
     al_draw_text(font, al_map_rgb(rand() % 255, rand() % 255, rand() % 255), 220, 140, 0, "BONUS!");
     al_set_target_bitmap(al_get_backbuffer(display));
@@ -43,6 +52,10 @@ int GraphicManager::drawMenu(SoundManager &sound)
     //sound.stopMenu();
     sound.playMenu();
     ALLEGRO_BITMAP *menu = al_load_bitmap("../Assets/Tiles/Menu.png");
+    if(!menu){
+        cout<<"Failed to load the menu bitmap";
+        exit(-1);
+    }
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(menu, 0, 0, 0);
     al_set_target_bitmap(al_get_backbuffer(display));
@@ -151,9 +164,22 @@ int GraphicManager::drawMenu(SoundManager &sound)
 
 int GraphicManager::drawOptions(SoundManager &sound)
 {
+    if(!buffer)
+    {
+        cout<<"Fatal error";
+        exit(-1);
+    }
     al_set_target_bitmap(buffer);
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    if(!queue){
+        cout<<"Failed to create the event queue";
+        exit(-1);
+    }
     ALLEGRO_BITMAP *options = al_load_bitmap("../Assets/Tiles/Options.png");
+    if(!options){
+        cout<<"Failed to load the options bitmap";
+        exit(-1);
+    }
     int diff = 4; //guardare set di gameManager
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(options, 0, 0, 0);
@@ -247,9 +273,22 @@ int GraphicManager::drawOptions(SoundManager &sound)
 
 int GraphicManager::drawAssets(SoundManager &sound)
 {
+    if(!buffer)
+    {
+        cout<<"Fatal error";
+        exit(-1);
+    }
     al_set_target_bitmap(buffer);
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    if(!queue){
+        cout<<"Failed to create the event queue";
+        exit(-1);
+    }
     ALLEGRO_BITMAP *assets = al_load_bitmap("../Assets/Tiles/Assets.png");
+    if(!assets){
+        cout<<"Failed to load the assets bitmap";
+        exit(-1);
+    }
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(assets, 0, 0, 0);
     al_set_target_bitmap(al_get_backbuffer(display));
