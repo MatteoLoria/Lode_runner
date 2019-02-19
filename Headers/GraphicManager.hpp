@@ -34,6 +34,7 @@ class GraphicManager
         void drawYouDied(SoundManager&); //stampa la schermata della morte
         int drawFinal(SoundManager&);
         int drawCredits(SoundManager&);
+        void drawBonus();
         void setLevel(const int&);
         int getLevel();
 };

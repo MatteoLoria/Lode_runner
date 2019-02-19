@@ -44,8 +44,10 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
     sound.playBackground(false);
     while (!close)
     {
-        if (bonus)
+        if (bonus){
+            graphic.drawBonus();
             timeBonus += 0.1;
+        }
         if (timeBonus >= 40)
         { //bonus scaduto
             bonus = false;
@@ -214,6 +216,7 @@ int GameManager::run(const int &level, ALLEGRO_DISPLAY *display, SoundManager &s
                 lastIsDown = false;
                 break;
             case ALLEGRO_KEY_M: // Cambia livello senza giocarlo
+                restart();
                 sound.stopBackground();
                 return 1;
                 break;
@@ -409,19 +412,23 @@ void GameManager::handleUp(Enemy &i)
             i.setFallen(0);
             i.setY(i.getY() - 2);
             //viene deciso dove farlo spwanare(destra o sinistra)
-            if (player.getX() > i.getX() && map[(i.getY()) / 20][(i.getX() / 20) + 1] != '#' && avaibleSpot(i.getY() / 20, (i.getX() / 20)+1))
+            if (player.getX() > i.getX() && map[(i.getY()) / 20][(i.getX() / 20) + 1] != '#' && avaibleSpot(i.getY() / 20, (i.getX() / 20) + 1))
             {
                 i.setX(i.getX() + 20);
+                if (map[(i.getY() / 20) + 1][(i.getX() / 20) - 1] == '}')
+                {
+                    map[(i.getY() / 20) + 1][(i.getX() / 20) - 1] = ' ';
+                }
             }
             else if (player.getX() < i.getX() && map[(i.getY()) / 20][(i.getX() / 20) - 1] != '#' && avaibleSpot(i.getY() / 20, (i.getX() - 15) / 20))
             {
                 i.setX(i.getX() - 15);
+                if (map[(i.getY() / 20) + 1][(i.getX() + 15) / 20] == '}')
+                {
+                    map[(i.getY() / 20) + 1][(i.getX() + 15) / 20] = ' ';
+                }
             }
             i.setFall(false);
-            if (map[i.getY() / 20][i.getX() / 20] == '}')
-            {
-                map[i.getY() / 20][i.getX() / 20] = ' ';
-            }
         }
     }
 }

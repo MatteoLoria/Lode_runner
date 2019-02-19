@@ -23,6 +23,14 @@ GraphicManager::~GraphicManager()
 {
     al_destroy_font(font);
 }
+void GraphicManager::drawBonus()
+{
+    al_set_target_bitmap(buffer);
+    al_draw_text(font, al_map_rgb(rand() % 255, rand() % 255, rand() % 255), 220, 140, 0, "BONUS!");
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_draw_scaled_bitmap(buffer, 0, 0, 560, 320, scale_x, scale_y, scale_w, scale_h, 0);
+    al_flip_display();
+}
 
 int GraphicManager::drawMenu(SoundManager &sound)
 {
@@ -542,7 +550,7 @@ void GraphicManager::drawMap(char map[16][28])
                 al_destroy_bitmap(bitmap);
                 break;
             case 'M':
-                bitmap = al_load_bitmap(("../Assets/Tiles/bonus/"+to_string((rand()%5)+1)+".png").c_str());
+                bitmap = al_load_bitmap(("../Assets/Tiles/bonus/" + to_string((rand() % 5) + 1) + ".png").c_str());
                 al_draw_bitmap(bitmap, j * 20, i * 20, 0);
                 al_destroy_bitmap(bitmap);
                 break;
