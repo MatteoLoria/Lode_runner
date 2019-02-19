@@ -23,6 +23,7 @@ private:
     void restart();
     bool keys[6] = {false,false,false,false,false,false};//vari input
     bool avaibleSpot(const int& x, const int& y);   //controlla se la pos(x,y) è già occupata da un nemico
+    void handleUp(Enemy& i); //gestisce la risalita del nemico
     int coins = 0;  //monete presente nella mappa
     int difficulty = 1;
 public:

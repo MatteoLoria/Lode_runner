@@ -33,7 +33,8 @@ void Entity::setFrame(const int &frame) { this->frame = frame; }
 void Entity::moveRight(char map[16][28], const bool &red) //il bool riguarda il nemico e se quest'utlimo ha il cappello rosso, cioè ha raccolto una moneta
 {
     if ((map[(getY() - 18) / 20][(getX() / 20) + 1] != '#' && map[getY() / 20][(getX() / 20) + 1] != '#') //controllo limite blocchi
-        && (map[(getY() - 18) / 20][(getX() / 20) + 1] != '@' && map[getY() / 20][(getX() / 20) + 1] != '@'))
+        && (map[(getY() - 18) / 20][(getX() / 20) + 1] != '@' && map[getY() / 20][(getX() / 20) + 1] != '@')
+        && (map[(getY() - 18) / 20][(getX() / 20) + 1] != '}' && map[getY() / 20][(getX() / 20) + 1] != '}'))
     {
         setX(getX() + 5);
         if (map[(getY() - 18) / 20][getX() / 20] == '-' && map[((getY()) / 20)][(getX() / 20)] == '-') //è su una corda, quindi si aggrappa
@@ -77,7 +78,7 @@ void Entity::moveRight(char map[16][28], const bool &red) //il bool riguarda il 
 
 void Entity::moveLeft(char map[16][28], const bool &red) //stessa logica del moveRight, uniche differenze nelle operazioni con i pixel
 {
-    if (map[(getY() - 18) / 20][(getX() - 1) / 20] != '#' && map[getY() / 20][(getX() - 1) / 20] != '#' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '@' && map[getY() / 20][(getX() - 1) / 20] != '@')
+    if (map[(getY() - 18) / 20][(getX() - 1) / 20] != '#' && map[getY() / 20][(getX() - 1) / 20] != '#' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '@' && map[getY() / 20][(getX() - 1) / 20] != '@' && map[(getY() - 18) / 20][(getX() - 1) / 20] != '}' && map[getY() / 20][(getX() - 1) / 20] != '}')
     {
         setX(getX() - 5);
         if (map[(getY() - 18) / 20][(getX() / 20) + 1] == '-' && map[getY() / 20][(getX() / 20) + 1] == '-')

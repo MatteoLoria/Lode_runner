@@ -112,7 +112,7 @@ void Enemy::update(char map[16][28], const list<HoleManager> &holes, Player &p, 
                 this->moveUp(map, left, isRedHat());
         }
     }
-    if (footInHole) //gestione animazione caduta nella buca
+    /*if (footInHole) //gestione animazione caduta nella buca
     {
         fallen += 0.1; //serve per scandire i frame, il setMirrorY li alterna
         if (2.8 < fallen && fallen <= 2.9)
@@ -166,7 +166,7 @@ void Enemy::update(char map[16][28], const list<HoleManager> &holes, Player &p, 
             }
             this->setFall(false);
         }
-    }
+    }*/
     if (map[getY() / 20][(getX()) / 20] == '$' && !isRedHat()) //raccoglie la moneta
     {
         setRedHat(true);
