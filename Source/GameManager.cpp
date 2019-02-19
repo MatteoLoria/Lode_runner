@@ -407,21 +407,21 @@ void GameManager::handleUp(Enemy &i)
         {
             //puo cominciare a risalire dal buco
             i.setFallen(0);
-            if (map[i.getY() / 20][i.getX() / 20] == '}')
-            {
-                map[i.getY() / 20][i.getX() / 20] = ' ';
-            }
             i.setY(i.getY() - 2);
             //viene deciso dove farlo spwanare(destra o sinistra)
-            if (player.getX() > i.getX() && map[(i.getY()) / 20][(i.getX() / 20) + 1] != '#' && avaibleSpot(i.getY() / 20, (i.getX() + 15) / 20))
+            if (player.getX() > i.getX() && map[(i.getY()) / 20][(i.getX() / 20) + 1] != '#' && avaibleSpot(i.getY() / 20, (i.getX() / 20)+1))
             {
-                i.setX(i.getX() + 15);
+                i.setX(i.getX() + 20);
             }
             else if (player.getX() < i.getX() && map[(i.getY()) / 20][(i.getX() / 20) - 1] != '#' && avaibleSpot(i.getY() / 20, (i.getX() - 15) / 20))
             {
                 i.setX(i.getX() - 15);
             }
             i.setFall(false);
+            if (map[i.getY() / 20][i.getX() / 20] == '}')
+            {
+                map[i.getY() / 20][i.getX() / 20] = ' ';
+            }
         }
     }
 }
