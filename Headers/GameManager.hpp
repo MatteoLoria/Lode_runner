@@ -4,7 +4,8 @@
 #include "Enemy.hpp"
 #include "GraphicManager.hpp"
 #include "AStar.hpp"
-#include "Quadruple.hpp"
+#include "HoleManager.hpp"
+#include "SoundManager.hpp"
 #include <list>
 #include <vector>
 using namespace std;
@@ -12,19 +13,22 @@ using namespace AStar;
 class GameManager
 {
 private:
-    Player player;
-    vector<Enemy> enemies;
-    GraphicManager graphic;
-    list<Quadruple> holes;
-    Generator pathFinder;
+    Player player;             //giocatore
+    vector<Enemy> enemies;     //vettore di nemici
+    list<HoleManager> holes;     //se il dig si può fare la buca da distruggere e ricreare viene aggiunta qui dentro
+    Generator pathFinder;      //Astar
     char map[16][28];
-    void loadMap(string path);
+    void loadMap(string path);  //mappa da leggere dal file di testo
+    void createEntities(const int&); //spawn dei nemici in base al livello
     void restart();
-    bool keys[6] = {false,false,false,false,false,false};
-    bool avaibleSpot(int x, int y);
+    bool keys[6] = {false,false,false,false,false,false};//vari input
+    bool avaibleSpot(const int& x, const int& y);   //controlla se la pos(x,y) è già occupata da un nemico
+    void handleUp(Enemy& i); //gestisce la risalita del nemico
+    int coins = 0;  //monete presente nella mappa
+    int difficulty = 1;
 public:
     GameManager();
-    GameManager(Player p, vector<Enemy> enemies, GraphicManager graphic);
-    void run(int, ALLEGRO_DISPLAY *);
+    int run(const int&, ALLEGRO_DISPLAY *, SoundManager&, GraphicManager&); //gestisce il gioco(input, ecc.)
+    void setDiffulty(const int&);
 };
 #endif
